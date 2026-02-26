@@ -4,31 +4,37 @@ export function FormLogin() {
   return(
     <div>
       <form className="space-y-4">
-        <Input name="email" type="email">
+        
+        <Input type="email">
             E-mail
         </Input>
-        <Input name="password" type="password">
+        <Input type="password">
           Password
         </Input>
-        <button type="submit" className="
-          bg-blue-600
-          text-white
-          font-semibold
 
+        <button type="submit" className="
+          bg-btn-login
+          text-title
+          font-semibold
           rounded-lg
           py-2
           px-4
           w-full
+          cursor-pointer
+          hover:bg-btn-login-100
+          transition-colors duration-200
         ">Login</button>
       </form>
       <a href="#" className="
         text-sm
         text-center
         block
-        text-gray-500
+        text-title
+        cursor-pointer
         hover:underline
-        mt-6
-      ">Forgot password</a>
+        mt-0
+        ml-55
+      ">Forgot your password?</a>
     </div>
   )
 }
