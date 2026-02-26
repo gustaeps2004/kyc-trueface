@@ -8,7 +8,6 @@ export function Login() {
       flex items-center 
       justify-center"
     >
-      {/* card login*/}
       <div className="
         bg-primary 
         max-w-md 

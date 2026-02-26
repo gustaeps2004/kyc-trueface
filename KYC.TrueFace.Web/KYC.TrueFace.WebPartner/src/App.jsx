@@ -1,9 +1,11 @@
+import { Routes, Route, Navigate  } from "react-router-dom";
 import { Login } from "./pages/login/Login"
 
-export function App() {
+export default function App() {
   return (
-    <>
-      <Login />
-    </>
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />      
+      <Route path="/login" element={<Login />} />
+    </Routes>
   )
 }
