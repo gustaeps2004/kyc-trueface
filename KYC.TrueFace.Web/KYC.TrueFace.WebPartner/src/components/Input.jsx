@@ -32,7 +32,7 @@ export function Input(props) {
           peer-placeholder-shown:top-3.5
           peer-placeholder-shown:text-base
           peer-placeholder-shown:text-title
-          peer-focus:top-1
+          peer-focus:top-0
           peer-focus:text-sm
         "
       >

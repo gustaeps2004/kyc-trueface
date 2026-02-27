@@ -6,7 +6,7 @@ export function FormLogin() {
       <form className="space-y-4">
         
         <Input type="email">
-            E-mail
+          E-mail
         </Input>
         <Input type="password">
           Password
@@ -21,7 +21,7 @@ export function FormLogin() {
           px-4
           w-full
           cursor-pointer
-          hover:bg-btn-login-100
+          hover:bg-transparent
           transition-colors duration-200
         ">Login</button>
       </form>

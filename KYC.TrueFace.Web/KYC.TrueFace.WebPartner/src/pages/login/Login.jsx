@@ -5,7 +5,7 @@ export function Login() {
   return(
     <div className="
       min-h-screen
-      bg-btn-login-100
+      bg-primary
       flex
       items-center
       justify-center

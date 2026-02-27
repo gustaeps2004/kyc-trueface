@@ -2,7 +2,8 @@
 
 @theme {
   --color-primary: #26395C;
+  --color-secondary: #2A374E;
   --color-title: #FFFFFF;
   --color-btn-login: #4ADE80;
-  --color-btn-login-100: #D9D9D9
+  --color-transparent: #D9D9D9;
 }
