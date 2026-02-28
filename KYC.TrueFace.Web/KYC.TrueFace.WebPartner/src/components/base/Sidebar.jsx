@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState();
 
   const menuItems = [
     { label: "Dashboard", icon: <LayoutDashboard size={18} />, to: "/home" },
@@ -30,7 +30,6 @@ export default function Sidebar() {
         duration-300
       `}
     >
-      {/* Header */}
       <div
         className="
           h-16
