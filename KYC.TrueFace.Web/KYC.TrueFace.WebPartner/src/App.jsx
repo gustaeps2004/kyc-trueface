@@ -2,6 +2,8 @@ import { Routes, Route, Navigate  } from "react-router-dom";
 import { Login } from "./pages/login/Login";
 import { Dashboard } from "./pages/home/Dashboard";
 import { User } from "./pages/users/User";
+import { Onboarding } from "./pages/onboarding/Onboarding";
+import { OnboardingHistory } from "./pages/history/Onboarding";
 
 export default function App() {
   return (
@@ -10,6 +12,8 @@ export default function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/home" element={<Dashboard />} />
       <Route path="/users" element={<User />} />
+      <Route path="/onboarding" element={<Onboarding />} />
+      <Route path="history/onboarding" element={<OnboardingHistory />} />
     </Routes>
   )
 }

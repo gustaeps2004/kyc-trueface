@@ -1,8 +1,8 @@
 import Layout from "../../components/dashboard/Layout";
 
-export function User() {
+export function Onboarding() {
   return(
-    <Layout name="Users">
+    <Layout name="Onboarding">
       <div className="grid grid-cols-3 gap-10">
         
       </div>

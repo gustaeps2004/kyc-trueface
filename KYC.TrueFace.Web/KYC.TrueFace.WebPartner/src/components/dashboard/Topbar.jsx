@@ -1,7 +1,7 @@
 import { LogOut } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 
-export default function Topbar() {
+export default function Topbar({ name }) {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
@@ -19,7 +19,7 @@ export default function Topbar() {
       px-8"
     >
       <h1 className="text-2xl text-white font-medium">
-        Welcome, Gustavo
+        {name}
       </h1>
 
       <button className="text-slate-300 hover:text-white transition">

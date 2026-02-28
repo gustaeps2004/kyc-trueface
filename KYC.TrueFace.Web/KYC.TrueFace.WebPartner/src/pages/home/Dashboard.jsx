@@ -11,7 +11,7 @@ export function Dashboard() {
   ];
 
   return (
-    <Layout>
+    <Layout name="Welcome, Gustavo">
       <div className="grid grid-cols-3 gap-10">
         {cards.map((card, index) => (
           <div

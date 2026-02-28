@@ -11,7 +11,7 @@ export default function Sidebar() {
     { label: "Dashboard", icon: <LayoutDashboard size={18} />, to: "/home" },
     { label: "Users", icon: <Users size={18} />, to: "/users" },
     { label: "Onboarding", icon: <Fingerprint size={18} />, to: "/onboarding" },
-    { label: "History", icon: <History size={18} />, to: "/history" },
+    { label: "History", icon: <History size={18} />, to: "/history/onboarding" },
   ];
 
   return (
