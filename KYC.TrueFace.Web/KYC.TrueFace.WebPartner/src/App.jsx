@@ -8,12 +8,12 @@ import { OnboardingHistory } from "./pages/history/Onboarding";
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" />} />      
-      <Route path="/login" element={<Login />} />
-      <Route path="/home" element={<Dashboard />} />
-      <Route path="/users" element={<User />} />
-      <Route path="/onboarding" element={<Onboarding />} />
-      <Route path="history/onboarding" element={<OnboardingHistory />} />
+      <Route path="/"                   element={<Navigate to="/login" />} />      
+      <Route path="/login"              element={<Login />} />
+      <Route path="/home"               element={<Dashboard />} />
+      <Route path="/users"              element={<User />} />
+      <Route path="/onboarding"         element={<Onboarding />} />
+      <Route path="history/onboarding"  element={<OnboardingHistory />} />
     </Routes>
   )
 }

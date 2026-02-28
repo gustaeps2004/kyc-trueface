@@ -1,4 +1,4 @@
-import Layout from "../../components/dashboard/Layout";
+import Layout from "../../components/base/Layout";
 
 export function Dashboard() {
   const cards = [

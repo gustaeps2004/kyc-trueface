@@ -1,4 +1,4 @@
-import Sidebar from "../base/Sidebar";
+import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 
 export default function Layout({ children, name }) {
