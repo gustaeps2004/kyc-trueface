@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Fingerprint, 
-  History, 
-  Menu } from "lucide-react";
+import {
+  LayoutDashboard,
+  Users,
+  Fingerprint,
+  History,
+  Menu,
+} from "lucide-react";
 
 export default function Sidebar() {
+  const [collapsed, setCollapsed] = useState(true);
+
   const menuItems = [
     { label: "Dashboard", icon: <LayoutDashboard size={18} />, to: "/home" },
     { label: "Users", icon: <Users size={18} />, to: "/users" },
@@ -15,33 +19,45 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="
-      w-64 
-      bg-secondary
-      text-white 
-      flex 
-      flex-col"
+    <aside
+      className={`
+        ${collapsed ? "w-20" : "w-64"}
+        bg-secondary
+        text-white
+        flex
+        flex-col
+        transition-all
+        duration-300
+      `}
     >
-      <div className="
-        h-16 
-        flex 
-        items-center 
-        px-6 
-        text-lg 
-        font-semibold 
-        border-slate-700"
+      {/* Header */}
+      <div
+        className="
+          h-16
+          flex
+          items-center
+          px-6
+          text-lg
+          font-semibold
+        "
       >
-        <Menu size={18} className="mr-3 ml-1"/> KYC TrueFace
+        <button onClick={() => setCollapsed(!collapsed)}>
+          <Menu size={20} className="mr-3 ml-1 cursor-pointer" />
+        </button>
+
+        {!collapsed && <span>KYC TrueFace</span>}
       </div>
 
-       <nav className="flex-1 px-3 py-6 space-y-2">
+      {/* Menu */}
+      <nav className="flex-1 px-3 py-6 space-y-2">
         {menuItems.map((item) => (
           <NavLink
             key={item.label}
             to={item.to}
-            end={item.to === "/"} 
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+              `flex items-center 
+              ${collapsed ? "justify-center" : "gap-3"}
+              px-4 py-3 rounded-lg transition-all
               ${
                 isActive
                   ? "bg-slate-700 text-title"
@@ -50,7 +66,7 @@ export default function Sidebar() {
             }
           >
             {item.icon}
-            <span>{item.label}</span>
+            {!collapsed && <span>{item.label}</span>}
           </NavLink>
         ))}
       </nav>
