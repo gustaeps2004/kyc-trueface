@@ -27,7 +27,7 @@ export default function Sidebar() {
         flex
         flex-col
         transition-all
-        duration-300
+        duration-500
       `}
     >
       <div
@@ -44,7 +44,7 @@ export default function Sidebar() {
           <Menu size={20} className="mr-3 ml-1 cursor-pointer" />
         </button>
 
-        {!collapsed && <span>KYC TrueFace</span>}
+        {!collapsed && <span className="">KYC TrueFace</span>}
       </div>
 
       <nav className="flex-1 px-3 py-6 space-y-2">
