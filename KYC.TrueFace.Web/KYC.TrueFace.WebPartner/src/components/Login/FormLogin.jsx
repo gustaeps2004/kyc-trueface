@@ -1,6 +1,13 @@
 import { Input } from "../Input"
+import { useNavigate } from 'react-router-dom';
 
 export function FormLogin() {
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    navigate('/home');
+  };
+
   return(
     <div>
       <form className="space-y-4">
@@ -13,17 +20,25 @@ export function FormLogin() {
         </Input>
 
         <button type="submit" className="
-          bg-btn-login
-          text-title
+          bg-primary
+          text-btn-login
+          border 
+          border-solid
+          border-btn-login
           font-semibold
           rounded-lg
           py-2
           px-4
           w-full
           cursor-pointer
-          hover:bg-transparent
-          transition-colors duration-200
-        ">Login</button>
+          hover:bg-btn-login
+          hover:text-title
+          transition-colors 
+          duration-400"
+        onClick={handleRedirect}
+        >
+          Login
+        </button>
       </form>
       <a href="#" className="
         text-sm
