@@ -47,7 +47,6 @@ export default function Sidebar() {
         {!collapsed && <span>KYC TrueFace</span>}
       </div>
 
-      {/* Menu */}
       <nav className="flex-1 px-3 py-6 space-y-2">
         {menuItems.map((item) => (
           <NavLink
