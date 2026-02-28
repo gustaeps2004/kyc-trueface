@@ -3,7 +3,7 @@ export function Input(props) {
     <div className="relative w-full">
       <input
         type={props.type}
-        id="name"
+        id={props.name}
         placeholder=" "
         className="
           peer 
@@ -21,7 +21,7 @@ export function Input(props) {
       />
 
       <label
-        htmlFor="name"
+        htmlFor={props.name}
         className="
           absolute 
           left-3 

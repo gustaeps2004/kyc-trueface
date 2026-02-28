@@ -12,10 +12,10 @@ export function FormLogin() {
     <div>
       <form className="space-y-4">
         
-        <Input type="email">
+        <Input type="email" name="name">
           E-mail
         </Input>
-        <Input type="password">
+        <Input type="password" name="password">
           Password
         </Input>
 
