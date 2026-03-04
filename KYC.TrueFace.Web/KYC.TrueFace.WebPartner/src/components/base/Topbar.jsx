@@ -10,7 +10,7 @@ export default function Topbar({ name }) {
     navigate('/login');
   };
 
-  const callSetDarkMode = () => {
+  const changeMode = () => {
     setDarkMode(!darkMode)
   }
 
@@ -44,8 +44,8 @@ export default function Topbar({ name }) {
         >
           { 
             darkMode 
-            ? <Sun onClick={callSetDarkMode} className="cursor-pointer" /> 
-            : <Moon onClick={callSetDarkMode} className="cursor-pointer" />
+            ? <Sun onClick={changeMode} className="cursor-pointer" /> 
+            : <Moon onClick={changeMode} className="cursor-pointer" />
           }
         </button>
 
