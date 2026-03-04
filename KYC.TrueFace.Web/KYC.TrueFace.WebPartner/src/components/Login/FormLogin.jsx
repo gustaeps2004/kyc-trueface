@@ -4,15 +4,19 @@ import { useNavigate } from 'react-router-dom';
 export function FormLogin() {
   const navigate = useNavigate();
 
-  const handleRedirect = () => {
+  const handleRedirectHome = () => {
     navigate('/home');
   };
+
+  const handlerRedirectForgotPassword = () => {
+    navigate('/forgot-password')
+  }
 
   return(
     <div>
       <form className="space-y-4">
         
-        <Input type="email" name="name">
+        <Input type="email" name="email">
           E-mail
         </Input>
         <Input type="password" name="password">
@@ -35,7 +39,7 @@ export function FormLogin() {
           hover:text-title
           transition-colors 
           duration-400"
-        onClick={handleRedirect}
+        onClick={handleRedirectHome}
         >
           Login
         </button>
@@ -48,8 +52,9 @@ export function FormLogin() {
         cursor-pointer
         hover:underline
         mt-0
-        ml-55
-      ">Forgot your password?</a>
+        ml-55"
+        onClick={handlerRedirectForgotPassword}
+      >Forgot your password?</a>
     </div>
   )
 }
