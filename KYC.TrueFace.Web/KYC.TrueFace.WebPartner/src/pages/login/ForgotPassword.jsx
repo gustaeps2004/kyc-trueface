@@ -1,12 +1,13 @@
 import { LoginBase } from "../../components/Login/LoginBase"
-import { Input } from "../../components/Input"
-import { useNavigate } from 'react-router-dom';
+import { FormForgotPassword } from "../../components/Login/FormForgotPassword"
+import { ForgotPasswordConfirmed } from "../../components/Login/ForgotPasswordConfirmed"
+import { useState } from "react";
 
 export function ForgotPassword() {
-  const navigate = useNavigate()
+  const [confirmed, setConfirmed] = useState(false)
 
-  const handlerRedirectToLogin = () => {
-    navigate('/login')
+  const handlerConfirm = () => {
+    setConfirmed(true)
   }
 
   return(
@@ -16,39 +17,7 @@ export function ForgotPassword() {
         h-40
         mt-20
       ">
-        <Input type="email" name="email">
-          E-mail
-        </Input>
-        <button type="submit" className="
-          bg-primary
-          text-btn-login
-          border 
-          border-solid
-          border-btn-login
-          font-semibold
-          rounded-lg
-          mt-5
-          py-2
-          px-4
-          w-full
-          cursor-pointer
-          hover:bg-btn-login
-          hover:text-title
-          transition-colors 
-          duration-400"
-        >
-          Confirm
-        </button>
-        <a href="#" className="
-          text-sm
-          text-center
-          block
-          text-title
-          cursor-pointer
-          hover:underline
-          ml-50"
-          onClick={handlerRedirectToLogin}
-        >Already have an account?</a>
+        { confirmed ? <ForgotPasswordConfirmed /> : <FormForgotPassword handlerConfirmClick={handlerConfirm}/>}
       </div>
     </LoginBase>
   )
