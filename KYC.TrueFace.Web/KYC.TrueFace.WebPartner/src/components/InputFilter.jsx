@@ -1,0 +1,22 @@
+export function InputFilter(props) {
+  return(
+    <input
+      type="text"
+      placeholder={props.placeholder}
+      autoComplete="off"
+      className="
+        w-1/2
+        bg-slate-700/40
+        text-title
+        placeholder:text-gray-300
+        border-b border-white/80
+        focus:border-title
+        focus:outline-none
+        transition
+        duration-200
+        px-1
+        py-2
+      "
+    />
+  )
+}

@@ -1,11 +1,15 @@
 import Layout from "../../components/base/Layout";
+import { Content } from "../../components/base/Content";
 
 export function OnboardingHistory() {
   return(
     <Layout name="History">
-      <div className="grid grid-cols-3 gap-10">
-        
-      </div>
+      <Content 
+        placeholderFilter="ID, name or e-mail"
+        isShowFilter={true}
+      >
+        <h2>CONTENT</h2>
+      </Content>
     </Layout>
   )
 }
