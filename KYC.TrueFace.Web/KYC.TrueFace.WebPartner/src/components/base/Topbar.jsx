@@ -1,18 +1,12 @@
-import { LogOut, Moon, Sun } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
 
 export default function Topbar({ name }) {
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState()
 
   const handleRedirect = () => {
     navigate('/login');
   };
-
-  const changeMode = () => {
-    setDarkMode(!darkMode)
-  }
 
   return (
     <div className="
@@ -35,20 +29,6 @@ export default function Topbar({ name }) {
         items-center
         space-x-3"
       >
-        <button 
-          title={darkMode ? "Light mode" : "Dark mode"}
-          className="
-            text-slate-300 
-            hover:text-title 
-            transition"
-        >
-          { 
-            darkMode 
-            ? <Sun onClick={changeMode} className="cursor-pointer" /> 
-            : <Moon onClick={changeMode} className="cursor-pointer" />
-          }
-        </button>
-
         <button title="Log out" className="text-slate-300 hover:text-title transition">
           <LogOut onClick={handleRedirect} className="cursor-pointer" />
         </button>

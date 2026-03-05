@@ -4,6 +4,8 @@ export function Input(props) {
       <input
         type={props.type}
         id={props.name}
+        disabled={props.disabled}
+        value={props.value}
         placeholder=" "
         className="
           peer 
@@ -17,7 +19,7 @@ export function Input(props) {
           pb-2 
           text-sm
           text-title
-          focus:outline-none "
+          focus:outline-none"
       />
 
       <label
@@ -26,7 +28,7 @@ export function Input(props) {
           absolute 
           left-3 
           top-0
-          text-title 
+          text-btn-login
           text-sm
           transition-all
           peer-placeholder-shown:top-3.5
