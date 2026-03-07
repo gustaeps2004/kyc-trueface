@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import { Button } from "../Button"
 
 export function ForgotPasswordConfirmed() {
   const navigate = useNavigate()
@@ -6,7 +7,7 @@ export function ForgotPasswordConfirmed() {
   const handlerRedirectToLogin = () => {
     navigate('/login')
   }
-
+ 
   return(
     <div className="space-y-5">
       <h2 className="
@@ -16,26 +17,11 @@ export function ForgotPasswordConfirmed() {
       ">
         An email has been sent to change your password.
       </h2>
-      <button type="submit" className="
-          bg-primary
-          text-btn-login
-          border 
-          border-solid
-          border-btn-login
-          font-semibold
-          rounded-lg
-          py-2
-          px-4
-          w-full
-          cursor-pointer
-          hover:bg-btn-login
-          hover:text-title
-          transition-colors 
-          duration-400"
-          onClick={handlerRedirectToLogin}
-        >
-          Back to login
-        </button>
+      
+      <Button
+        handlerAction={handlerRedirectToLogin}
+        title="Back to login"
+      />
     </div>
   )
 }

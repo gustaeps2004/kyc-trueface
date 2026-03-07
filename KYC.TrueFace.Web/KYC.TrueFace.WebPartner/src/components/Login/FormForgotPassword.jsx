@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { Input } from '../Input'
+import { Button } from "../Button"
 
 export function FormForgotPassword({ handlerConfirmClick }) {
   const navigate = useNavigate()
@@ -11,33 +12,18 @@ export function FormForgotPassword({ handlerConfirmClick }) {
   const handlerConfirm = () => {
     handlerConfirmClick()
   }
-
+ 
   return(
     <div>
       <form className="space-y-4">
         <Input type="email" name="email">
           E-mail
         </Input>
-        <button type="submit" className="
-          bg-primary
-          text-btn-login
-          border 
-          border-solid
-          border-btn-login
-          font-semibold
-          rounded-lg
-          py-2
-          px-4
-          w-full
-          cursor-pointer
-          hover:bg-btn-login
-          hover:text-title
-          transition-colors 
-          duration-400"
-          onClick={handlerConfirm}
-        >
-          Confirm
-        </button>
+
+        <Button
+          handlerAction={handlerConfirm}
+          title="Confirm"
+        />
       </form>
       <a href="#" className="
         text-sm
