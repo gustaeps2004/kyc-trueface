@@ -1,24 +1,43 @@
 export function Button(props) {
   return(
-    <button type="submit" className="
+    <div className="
+      flex
+      justify-center
+      w-full
+    ">
+      <button type="submit" className="
         bg-primary
         text-btn-login
-        border 
-        border-solid
+        text-shadow-xs 
+        flex
+        items-center
+        justify-center
         border-btn-login
         font-semibold
-        rounded-lg
         py-2
         px-4
         w-full
         cursor-pointer
-        hover:bg-btn-login
-        hover:text-title
-        transition-colors 
-        duration-400"
+        rounded-full 
+        h-10 
+        overflow-hidden 
+        focus:brightness-110 
+        transition-all 
+        disabled:cursor-not-allowed 
+        disabled:opacity-10 
+        disabled:grayscale 
+        disabled:translate-y-0 
+        disabled:hover:translate-y-0 
+        hover:scale-95 
+        min-w-full 
+        border-2! 
+        border-brand-primary! 
+        transparent
+        "
       onClick={props.handlerAction}
       >
         {props.title}
-    </button>
+      </button>
+    </div>
   )
 }
