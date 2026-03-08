@@ -28,7 +28,7 @@ export function Button(props) {
         disabled:grayscale 
         disabled:translate-y-0 
         disabled:hover:translate-y-0 
-        hover:scale-95 
+        hover:scale-90
         min-w-full 
         border-2! 
         border-brand-primary! 
