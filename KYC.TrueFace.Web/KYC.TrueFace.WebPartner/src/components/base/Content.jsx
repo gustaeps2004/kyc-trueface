@@ -22,7 +22,8 @@ export function Content(props) {
                 className="
                   text-slate-300 
                   hover:text-title 
-                  transition"
+                  transition
+                  hover:scale-105"
               >
                 <CirclePlus size={28} className="cursor-pointer" />
               </button> 

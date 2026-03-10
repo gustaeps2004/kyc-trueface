@@ -29,7 +29,7 @@ export default function Topbar({ name }) {
         items-center
         space-x-3"
       >
-        <button title="Log out" className="text-slate-300 hover:text-title transition">
+        <button title="Log out" className="text-slate-300 hover:text-title transition hover:scale-105">
           <LogOut onClick={handleRedirect} className="cursor-pointer" />
         </button>
       </div>
