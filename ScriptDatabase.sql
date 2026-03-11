@@ -1,0 +1,14 @@
+CREATE DATABASE KYC_TrueFace;
+
+CREATE TABLE User(
+	ID 			INT 			NOT NULL AUTO_INCREMENT,
+    Code		BINARY(16)		NOT NULL PRIMARY KEY UNIQUE,
+    Name		VARCHAR(150)	NOT NULL,
+    IdNumber	VARCHAR(11)		NOT NULL,
+    BirthDate	DATE			NOT NULL,
+    Email		VARCHAR(100)	NOT NULL,
+    Permission	INT				NOT NULL,
+    Situation	INT				NOT NULL,
+    InclusionDt	DATETIME		NOT NULL,
+    MotherName	VARCHAR(150)	NULL
+);
