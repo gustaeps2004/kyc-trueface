@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Button } from "./Button";
+import { ModalButton } from "./ModalButton";
 
 export function Modal(props) {
   useEffect(() => {
@@ -74,13 +74,29 @@ export function Modal(props) {
         <div className="
           flex
           justify-end
-          w-35
-          ml-auto
+          w-full
         ">
-          <Button 
-            title={props.titleButton}
-            handlerAction={props.handlerAction}
-          />
+          { 
+            props.showRedButton
+            ? <div className="ml-auto">
+                <ModalButton 
+                  title={props.titleRedButton}
+                  handlerAction={props.handlerRedAction}
+                />
+              </div>
+            : ""
+          }
+          
+          {
+            props.showGreenButton 
+            ? <div className="ml-2">
+                <ModalButton 
+                  title={props.titleGreenButton}
+                  handlerAction={props.handlerGreenAction}
+                />
+              </div> 
+            : ""
+          }
         </div>
         
       </div>

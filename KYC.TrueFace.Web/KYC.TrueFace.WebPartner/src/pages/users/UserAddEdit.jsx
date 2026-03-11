@@ -1,4 +1,4 @@
-import { Modal } from "../../components/Modal"
+import { Modal } from "../../components/modal/Modal"
 import { Input } from "../../components/Input";
 
 export function UserAddEdit(props) {
@@ -11,31 +11,26 @@ export function UserAddEdit(props) {
     <Modal
       title="Create user"
       closeModal={props.closeModal}
-      titleButton="Create"
-      handlerAction={handlerCreate}
+      showGreenButton={true}
+      titleGreenButton="Create"
+      handlerGreenAction={handlerCreate}
     >
 
       <Input type="name" name="name">
         Name
       </Input>
-
       <Input type="idNumber" name="idNumber">
         Id number
       </Input>
-
       <Input type="bith" name="bith">
         Birth date
       </Input>
-
       <Input type="motherName" name="motherName">
         Mother name
       </Input>
-
       <Input type="email" name="email">
         E-mail
       </Input>
-
-
 
     </Modal>
   )
