@@ -1,7 +1,11 @@
 import { Modal } from "../../components/modal/Modal"
 import { Input } from "../../components/Input";
+import { Select } from "../../components/Select"; 
+import { useState } from "react";
+import { Permission } from "../../utils/Arrays";
 
 export function UserAddEdit(props) {
+  const [permission, setPermission] = useState()
 
   const handlerCreate = () => {
     console.log("create user method")
@@ -32,6 +36,12 @@ export function UserAddEdit(props) {
         E-mail
       </Input>
 
+      <Select 
+        placeholder="Permission"
+        options={Permission}
+        value={permission}
+        onChange={setPermission}
+      />
     </Modal>
   )
 }

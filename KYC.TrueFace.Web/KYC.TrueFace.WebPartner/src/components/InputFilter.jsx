@@ -9,7 +9,8 @@ export function InputFilter(props) {
         bg-slate-700/40
         text-title
         placeholder:text-gray-300
-        border-b border-white/80
+        border-b 
+        border-white/80
         focus:border-title
         focus:outline-none
         transition

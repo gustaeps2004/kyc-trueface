@@ -24,8 +24,6 @@ export function ModalButton({
       focus:brightness-110 
       transition-all 
       hover:scale-90
-      border-2! 
-      border-brand-primary! 
       transparent`}
     onClick={handlerAction}
     >
