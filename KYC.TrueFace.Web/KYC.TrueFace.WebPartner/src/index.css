@@ -7,3 +7,28 @@
   --color-btn-login: #4ADE80;
   --color-transparent: #D9D9D9;
 }
+
+@layer utilities {
+  .scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #2A374E #26395C;
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 9999px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: #26395C;
+    border-radius: 9999px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #26395C;
+  }
+}
