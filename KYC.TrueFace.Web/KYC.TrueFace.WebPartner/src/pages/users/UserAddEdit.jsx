@@ -1,5 +1,4 @@
-import { ModalSteps } from "../../components/modal/ModalSteps"
-
+import { Modal } from "../../components/Modal"
 import { Input } from "../../components/Input";
 
 export function UserAddEdit(props) {
@@ -9,7 +8,7 @@ export function UserAddEdit(props) {
   }
 
   return(
-    <ModalSteps 
+    <Modal
       title="Create user"
       closeModal={props.closeModal}
       titleButton="Create"
@@ -38,6 +37,6 @@ export function UserAddEdit(props) {
 
 
 
-    </ModalSteps>
+    </Modal>
   )
 }

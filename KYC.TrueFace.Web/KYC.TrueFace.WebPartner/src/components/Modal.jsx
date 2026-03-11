@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { Button } from "../Button";
+import { Button } from "./Button";
 
-export function ModalSteps(props) {
+export function Modal(props) {
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === "Escape") props.closeModal();
