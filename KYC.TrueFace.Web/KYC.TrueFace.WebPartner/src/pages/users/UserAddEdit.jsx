@@ -6,9 +6,11 @@ import { Permission } from "../../utils/Arrays";
 
 export function UserAddEdit(props) {
   const [permission, setPermission] = useState()
+  const [idNumber, setIdNumber] = useState("")
+  const [bithDate, setBithDate] = useState("")
 
   const handlerCreate = () => {
-    console.log("create user method")
+    
   }
 
   return(
@@ -23,10 +25,22 @@ export function UserAddEdit(props) {
       <Input type="name" name="name">
         Name
       </Input>
-      <Input type="idNumber" name="idNumber">
+      <Input 
+        type="idNumber" 
+        name="idNumber" 
+        value={idNumber}
+        mask="###.###.###-##"
+        onChange={setIdNumber}
+      >
         Id number
       </Input>
-      <Input type="bith" name="bith">
+      <Input 
+        type="bith" 
+        name="bithDate"
+        value={bithDate}
+        mask="##/##/####"
+        onChange={setBithDate}
+      >
         Birth date
       </Input>
       <Input type="motherName" name="motherName">

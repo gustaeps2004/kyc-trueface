@@ -1,4 +1,17 @@
+import { ApplyMask } from "../utils/Mask"
+
 export function Input(props) {
+  
+  function handleChange(e) {
+    let newValue = e.target.value
+
+    if (props.mask) 
+      newValue = ApplyMask(newValue, props.mask)
+
+    if (props.onChange)
+      props.onChange(newValue)
+  }
+
   return(
     <div className="relative w-full">
       <input
@@ -6,6 +19,7 @@ export function Input(props) {
         id={props.name}
         disabled={props.disabled}
         value={props.value}
+        onChange={handleChange}
         placeholder=" "
         className="
           peer 
