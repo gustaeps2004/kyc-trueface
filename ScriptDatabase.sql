@@ -60,19 +60,34 @@ CREATE TABLE UserAccessLog(
 	CONSTRAINT FK_UserAccess_UserAccessLog
     FOREIGN KEY (CodeUserAccess) 
     REFERENCES UserAccess(Code)
-)
+);
 
+CREATE TABLE Onboarding(
+    Code			BINARY(16)		NOT NULL PRIMARY KEY UNIQUE,
+    CodePartner 	BINARY(16)		NOT NULL,
+    InclusionDt		DATETIME		NOT NULL,
+    SituationDt		DATETIME		NOT NULL,
+    Situation		INT				NOT NULL,
+    PathDocument	VARCHAR(00)		NOT NULL,
+    PathSelfie		VARCHAR(200)	NOT NULL,
+    
+	CONSTRAINT FK_Partner_Onboarding
+    FOREIGN KEY (CodePartner) 
+    REFERENCES Partner(Code)
+);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+CREATE TABLE OnboardingResult(
+    Code			BINARY(16)		NOT NULL PRIMARY KEY UNIQUE,
+    CodeOnboarding 	BINARY(16)		NOT NULL,
+    CodeUser	 	BINARY(16)		NOT NULL,
+    InclusionDt		DATETIME		NOT NULL,
+    Observation		VARCHAR(500)	NOT NULL,
+    
+	CONSTRAINT FK_Onboarding_OnboardingResult
+    FOREIGN KEY (CodeOnboarding) 
+    REFERENCES Onboarding(Code),
+    
+	CONSTRAINT FK_User_OnboardingResult
+    FOREIGN KEY (CodeUser) 
+    REFERENCES User(Code)
+);
