@@ -42,7 +42,7 @@ export function Input(props) {
           absolute 
           left-3 
           top-0
-          text-btn-login
+          text-title
           text-sm
           transition-all
           peer-placeholder-shown:top-3.5
