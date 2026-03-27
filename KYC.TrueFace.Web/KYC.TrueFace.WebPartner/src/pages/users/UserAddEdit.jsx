@@ -10,7 +10,16 @@ export function UserAddEdit(props) {
   const [bithDate, setBithDate] = useState("")
 
   const handlerCreate = () => {
-    
+    const dto = {
+      motherName: document.getElementById('motherName').value,
+      email: document.getElementById('email').value,
+      name: document.getElementById('name').value,
+      permission: permission,
+      idNumber: idNumber,
+      bithDate: bithDate,
+    }
+
+    console.log(dto)
   }
 
   return(
@@ -21,7 +30,6 @@ export function UserAddEdit(props) {
       titleGreenButton="Create"
       handlerGreenAction={handlerCreate}
     >
-
       <Input type="name" name="name">
         Name
       </Input>
