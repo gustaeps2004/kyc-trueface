@@ -1,5 +1,7 @@
+using KYC.TrueFace.ApiPartner.Repositories.Context;
 using KYC.TrueFace.ApiPartner.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,14 @@ builder.Services.AddControllers(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var connectionString = builder.Configuration["DB_TrueFaceBase"];
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(
+        connectionString,
+        ServerVersion.AutoDetect(connectionString)
+    ));
 
 builder.Services.AddInjection();
 
