@@ -6,7 +6,7 @@
       "environmentVariables": {
         "ASPNETCORE_HTTPS_PORTS": "8081",
         "ASPNETCORE_HTTP_PORTS": "8080",
-        "DB_TrueFaceBase": "Server=localhost;Database=KYC_TrueFace;Uid=root;Pwd=root;"
+        "DB_TrueFaceBase": "Server=127.0.0.1;Port=3306;Database=kyc_trueface;Uid=root;Pwd=root;"
       },
       "publishAllPorts": true,
       "useSSL": true

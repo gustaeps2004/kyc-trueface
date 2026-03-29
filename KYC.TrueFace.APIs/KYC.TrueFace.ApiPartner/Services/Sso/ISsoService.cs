@@ -4,7 +4,5 @@ namespace KYC.TrueFace.ApiPartner.Services.Sso;
 
 public interface ISsoService
 {
-    void RegisterPassword(
-        RegisterPasswordDto registerDto, 
-        Guid userCode);
+    Task RegisterPasswordAsync(RegisterPasswordDto registerDto);
 }

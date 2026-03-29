@@ -2,4 +2,5 @@
 
 public enum SituationAccess
 {
+    Active = 1
 }

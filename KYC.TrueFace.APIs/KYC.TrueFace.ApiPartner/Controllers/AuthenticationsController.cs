@@ -13,14 +13,11 @@ public class AuthenticationsController(
 {
 
     [HttpPost("register-password")]
-    public IActionResult RegisterPassword(RegisterPasswordRequest registerRequest)
+    public async Task<IActionResult> RegisterPasswordAsync(RegisterPasswordRequest registerRequest)
     {
         try
         {
-            service.RegisterPassword(
-                registerRequest.ToDto(), 
-                GetUserCode()
-            );
+            await service.RegisterPasswordAsync(registerRequest.ToDto());
 
             return Ok();
         }

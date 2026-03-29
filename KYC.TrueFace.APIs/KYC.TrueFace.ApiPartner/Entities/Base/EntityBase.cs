@@ -2,8 +2,8 @@
 
 public abstract class EntityBase<TPrimaryKey, TId>
 {
-    public required TId ID { get; set; }
-    public required TPrimaryKey Code { get; set; }
+    public TId? ID { get; set; }
+    public TPrimaryKey? Code { get; set; }
 
     protected abstract void Validate();
 }

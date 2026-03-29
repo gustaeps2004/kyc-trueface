@@ -16,13 +16,13 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration["DB_TrueFaceBase"];
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+/*builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
         connectionString,
         ServerVersion.AutoDetect(connectionString)
-    ));
+    ));*/
 
-builder.Services.AddInjection();
+builder.Services.AddInjections();
 
 var app = builder.Build();
 
