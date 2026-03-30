@@ -4,6 +4,6 @@ using KYC.TrueFace.ApiPartner.Repositories.Context;
 namespace KYC.TrueFace.ApiPartner.Repositories.UserAccess;
 
 public class UserAccessRepository(AppDbContext context) 
-    : BaseRepository<Entities.UserAccess>(context), IUserAccessRepository
+    : BaseRepository(context), IUserAccessRepository
 {
 }

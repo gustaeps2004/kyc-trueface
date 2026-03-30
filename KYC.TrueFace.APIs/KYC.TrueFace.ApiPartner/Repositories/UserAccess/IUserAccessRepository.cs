@@ -2,6 +2,6 @@
 
 namespace KYC.TrueFace.ApiPartner.Repositories.UserAccess;
 
-public interface IUserAccessRepository : IBaseRepository<Entities.UserAccess>
+public interface IUserAccessRepository : IBaseRepository
 {
 }

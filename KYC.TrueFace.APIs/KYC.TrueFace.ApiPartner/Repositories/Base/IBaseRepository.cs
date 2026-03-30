@@ -1,7 +1,7 @@
 ﻿namespace KYC.TrueFace.ApiPartner.Repositories.Base;
 
-public interface IBaseRepository<TEntity> where TEntity : class
+public interface IBaseRepository
 {
-    Task AddAsync(TEntity entity);
-    void Update(TEntity entity);
+    Task AddAsync<TEntity>(TEntity entity);
+    void Update<TEntity>(TEntity entity);
 }

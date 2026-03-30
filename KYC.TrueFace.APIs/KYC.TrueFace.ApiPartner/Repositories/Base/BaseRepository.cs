@@ -2,12 +2,11 @@
 
 namespace KYC.TrueFace.ApiPartner.Repositories.Base;
 
-public class BaseRepository<TEntity>(AppDbContext context) 
-    : IBaseRepository<TEntity> where TEntity : class
+public class BaseRepository(AppDbContext context) : IBaseRepository
 {
-    public async Task AddAsync(TEntity entity)
-        => await context.AddAsync(entity);
+    public async Task AddAsync<TEntity>(TEntity entity)
+        => await context.AddAsync(entity!);
 
-    public void Update(TEntity entity)
-        => context.Update(entity);
+    public void Update<TEntity>(TEntity entity)
+        => context.Update(entity!);
 }

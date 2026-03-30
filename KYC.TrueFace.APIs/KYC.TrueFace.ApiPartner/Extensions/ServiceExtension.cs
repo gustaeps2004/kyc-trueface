@@ -20,7 +20,7 @@ public static class ServiceExtension
 
     private static void InjectionRepositories(this IServiceCollection service)
     {
-        service.AddTransient<IBaseRepository<EntityBase<Guid, int>>, BaseRepository<EntityBase<Guid, int>>>();
+        service.AddTransient<IBaseRepository, BaseRepository>();
         //service.AddTransient<IBaseRepository<EntityBase<Type, Type>>, BaseRepository<EntityBase<Type, Type>>>();
         service.AddTransient<IUserAccessRepository, UserAccessRepository>();
     }
