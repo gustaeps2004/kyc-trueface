@@ -28,7 +28,7 @@ export function User() {
     {
       name: "Gustavo Do Espirito Santo",
       idNumber: "11122233344",
-      email: "gustavo.santo@guanxi.com.br",
+      email: "gustavo.santo@teste.com.br",
       inclusionDate: "30/03/2024",
     }
   ]
