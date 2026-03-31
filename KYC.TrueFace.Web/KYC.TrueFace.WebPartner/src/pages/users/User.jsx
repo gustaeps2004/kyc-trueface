@@ -44,8 +44,8 @@ export function User() {
         >
           
           <div className="relative overflow-x-auto mt-10">
-            <table className="w-full text-sm text-left rtl:text-right text-body text-title">
-              <thead className="text-sm text-body">
+            <table className="w-full text-sm text-center text-body text-title">
+              <thead className="text-sm ">
                 <tr>
                   {
                     columns.map(column => (
@@ -79,9 +79,10 @@ export function User() {
                               text-slate-300 
                               hover:text-title 
                               transition
-                              hover:scale-105"
+                              hover:scale-105
+                              ml-3"
                           >
-                            <UserRoundPen />
+                            <UserRoundPen  />
                           </button>
                         </th>
                       </tr>
