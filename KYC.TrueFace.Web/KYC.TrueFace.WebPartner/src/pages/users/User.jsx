@@ -13,20 +13,16 @@ export function User() {
   const [isEdit, setIsEdit] = useState(false)
   const [userEdit, setUserEdit] = useState(null)
 
-  const handlerOpenModal = () => {
-    setIsEdit(false)
+  const handlerOpenModal = (isEdit, user) => {
+    setIsEdit(isEdit)
     setOpenModal(true)
+
+    if (user) setUserEdit(user)
   }
 
   const handlerCloseModal = () => {
     setOpenModal(false)
     setUserEdit(null)
-  }
-
-  const handlerOpenEdit = (user) => {
-    setUserEdit(user)
-    setIsEdit(true)
-    setOpenModal(true)
   }
 
   const columns = [
@@ -57,7 +53,7 @@ export function User() {
           placeholderFilter="ID, name or e-mail"
           isShowAdd={true}
           isShowFilter={true}
-          openModal={handlerOpenModal}
+          openModal={() => handlerOpenModal(false, null)}
         >
           
           <div className="relative overflow-x-auto mt-10">
@@ -91,7 +87,7 @@ export function User() {
                         </th>
                         <th>
                           <button 
-                            onClick={() => handlerOpenEdit(user)}
+                            onClick={() => handlerOpenModal(true, user)}
                             className="
                               cursor-pointer  
                               text-slate-300 
