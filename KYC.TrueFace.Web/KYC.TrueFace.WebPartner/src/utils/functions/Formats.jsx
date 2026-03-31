@@ -7,3 +7,13 @@ export function IdNumberFormat(idNumber) {
   
   return idNumber;
 }
+
+export function DateFormat(date) {
+  const d = new Date(date);
+
+  const day = parseInt(String(d.getDate()).padStart(2, '0')) + 1;
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}

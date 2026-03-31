@@ -1,13 +1,28 @@
 import { Modal } from "../../components/modal/Modal"
 import { Input } from "../../components/Input";
 import { Select } from "../../components/Select"; 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Permission } from "../../utils/Arrays";
+import { 
+  IdNumberFormat, 
+  DateFormat 
+} from "../../utils/functions/Formats";
 
 export function UserAddEdit(props) {
   const [permission, setPermission] = useState()
   const [idNumber, setIdNumber] = useState("")
   const [bithDate, setBithDate] = useState("")
+
+  useEffect(() => {
+    if (!props.isEdit) return
+
+    document.getElementById('motherName').value = props.userEdit.motherName
+    document.getElementById('email').value = props.userEdit.email
+    document.getElementById('name').value = props.userEdit.name
+    setPermission(props.userEdit.permission)
+    setIdNumber(IdNumberFormat(props.userEdit.idNumber))
+    setBithDate(DateFormat(props.userEdit.birthDate))
+  }, []);
 
   const handlerCreate = () => {
     const dto = {
@@ -24,7 +39,7 @@ export function UserAddEdit(props) {
 
   return(
     <Modal
-      title="Create user"
+      title={(props.isEdit ? "Edit" : "Create") + " user"}
       closeModal={props.closeModal}
       showGreenButton={true}
       titleGreenButton="Create"
@@ -34,6 +49,7 @@ export function UserAddEdit(props) {
         Name
       </Input>
       <Input 
+        disabled={props.isEdit}
         type="idNumber" 
         name="idNumber" 
         value={idNumber}
@@ -54,7 +70,7 @@ export function UserAddEdit(props) {
       <Input type="motherName" name="motherName">
         Mother name
       </Input>
-      <Input type="email" name="email">
+      <Input disabled={props.isEdit} type="email" name="email">
         E-mail
       </Input>
 
