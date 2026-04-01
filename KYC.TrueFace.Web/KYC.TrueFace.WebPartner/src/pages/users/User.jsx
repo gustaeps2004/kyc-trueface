@@ -59,7 +59,7 @@ export function User() {
           <div className="relative overflow-x-auto mt-10">
             <table className="w-full text-sm text-center text-body text-title">
               <thead className="text-sm ">
-                <tr>
+                <tr className='bg-secondary'>
                   {
                     columns.map((column, index) => (
                       <th key={index} className="px-6 py-3 rounded-s-base font-medium">
