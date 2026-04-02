@@ -62,6 +62,7 @@ export default function Sidebar() {
       <nav className="flex-1 px-3 py-6 space-y-2">
         {menuItems.map((item) => (
           <NavLink
+            title={collapsed ? item.label : null}
             key={item.label}
             to={item.to}
             className={({ isActive }) =>
