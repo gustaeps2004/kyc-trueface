@@ -12,8 +12,10 @@ export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(() => {
     var closed = localStorage.getItem("sidebar")
 
-    if (closed === null)
+    if (closed === null) {
       localStorage.setItem("sidebar", "open")
+      return false
+    }
 
     return closed == "closed"
   });
