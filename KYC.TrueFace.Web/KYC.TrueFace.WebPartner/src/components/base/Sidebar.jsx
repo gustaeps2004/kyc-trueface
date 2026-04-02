@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -9,7 +9,19 @@ import {
 } from "lucide-react";
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState();
+  const [collapsed, setCollapsed] = useState(() => {
+    var closed = localStorage.getItem("sidebar")
+
+    if (closed === null)
+      localStorage.setItem("sidebar", "open")
+
+    return closed == "closed"
+  });
+
+  const handlerSidebar = () => {
+    setCollapsed(!collapsed)
+    localStorage.setItem("sidebar", !collapsed ? "closed" : "open")
+  }
 
   const menuItems = [
     { label: "Dashboard", icon: <LayoutDashboard size={18} />, to: "/home" },
@@ -40,7 +52,7 @@ export default function Sidebar() {
           font-semibold
         "
       >
-        <button onClick={() => setCollapsed(!collapsed)}>
+        <button onClick={() => handlerSidebar()}>
           <Menu size={20} className="mr-3 ml-1 cursor-pointer" />
         </button>
 
