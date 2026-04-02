@@ -9,11 +9,13 @@ export function IdNumberFormat(idNumber) {
 }
 
 export function DateFormat(date) {
-  const d = new Date(date);
+  const [year, month, day] = date.split('-');
 
-  const day = parseInt(String(d.getDate()).padStart(2, '0')) + 1;
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const year = d.getFullYear();
+  const d = new Date(year, month - 1, day);
 
-  return `${day}/${month}/${year}`;
+  const formattedDay = String(d.getDate()).padStart(2, '0');
+  const formattedMonth = String(d.getMonth() + 1).padStart(2, '0');
+  const formattedYear = d.getFullYear();
+
+  return `${formattedDay}/${formattedMonth}/${formattedYear}`;
 }
