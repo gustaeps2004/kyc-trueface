@@ -1,17 +1,21 @@
 import { Eye, SquareCheck } from 'lucide-react';
+import { ModalImages } from './ModalImages';
+import { useState } from 'react';
 import { 
   IdNumberFormat, 
   DateFormat 
 } from "../../utils/functions/Formats";
 
 export function OnboardingGrid(props) {
+  const [openModalImages, setOpenModalImages] = useState(false)
+  const [openAnalysis, setAnalysis] = useState(false)
 
   const handlerOpenModalImagens = (onboarding) => {
-    console.log("handlerOpenModalImagens")
+    setOpenModalImages(true)
   }
 
   const handlerOpenAnalysis = (onboarding) => {
-    console.log("handlerOpenAnalysis")
+    setAnalysis(true)
   }
 
   return(
@@ -88,6 +92,12 @@ export function OnboardingGrid(props) {
               </tr>
           </tfoot> */}
       </table>
+
+      {
+        openModalImages
+        ? <ModalImages closeModal={() => setOpenModalImages(false)}/>
+        : null
+      }
     </div>
   )
 }

@@ -23,7 +23,6 @@ export function OnboardingHistory() {
     }
   ]
 
-  
   return(
     <Layout name="History">
       <Content 
