@@ -17,10 +17,22 @@ export function ModalImages(props) {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  const icons = [
-    <Download />,
-    <RotateCw />,
-    <MoveRight />
+  const downloadImage = () => {
+    console.log("downloadImage")
+  }
+
+  const rotateImage = () => {
+    console.log("rotateImage")
+  }
+
+  const nextImage = () => {
+    console.log("nextImage")
+  }
+
+  const listIcon = [
+    { icon: <Download />, actionAtr: downloadImage },
+    { icon: <RotateCw />, actionAtr: rotateImage },
+    { icon: <MoveRight />, actionAtr: nextImage}
   ]
 
   return(
@@ -81,15 +93,18 @@ export function ModalImages(props) {
           rounded-3xl
         ">
           {
-            icons.map((icon, index) => (
-              <button key={index} className="
+            listIcon.map((iconObj, index) => (
+              <button 
+                key={index}
+                onClick={() => iconObj.actionAtr()} 
+                className="
                 cursor-pointer  
                 text-slate-300 
                 hover:text-title 
                 transition
                 hover:scale-105
               ">
-                {icon}
+                {iconObj.icon}
               </button>
             ))
           }
