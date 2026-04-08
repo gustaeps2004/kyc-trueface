@@ -1,6 +1,8 @@
 import { Eye, SquareCheck } from 'lucide-react';
 import { ModalImages } from './ModalImages';
 import { useState } from 'react';
+import MamisMito from '../../../../../../../mamis_mito.webp';
+import Gusta from '../../../../../../../gusta.png';
 import { 
   IdNumberFormat, 
   DateFormat 
@@ -8,9 +10,22 @@ import {
 
 export function OnboardingGrid(props) {
   const [openModalImages, setOpenModalImages] = useState(false)
+  const [onboardingData, setOnboardingData] = useState(null)
   const [openAnalysis, setAnalysis] = useState(false)
 
   const handlerOpenModalImagens = (onboarding) => {
+    const response = [
+      {
+        linkImage: MamisMito,
+        nameImage: 'mamis_mito.webp'
+      },
+      {
+        linkImage: Gusta,
+        nameImage: 'gusta.png'
+      }
+    ]
+
+    setOnboardingData(response)
     setOpenModalImages(true)
   }
 
@@ -95,7 +110,7 @@ export function OnboardingGrid(props) {
 
       {
         openModalImages
-        ? <ModalImages closeModal={() => setOpenModalImages(false)}/>
+        ? <ModalImages closeModal={() => setOpenModalImages(false)} onboardingData={onboardingData}/>
         : null
       }
     </div>

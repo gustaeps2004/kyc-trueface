@@ -7,8 +7,16 @@ import {
 
 export function ModalImages(props) {
   const [rotate, setRotate] = useState(90)
+  const [onboardingData, setOnboardingData] = useState()
+  const [linkImage, setLinkImage] = useState()
+  const [imageName, setImageName] = useState()
   
   useEffect(() => {
+    setOnboardingData(props.onboardingData)
+    
+    setLinkImage(props.onboardingData[0].linkImage)
+    setImageName(props.onboardingData[0].nameImage)
+
     const handleEsc = (e) => {
       if (e.key === "Escape") props.closeModal();
     };
@@ -18,16 +26,15 @@ export function ModalImages(props) {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  const downloadImage = async (imageSrc) => {
-    const response = await fetch(imageSrc);
-    
-    const blob = await response.blob();
+  const downloadImage = async () => {
+    const response = await fetch(linkImage)
+    const blob = await response.blob()
     
     const url = window.URL.createObjectURL(blob);
     
     const link = document.createElement('a');
     link.href = url;
-    link.download = "imagem.png"; 
+    link.download = imageName
     
     document.body.appendChild(link);
     link.click();
@@ -46,12 +53,23 @@ export function ModalImages(props) {
   }
 
   const nextImage = () => {
-    const img = document.getElementById("image-container");
-    img.src = "nova_url.png"
+    var indexImage = props
+                        .onboardingData
+                        .findIndex(x => x.nameImage == imageName)
+
+    if (props.onboardingData[indexImage + 1]?.nameImage != undefined) {
+      setLinkImage(props.onboardingData[indexImage + 1].linkImage)
+      setImageName(props.onboardingData[indexImage + 1].nameImage)
+
+      return
+    }
+
+    setLinkImage(props.onboardingData[0].linkImage)
+    setImageName(props.onboardingData[0].nameImage)
   }
 
   const listIcon = [
-    { icon: <Download />, actionAtr: () => downloadImage("imagem_que_esta_sendo_exibida.png") },
+    { icon: <Download />, actionAtr: downloadImage },
     { icon: <RotateCw />, actionAtr: rotateImage },
     { icon: <MoveRight />, actionAtr: nextImage }
   ]
@@ -101,8 +119,8 @@ export function ModalImages(props) {
         ">
          <img
             id="image-container"
-            src=""
-            alt="Exemplo"
+            src={linkImage}
+            alt={imageName}
             className="w-full h-full object-cover rounded-lg shadow-md"
           />
         </div>
