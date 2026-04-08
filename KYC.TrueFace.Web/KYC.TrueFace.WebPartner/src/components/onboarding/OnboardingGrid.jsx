@@ -1,8 +1,6 @@
 import { Eye, SquareCheck } from 'lucide-react';
 import { ModalImages } from './ModalImages';
 import { useState } from 'react';
-import MamisMito from '../../../../../../../mamis_mito.webp';
-import Gusta from '../../../../../../../gusta.png';
 import { 
   IdNumberFormat, 
   DateFormat 
@@ -16,11 +14,11 @@ export function OnboardingGrid(props) {
   const handlerOpenModalImagens = (onboarding) => {
     const response = [
       {
-        linkImage: MamisMito,
+        linkImage: null,
         nameImage: 'mamis_mito.webp'
       },
       {
-        linkImage: Gusta,
+        linkImage: null,
         nameImage: 'gusta.png'
       }
     ]
