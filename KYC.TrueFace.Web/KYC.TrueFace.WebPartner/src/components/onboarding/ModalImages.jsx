@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { 
   MoveRight,
   RotateCw,
@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 
 export function ModalImages(props) {
+  const [rotate, setRotate] = useState(90)
   
   useEffect(() => {
     const handleEsc = (e) => {
@@ -17,22 +18,42 @@ export function ModalImages(props) {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  const downloadImage = () => {
-    console.log("downloadImage")
+  const downloadImage = async (imageSrc) => {
+    const response = await fetch(imageSrc);
+    
+    const blob = await response.blob();
+    
+    const url = window.URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = "imagem.png"; 
+    
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
   }
 
   const rotateImage = () => {
-    console.log("rotateImage")
+    setRotate(rotate + 90)
+
+    const img = document.getElementById("image-validate");
+
+    img.style.transition = "transform 0.5s"; 
+    img.style.transform = `rotate(${rotate}deg)`;
   }
 
   const nextImage = () => {
-    console.log("nextImage")
+    const img = document.getElementById("image-container");
+    img.src = "nova_url.png"
   }
 
   const listIcon = [
-    { icon: <Download />, actionAtr: downloadImage },
+    { icon: <Download />, actionAtr: () => downloadImage("imagem_que_esta_sendo_exibida.png") },
     { icon: <RotateCw />, actionAtr: rotateImage },
-    { icon: <MoveRight />, actionAtr: nextImage}
+    { icon: <MoveRight />, actionAtr: nextImage }
   ]
 
   return(
@@ -67,7 +88,9 @@ export function ModalImages(props) {
           &times;
         </span>
         
-        <div className="
+        <div
+          id="image-validate"  
+          className="
           m-3
           flex
           flex-col
@@ -77,6 +100,7 @@ export function ModalImages(props) {
           scrollbar
         ">
          <img
+            id="image-container"
             src=""
             alt="Exemplo"
             className="w-full h-full object-cover rounded-lg shadow-md"
