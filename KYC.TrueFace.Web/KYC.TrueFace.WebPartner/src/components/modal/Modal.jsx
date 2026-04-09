@@ -82,9 +82,11 @@ export function Modal(props) {
                 <ModalButton 
                   title={props.titleRedButton}
                   handlerAction={props.handlerRedAction}
+                  bgColor="bg-btn-red"
+                  borderColor="border-btn-red"
                 />
               </div>
-            : ""
+            : null
           }
           
           {
@@ -95,7 +97,7 @@ export function Modal(props) {
                   handlerAction={props.handlerGreenAction}
                 />
               </div> 
-            : ""
+            : null
           }
         </div>
         

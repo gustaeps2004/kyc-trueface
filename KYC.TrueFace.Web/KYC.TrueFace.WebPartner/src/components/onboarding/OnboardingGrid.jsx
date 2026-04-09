@@ -1,5 +1,6 @@
 import { Eye, SquareCheck } from 'lucide-react';
 import { ModalImages } from './ModalImages';
+import { OnboardingAnalyse } from '../../pages/onboarding/OnboardingAnalyse';
 import { useState } from 'react';
 import { 
   IdNumberFormat, 
@@ -8,8 +9,8 @@ import {
 
 export function OnboardingGrid(props) {
   const [openModalImages, setOpenModalImages] = useState(false)
+  const [openModalAnalyse, setOpenModalAnalyse] = useState(false)
   const [onboardingData, setOnboardingData] = useState(null)
-  const [openAnalysis, setAnalysis] = useState(false)
 
   const handlerOpenModalImagens = (onboarding) => {
     const response = [
@@ -28,7 +29,8 @@ export function OnboardingGrid(props) {
   }
 
   const handlerOpenAnalysis = (onboarding) => {
-    setAnalysis(true)
+    setOnboardingData(onboarding)
+    setOpenModalAnalyse(true)
   }
 
   return(
@@ -108,7 +110,13 @@ export function OnboardingGrid(props) {
 
       {
         openModalImages
-        ? <ModalImages closeModal={() => setOpenModalImages(false)} onboardingData={onboardingData}/>
+        ? <ModalImages closeModal={() => setOpenModalImages(false)} onboardingData={onboardingData} />
+        : null
+      }
+
+      {
+        openModalAnalyse
+        ? <OnboardingAnalyse closeModal={() => setOpenModalAnalyse(false) } onboardingData={onboardingData} />
         : null
       }
     </div>

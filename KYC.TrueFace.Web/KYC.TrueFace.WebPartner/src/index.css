@@ -6,6 +6,8 @@
   --color-title: #FFFFFF;
   --color-btn-login: #4ADE80;
   --color-transparent: #D9D9D9;
+  --color-btn-red: #BD2130;
+  --color-alert-txt: #FFB74D;
 }
 
 @layer utilities {
