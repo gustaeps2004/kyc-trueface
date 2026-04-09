@@ -19,7 +19,8 @@ export function OnboardingAnalyse(props) {
       </div>
       <div className="h-full mt-3">
         <textarea 
-          rows="8" 
+          rows="10"
+          placeholder="Observation"
           className="
             bg-title 
             w-full
