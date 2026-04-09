@@ -12,8 +12,8 @@ export function OnboardingAnalyse(props) {
       titleGreenButton="Approve"
       handlerGreenAction={() => console.log("APROVADO")}
     >
-      <div>
-        <h1 className="text-alert-txt">
+      <div className="flex justify-center">
+        <h1 className="text-alert-txt text-2xl">
           This action cannot be undone.
         </h1>
       </div>
