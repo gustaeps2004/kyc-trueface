@@ -17,8 +17,16 @@ export function OnboardingAnalyse(props) {
           This action cannot be undone.
         </h1>
       </div>
-      <div className="h-full">
-        INPUT AREA
+      <div className="h-full mt-3">
+        <textarea 
+          rows="8" 
+          className="
+            bg-title 
+            w-full
+            text-black
+          ">
+
+        </textarea>
       </div>
     </Modal>
   )
