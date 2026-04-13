@@ -7,7 +7,7 @@ export function OnboardingHistory() {
   const columns = [
     "Id number",
     "Name",
-    "Reason",
+    "Situation",
     "Date",
     "View images",
     "Analysis",
@@ -19,7 +19,8 @@ export function OnboardingHistory() {
       idNumber: "11122233344",
       inclusionDate: "2026-04-02",
       name: "Gustavo Do Espirito Santo",
-      reason: "Invalid self"
+      situation: 2,
+      observation: "Low resolution on self"
     }
   ]
 

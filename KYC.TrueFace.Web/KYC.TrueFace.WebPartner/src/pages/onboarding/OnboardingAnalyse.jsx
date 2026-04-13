@@ -1,4 +1,4 @@
-import { Modal } from "../../components/modal/Modal";
+import { Modal } from "../../components/modal/Modal"
 
 export function OnboardingAnalyse(props) {
   return(
@@ -6,7 +6,7 @@ export function OnboardingAnalyse(props) {
       title="Analyse"
       closeModal={props.closeModal}
       showRedButton={true}
-      titleRedButton="Reprove"
+      titleRedButton="Deny"
       handlerRedAction={() => console.log("REPROVADO")}
       showGreenButton={true}
       titleGreenButton="Approve"
@@ -22,11 +22,13 @@ export function OnboardingAnalyse(props) {
           rows="10"
           placeholder="Observation"
           className="
-            bg-title 
+            rounded-md
+            border 
+            border-gray-300
+            bg-primary 
             w-full
-            text-black
+            text-title
           ">
-
         </textarea>
       </div>
     </Modal>

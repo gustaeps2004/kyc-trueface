@@ -69,8 +69,8 @@ export function ModalImages(props) {
   }
 
   const listIcon = [
-    { icon: <Download />, actionAtr: downloadImage },
     { icon: <RotateCw />, actionAtr: rotateImage },
+    { icon: <Download />, actionAtr: downloadImage },
     { icon: <MoveRight />, actionAtr: nextImage }
   ]
 

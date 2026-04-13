@@ -1,7 +1,9 @@
 import { Eye, SquareCheck } from 'lucide-react';
 import { ModalImages } from './ModalImages';
 import { OnboardingAnalyse } from '../../pages/onboarding/OnboardingAnalyse';
+import { OnboardingAnalysed } from '../../pages/history/OnboardingAnalysed';
 import { useState } from 'react';
+import { Situation } from '../../utils/Arrays';
 import { 
   IdNumberFormat, 
   DateFormat 
@@ -58,7 +60,10 @@ export function OnboardingGrid(props) {
                     {onboarding.name}
                   </th>
                   <th className="px-6 py-4">
-                    {onboarding.reason}
+                    { 
+                      !props.isHistory ? onboarding.reason
+                      : Situation.find(x => x.value == onboarding.situation)?.label 
+                    }
                   </th>
                   { 
                     props.isHistory ?
@@ -115,8 +120,10 @@ export function OnboardingGrid(props) {
       }
 
       {
-        openModalAnalyse
+        openModalAnalyse && !props.isHistory
         ? <OnboardingAnalyse closeModal={() => setOpenModalAnalyse(false) } onboardingData={onboardingData} />
+        : openModalAnalyse && props.isHistory
+        ? <OnboardingAnalysed closeModal={() => setOpenModalAnalyse(false) } onboardingData={onboardingData} />
         : null
       }
     </div>
