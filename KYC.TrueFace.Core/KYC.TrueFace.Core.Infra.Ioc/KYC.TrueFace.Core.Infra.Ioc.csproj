@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KYC.TrueFace.Core.Application\KYC.TrueFace.Core.Application.csproj" />
+    <ProjectReference Include="..\KYC.TrueFace.Core.Domain\KYC.TrueFace.Core.Domain.csproj" />
+    <ProjectReference Include="..\KYC.TrueFace.Core.Infra.Data\KYC.TrueFace.Core.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>

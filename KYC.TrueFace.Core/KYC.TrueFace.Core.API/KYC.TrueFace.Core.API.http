@@ -1,0 +1,6 @@
+@KYC.TrueFace.Core.API_HostAddress = http://localhost:5184
+
+GET {{KYC.TrueFace.Core.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
