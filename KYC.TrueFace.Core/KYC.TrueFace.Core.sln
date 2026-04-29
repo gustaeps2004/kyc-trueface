@@ -5,6 +5,14 @@ VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KYC.TrueFace.Core.API", "KYC.TrueFace.Core.API\KYC.TrueFace.Core.API.csproj", "{09E6E7CB-0E4A-4DCD-AF5E-BA14AAFCD2EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KYC.TrueFace.Core.Domain", "KYC.TrueFace.Core.Domain\KYC.TrueFace.Core.Domain.csproj", "{3C17C9BD-6B32-4797-B3B9-069A5F7FB741}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KYC.TrueFace.Core.Application", "KYC.TrueFace.Core.Application\KYC.TrueFace.Core.Application.csproj", "{9FBE55A3-6ECA-4652-A161-F68ECBF81E49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KYC.TrueFace.Core.Infra.Data", "KYC.TrueFace.Core.Infra.Data\KYC.TrueFace.Core.Infra.Data.csproj", "{697D4FC3-4AA6-4810-8D8E-D2538928B452}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KYC.TrueFace.Core.Infra.Ioc", "KYC.TrueFace.Core.Infra.Ioc\KYC.TrueFace.Core.Infra.Ioc.csproj", "{2738D3AE-D72C-4418-9BCD-A60660BBD5BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +23,22 @@ Global
 		{09E6E7CB-0E4A-4DCD-AF5E-BA14AAFCD2EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09E6E7CB-0E4A-4DCD-AF5E-BA14AAFCD2EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09E6E7CB-0E4A-4DCD-AF5E-BA14AAFCD2EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C17C9BD-6B32-4797-B3B9-069A5F7FB741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C17C9BD-6B32-4797-B3B9-069A5F7FB741}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C17C9BD-6B32-4797-B3B9-069A5F7FB741}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C17C9BD-6B32-4797-B3B9-069A5F7FB741}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FBE55A3-6ECA-4652-A161-F68ECBF81E49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FBE55A3-6ECA-4652-A161-F68ECBF81E49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FBE55A3-6ECA-4652-A161-F68ECBF81E49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FBE55A3-6ECA-4652-A161-F68ECBF81E49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{697D4FC3-4AA6-4810-8D8E-D2538928B452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{697D4FC3-4AA6-4810-8D8E-D2538928B452}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{697D4FC3-4AA6-4810-8D8E-D2538928B452}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{697D4FC3-4AA6-4810-8D8E-D2538928B452}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2738D3AE-D72C-4418-9BCD-A60660BBD5BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2738D3AE-D72C-4418-9BCD-A60660BBD5BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2738D3AE-D72C-4418-9BCD-A60660BBD5BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2738D3AE-D72C-4418-9BCD-A60660BBD5BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
