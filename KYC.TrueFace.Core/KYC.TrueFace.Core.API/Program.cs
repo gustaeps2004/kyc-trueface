@@ -15,6 +15,7 @@ var connectionString = builder.Configuration["StrConn"];
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
+builder.Services.ConfigureDependencyInjection();
 builder.Services.ConfigureVersioning();
 
 builder.Services.AddControllers();
