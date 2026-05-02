@@ -10,4 +10,6 @@ public class PartnerCredentials : EntityBase
     public required string ClientSecret { get; set; }
     public required string GrantType { get; set; }
     public Situation Situation { get; set; }
+
+    public virtual Partner? Partner { get; set; }
 }

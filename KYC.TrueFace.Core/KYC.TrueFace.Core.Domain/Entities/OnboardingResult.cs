@@ -7,4 +7,6 @@ public class OnboardingResult : EntityBase
     public Guid CodeOnboarding { get; set; }
     public Guid CodeUser { get; set; }
     public required string Observation { get; set; }
+
+    public virtual Onboarding? Onboarding { get; set; }
 }

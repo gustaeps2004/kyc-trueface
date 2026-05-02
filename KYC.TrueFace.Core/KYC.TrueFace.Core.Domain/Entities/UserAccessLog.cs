@@ -9,4 +9,6 @@ public class UserAccessLog : EntityBase
     public DateTime SituationDt { get; set; }
     public FlowIdentity Flow { get; set; }
     public required string Ip { get; set; }
+
+    public virtual UserAccess? UserAccess { get; set; }
 }

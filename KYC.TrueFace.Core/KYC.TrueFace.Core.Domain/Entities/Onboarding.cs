@@ -10,4 +10,6 @@ public class Onboarding : EntityBase
     public OnboardingSituation Situation { get; set; }
     public required string PathDocument { get; set; }
     public required string PathSelfie { get; set; }
+
+    public virtual Partner? Partner { get; set; }
 }

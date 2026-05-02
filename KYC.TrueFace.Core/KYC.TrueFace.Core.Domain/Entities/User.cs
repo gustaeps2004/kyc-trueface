@@ -13,4 +13,6 @@ public class User : EntityBase
     public required string Email { get; set; }
     public Permission Permission { get; set; }
     public Situation Situation { get; set; }
+
+    public virtual Partner? Partner { get; set; }
 }
