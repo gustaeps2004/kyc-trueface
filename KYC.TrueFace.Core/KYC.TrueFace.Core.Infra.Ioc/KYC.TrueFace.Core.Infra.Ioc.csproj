@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Http" Version="8.1.1" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\KYC.TrueFace.Core.Application\KYC.TrueFace.Core.Application.csproj" />
     <ProjectReference Include="..\KYC.TrueFace.Core.Domain\KYC.TrueFace.Core.Domain.csproj" />
     <ProjectReference Include="..\KYC.TrueFace.Core.Infra.Data\KYC.TrueFace.Core.Infra.Data.csproj" />
