@@ -7,5 +7,5 @@ public interface IBaseRepository
     void Insert<T>(T entity);
     void Update<T>(T entity);
     void SaveChanges();
-    Task<IDbContextTransaction> BeginTransactionAsync();
+    IDbContextTransaction BeginTransaction();
 }

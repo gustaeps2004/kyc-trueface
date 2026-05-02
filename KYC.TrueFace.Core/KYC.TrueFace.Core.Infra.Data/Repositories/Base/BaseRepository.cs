@@ -15,6 +15,6 @@ public class BaseRepository(
     public void SaveChanges()
         => context.SaveChanges();
 
-    public async Task<IDbContextTransaction> BeginTransactionAsync()
-        => await context.Database.BeginTransactionAsync();
+    public IDbContextTransaction BeginTransaction()
+        => context.Database.BeginTransaction();
 }

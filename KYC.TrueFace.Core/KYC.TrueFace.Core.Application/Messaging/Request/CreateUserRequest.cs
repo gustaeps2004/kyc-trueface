@@ -1,5 +1,6 @@
 ﻿using KYC.TrueFace.Core.Application.Messaging.DTOs;
 using KYC.TrueFace.Core.Domain.Enums;
+using KYC.TrueFace.Core.Domain.Extensions;
 
 namespace KYC.TrueFace.Core.Application.Messaging.Request;
 
@@ -10,12 +11,12 @@ public record CreateUserRequest
     public required string Email { get; set; }
     public Permission Permission { get; set; }
     public string? MotherName { get; set; }
-    public DateOnly BirthDate { get; set; }
+    public DateTime BirthDate { get; set; }
 
     public CreateUserDto ToDto()
         => new(
                 Name,
-                IdNumber,
+                IdNumber.JustNumbers(),
                 Email,
                 Permission,
                 MotherName,

@@ -4,5 +4,7 @@ namespace KYC.TrueFace.Core.Application.Services.User;
 
 public interface IUserService
 {
-    void Create(CreateUserDto userDto);
+    void Create(
+        CreateUserDto userDto,
+        Guid codePartner);
 }

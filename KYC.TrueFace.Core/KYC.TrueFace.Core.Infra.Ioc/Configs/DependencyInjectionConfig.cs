@@ -1,4 +1,5 @@
 ﻿using KYC.TrueFace.Core.Application.Services.User;
+using KYC.TrueFace.Core.Application.Services.UserAccess;
 using KYC.TrueFace.Core.Infra.Data.Repositories.Base;
 using KYC.TrueFace.Core.Infra.Data.Repositories.User;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@ public static class DependencyInjectionConfig
     private static void ConfigureServices(this IServiceCollection services)
     {
         services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IUserAccessService, UserAccessService>();
     }
 
     private static void ConfigureRepositories(this IServiceCollection services)

@@ -20,7 +20,10 @@ public class UserController(
     {
         try
         {
-            userService.Create(request.ToDto());
+            userService.Create(
+                request.ToDto(), 
+                GetPartnerCode()
+            );
 
             return Created();
         }

@@ -1,8 +1,10 @@
-﻿namespace KYC.TrueFace.Core.Domain.Enums;
+﻿using System.ComponentModel;
+
+namespace KYC.TrueFace.Core.Domain.Enums;
 
 public enum Permission
 {
-    Commun = 1,
-    Administrator = 2,
-    Master = 3
+    [Description("Commun")] Commun = 1,
+    [Description("Administrator")] Administrator = 2,
+    [Description("Master")] Master = 3
 }

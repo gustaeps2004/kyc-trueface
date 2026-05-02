@@ -5,9 +5,25 @@ namespace KYC.TrueFace.Core.Domain.Entities;
 
 public class UserAccess : EntityBase
 {
-    public required string Username { get; set; }
-    public required string Password { get; set; }
+    public string Username { get; set; } = null!;
+    public string Password { get; set; } = null!;
     public Situation Situation { get; set; }
-    public required string Role { get; set; }
-    public required string Claim { get; set; }
+    public string Role { get; set; } = null!;
+    public string Claim { get; set; } = null!;
+
+    public UserAccess() {  }
+    public UserAccess(
+        string username, 
+        string password, 
+        string role, 
+        string claim)
+    {
+        Code = Guid.NewGuid();
+        InclusionDt = DateTime.UtcNow;
+        Username = username;
+        Password = password;
+        Situation = Situation.Enabled;
+        Role = role;
+        Claim = claim;
+    }
 }
