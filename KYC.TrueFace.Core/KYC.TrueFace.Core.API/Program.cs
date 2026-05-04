@@ -17,6 +17,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.ConfigureDependencyInjection();
 builder.Services.ConfigureVersioning();
+builder.Services.TokenjwtConfiguration(builder.Configuration);
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 
@@ -33,6 +36,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllers();

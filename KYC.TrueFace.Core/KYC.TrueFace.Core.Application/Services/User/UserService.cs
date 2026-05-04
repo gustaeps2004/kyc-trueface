@@ -26,7 +26,7 @@ public class UserService(
 
         userAccessService.Create(
             new CreateUserAccessDto(
-                $"{userDto.Email}_onb",
+                PasswordHelper.GetSufixx(userDto.Email),
                 PasswordHelper.GenerateStrongRandom(),
                 [userDto.Permission.GetDescription()],
                 GetClaims(

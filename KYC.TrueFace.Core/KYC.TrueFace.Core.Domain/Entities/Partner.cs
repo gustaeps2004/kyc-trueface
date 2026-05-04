@@ -1,6 +1,5 @@
 ﻿using KYC.TrueFace.Core.Domain.Entities.Base;
 using KYC.TrueFace.Core.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace KYC.TrueFace.Core.Domain.Entities;
 

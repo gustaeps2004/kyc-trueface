@@ -72,6 +72,9 @@ public static class PasswordHelper
         );
     }
 
+    public static string GetSufixx(string username)
+        => $"{username}_onb";
+
     private static byte[] Hash(
         string password, 
         byte[] salt, 
