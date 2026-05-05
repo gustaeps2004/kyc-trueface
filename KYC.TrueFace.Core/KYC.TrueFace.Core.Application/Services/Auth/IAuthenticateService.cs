@@ -5,5 +5,8 @@ namespace KYC.TrueFace.Core.Application.Services.Auth;
 
 public interface IAuthenticateService
 {
-    AuthenticateLoginResponse Login(LoginDto loginDto);
+    AuthenticateLoginResponse Login(
+        LoginDto loginDto,
+        string ip
+    );
 }

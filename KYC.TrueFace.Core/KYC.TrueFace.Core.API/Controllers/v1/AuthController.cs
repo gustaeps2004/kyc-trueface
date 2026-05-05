@@ -23,7 +23,7 @@ public class AuthController(
         try
         {
             return Ok(
-                authenticateService.Login(request.ToDto())
+                authenticateService.Login(request.ToDto(), GetIp())
             );
         }
         catch (KycException ex)
