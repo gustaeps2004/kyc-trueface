@@ -2,6 +2,6 @@
 
 public enum FlowIdentity
 {
-    Loggin = 1,
+    Login = 1,
     ChangePassword = 2
 }

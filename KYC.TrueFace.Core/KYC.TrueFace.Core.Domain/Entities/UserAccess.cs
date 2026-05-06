@@ -26,4 +26,7 @@ public class UserAccess : EntityBase
         Role = role;
         Claim = claim;
     }
+
+    public void UpdatePassword(string password)
+        => Password = password;
 }

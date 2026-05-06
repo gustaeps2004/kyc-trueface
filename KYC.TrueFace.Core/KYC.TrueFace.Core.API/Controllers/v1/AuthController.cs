@@ -40,4 +40,32 @@ public class AuthController(
             );
         }
     }
+
+    [AllowAnonymous]
+    [HttpPost("reset-password")]
+    public IActionResult ResetPassword(ResetPasswordRequest request)
+    {
+        try
+        {
+            authenticateService.ResetPassword(
+                request.ToDto(),
+                GetIp()
+            );
+
+            return NoContent();
+        }
+        catch (KycException ex)
+        {
+            return BadRequest(
+                new BaseResponse(ex.Message)
+            );
+        }
+        catch
+        {
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                new ResponseError()
+            );
+        }
+    }
 }

@@ -7,7 +7,6 @@ using KYC.TrueFace.Core.Domain.Enums;
 using KYC.TrueFace.Core.Domain.Exceptions;
 using KYC.TrueFace.Core.Infra.Data.Repositories.Base;
 using KYC.TrueFace.Core.Infra.Data.Repositories.UsersAccess;
-using Microsoft.AspNet.Identity;
 
 namespace KYC.TrueFace.Core.Application.Services.Auth;
 
@@ -24,17 +23,18 @@ public class AuthenticateService(
     {
         loginDto.Validate();
 
-        var userAccess = userAccessRepository.GetByUsername(PasswordHelper.GetSufixx(loginDto.Email))
+        var userAccess = userAccessRepository.GetByUsername(PasswordHelper.GetSuffix(loginDto.Email))
                             ?? throw new KycException(genericErrorMessage);
 
-        var resultPassword = PasswordHelper.VerifyPassword(loginDto.Password, userAccess.Password);
+        var isValid = PasswordHelper.IsValidPassword(loginDto.Password, userAccess.Password);
 
         InsertLog(
             userAccess.Code,
+            FlowIdentity.Login,
             ip
         );
 
-        if (resultPassword == PasswordVerificationResult.Failed)
+        if (!isValid)
             throw new KycException(genericErrorMessage);
 
         var token = tokenService.GenerateToken(
@@ -48,15 +48,41 @@ public class AuthenticateService(
 
     private void InsertLog(
         Guid codeUserAccess,
+        FlowIdentity flow,
         string ip)
     {
         var log = new UserAccessLog(
                     codeUserAccess,
-                    FlowIdentity.Loggin,
+                    flow,
                     ip
                 );
 
         baseRepository.Insert(log);
         baseRepository.SaveChanges();
+    }
+
+    public void ResetPassword(
+        ResetPasswordDto passwordDto,
+        string ip)
+    {
+        passwordDto.Validate();
+
+        var userAccess = userAccessRepository.GetByUsername(PasswordHelper.GetSuffix(passwordDto.Email))
+                            ?? throw new KycException(genericErrorMessage);
+
+        var newPassword = PasswordHelper.HashPassword(passwordDto.Password);
+        userAccess.UpdatePassword(newPassword);
+
+        using var ts = baseRepository.BeginTransaction();
+
+        userAccessRepository.Update(userAccess);
+
+        InsertLog(
+            userAccess.Code,
+            FlowIdentity.ChangePassword,
+            ip
+        );
+
+        ts.Commit();
     }
 }

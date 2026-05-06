@@ -26,9 +26,9 @@ public class UserService(
 
         userAccessService.Create(
             new CreateUserAccessDto(
-                PasswordHelper.GetSufixx(userDto.Email),
+                PasswordHelper.GetSuffix(userDto.Email),
                 PasswordHelper.GenerateStrongRandom(),
-                [userDto.Permission.GetDescription()],
+                [userDto.Permission.GetDescription().ToUpper()],
                 GetClaims(
                     user.Code,
                     codePartner,

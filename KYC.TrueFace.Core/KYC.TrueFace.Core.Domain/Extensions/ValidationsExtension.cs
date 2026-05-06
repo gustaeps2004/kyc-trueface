@@ -1,7 +1,12 @@
-﻿namespace KYC.TrueFace.Core.Domain.Extensions;
+﻿using System.Buffers;
+
+namespace KYC.TrueFace.Core.Domain.Extensions;
 
 public static class ValidationsExtension
 {
+    private static readonly SearchValues<char> SpecialChars =
+        SearchValues.Create("!@#$%^&*()-_=+[]{}|;:',.<>?/`~");
+
     public static bool IsIdNumberInvalid(string cpf)
     {
         if (string.IsNullOrWhiteSpace(cpf)) 
@@ -37,5 +42,39 @@ public static class ValidationsExtension
         int digit2 = remainder < 2 ? 0 : 11 - remainder;
 
         return !numericCpf.EndsWith(digit1.ToString() + digit2.ToString());
+    }
+
+    public static bool IsValidPassword(string password)
+    {
+        if (string.IsNullOrEmpty(password) || password.Length < 8)
+            return false;
+
+        ReadOnlySpan<char> span = password.AsSpan();
+
+        bool hasUpper = false;
+        bool hasLower = false;
+        bool hasDigit = false;
+        bool hasSpecial = false;
+
+        foreach (char c in span)
+        {
+            if (char.IsUpper(c)) 
+                hasUpper = true;
+            else if (char.IsLower(c)) 
+                hasLower = true;
+            else if (char.IsDigit(c)) 
+                hasDigit = true;
+            else if (SpecialChars.Contains(c)) 
+                hasSpecial = true;
+
+            if (hasUpper && hasLower && hasDigit && hasSpecial)
+                return true;
+        }
+
+        return 
+            hasUpper 
+            && hasLower 
+            && hasDigit 
+            && hasSpecial;
     }
 }

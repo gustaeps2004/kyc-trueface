@@ -9,4 +9,8 @@ public interface IAuthenticateService
         LoginDto loginDto,
         string ip
     );
+    void ResetPassword(
+        ResetPasswordDto passwordDto,
+        string ip
+    );
 }

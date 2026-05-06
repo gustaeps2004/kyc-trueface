@@ -23,7 +23,7 @@ public static class PasswordHelper
         return FormatHash(hash, salt, Iterations, MemorySize, Parallelism);
     }
 
-    public static PasswordVerificationResult VerifyPassword(string password, string storedHash)
+    public static bool IsValidPassword(string password, string storedHash)
     {
         var parsed = ParseHash(storedHash);
 
@@ -34,15 +34,7 @@ public static class PasswordHelper
             parsed.MemorySize,
             parsed.Parallelism);
 
-        bool isValid = CryptographicOperations.FixedTimeEquals(computedHash, parsed.Hash);
-
-        if (!isValid)
-            return PasswordVerificationResult.Failed;
-
-        if (NeedsRehash(parsed))
-            return PasswordVerificationResult.SuccessRehashNeeded;
-
-        return PasswordVerificationResult.Success;
+        return CryptographicOperations.FixedTimeEquals(computedHash, parsed.Hash);
     }
 
     public static string GenerateStrongRandom()
@@ -72,7 +64,7 @@ public static class PasswordHelper
         );
     }
 
-    public static string GetSufixx(string username)
+    public static string GetSuffix(string username)
         => $"{username}_onb";
 
     private static byte[] Hash(
@@ -114,12 +106,5 @@ public static class PasswordHelper
         byte[] hashBytes = Convert.FromBase64String(parts[4]);
 
         return (salt, hashBytes, iterations, memory, parallelism);
-    }
-
-    private static bool NeedsRehash((byte[] Salt, byte[] Hash, int Iterations, int MemorySize, int Parallelism) parsed)
-    {
-        return parsed.Iterations != Iterations ||
-               parsed.MemorySize != MemorySize ||
-               parsed.Parallelism != Parallelism;
     }
 }
