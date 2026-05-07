@@ -12,7 +12,10 @@ export function FormLogin() {
       email: document.getElementById("email").value,
       password: document.getElementById("password").value
     }
-
+    var response = userService.postLogin(request)
+    
+    console.log('request: '+ request)
+    console.log('response: '+ response)
     //navigate('/home');
   };
 
@@ -32,7 +35,7 @@ export function FormLogin() {
         </Input>
 
         <Button 
-          handlerAction={handlePostLogin}
+          handlerAction={() => handlePostLogin}
           title="Login"
         />
         
