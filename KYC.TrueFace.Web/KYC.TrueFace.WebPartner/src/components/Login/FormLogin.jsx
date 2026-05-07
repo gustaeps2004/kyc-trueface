@@ -1,12 +1,19 @@
 import { Input } from "../Input"
 import { useNavigate } from 'react-router-dom';
 import { Button } from "../Button";
+import { userService } from "../../api/endpoints/loginService";
 
 export function FormLogin() {
   const navigate = useNavigate();
 
-  const handleRedirectHome = () => {
-    navigate('/home');
+  const handlePostLogin = () => {
+    
+    const request = {
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value
+    }
+
+    //navigate('/home');
   };
 
   const handlerRedirectForgotPassword = () => {
@@ -25,7 +32,7 @@ export function FormLogin() {
         </Input>
 
         <Button 
-          handlerAction={handleRedirectHome}
+          handlerAction={handlePostLogin}
           title="Login"
         />
         
@@ -39,7 +46,7 @@ export function FormLogin() {
         hover:underline
         mt-0
         ml-55"
-        onClick={handlerRedirectForgotPassword}
+        onClick={() => handlerRedirectForgotPassword}
       >Forgot your password?</a>
     </div>
   )
