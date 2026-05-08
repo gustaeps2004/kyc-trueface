@@ -15,6 +15,8 @@ var connectionString = builder.Configuration["StrConn"];
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
+builder.Services.ConfigureCors(builder.Configuration);
+
 builder.Services.ConfigureDependencyInjection();
 builder.Services.ConfigureVersioning();
 builder.Services.TokenjwtConfiguration(builder.Configuration);
@@ -33,6 +35,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(builder.Configuration["CorsName"]!);
 
 app.UseHttpsRedirection();
 
