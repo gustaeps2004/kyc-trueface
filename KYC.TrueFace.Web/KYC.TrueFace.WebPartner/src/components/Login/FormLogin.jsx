@@ -26,7 +26,7 @@ export function FormLogin() {
       navigate('/home');
     }
     catch (error) {
-      setErrorMessage(error.response?.data?.message)
+      setErrorMessage(error.response?.data?.message ?? "A general error occurred. Please try again later.")
       setShowPopup(true)
     }
   };
