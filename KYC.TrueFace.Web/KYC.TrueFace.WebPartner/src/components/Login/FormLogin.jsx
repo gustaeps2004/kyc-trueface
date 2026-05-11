@@ -7,6 +7,7 @@ import Popup from "../../ui/Popup";
 
 export function FormLogin() {
   const [showPopup, setShowPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handlePostLogin = async (e) => {
@@ -20,16 +21,14 @@ export function FormLogin() {
 
     try {
       var response = await userService.postLogin(request)
-      console.log(response.data)
+      localStorage.setItem('token', response.data.accessToken)
+      
+      navigate('/home');
     }
     catch (error) {
+      setErrorMessage(error.response?.data?.message)
       setShowPopup(true)
-      console.error('Erro no login:', error.response?.data?.message);
     }
-
-    
-
-    //navigate('/home');
   };
 
   const handlerRedirectForgotPassword = () => {
@@ -66,8 +65,9 @@ export function FormLogin() {
       >Forgot your password?</a>
 
       {showPopup && (
-        <Popup 
-          message="Sua ação foi concluída com sucesso!" 
+        <Popup
+          iconColor="text-red-600"
+          message={errorMessage}
           onClose={() => setShowPopup(false)} 
         />
       )}

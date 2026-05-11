@@ -1,10 +1,12 @@
 import { LogOut } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
+import { Logout } from "../../utils/functions/Logout";
 
 export default function Topbar({ name }) {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
+    Logout()
     navigate('/login');
   };
 

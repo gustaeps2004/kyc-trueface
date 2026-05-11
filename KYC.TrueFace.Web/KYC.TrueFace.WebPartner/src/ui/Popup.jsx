@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Popup = ({ message, duration = 3000, onClose }) => {
+const Popup = ({ message, duration = 5000, onClose, iconColor }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const Popup = ({ message, duration = 3000, onClose }) => {
       <div className="bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700/50 backdrop-blur-md">
 
         <div className="bg-blue-500/20 p-2 rounded-full">
-          <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className={`w-5 h-5 ${iconColor}`}  fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>

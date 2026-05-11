@@ -1,6 +1,10 @@
 import Layout from "../../components/base/Layout";
+import { useState, useEffect } from "react";
+import { GetTokenData } from "../../utils/functions/GetTokenData";
 
 export function Dashboard() {
+  const [loggedName, setloggedName] = useState("")
+
   const cards = [
     { title: "Consulted in the last week", value: 34 },
     { title: "Reproved in the last week", value: 15 },
@@ -10,8 +14,13 @@ export function Dashboard() {
     { title: "Reproved manually in the last month", value: 3 },
   ];
 
+  useEffect(() => {
+    const tokenData = GetTokenData()
+    setloggedName(tokenData?.user_name?.split(' ')[0])
+  }, []);
+
   return (
-    <Layout name="Welcome, Gustavo">
+    <Layout name={`Welcome, ${loggedName}`}>
       <div className="grid grid-cols-3 gap-10">
         {cards.map((card, index) => (
           <div

@@ -22,7 +22,7 @@ public class TokenService(
         {
             new(JwtRegisteredClaimNames.Sub, username),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(ClaimTypes.Role, role)
+            new("role", role.ToUpper())
         };
 
         if (!string.IsNullOrWhiteSpace(additionalClaims))
