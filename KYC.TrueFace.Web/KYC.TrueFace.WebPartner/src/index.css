@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+/*@theme {
   --color-primary: #26395C;
   --color-secondary: #2A374E;
   --color-title: #FFFFFF;
@@ -8,6 +8,32 @@
   --color-transparent: #D9D9D9;
   --color-btn-red: #BD2130;
   --color-alert-txt: #FFB74D;
+}*/
+
+@theme {
+  /* Fundo principal - Um azul marinho profundo e moderno */
+  --color-primary: #CCC; 
+  
+  /* Superfícies (Cards e Sidebar) - Um tom que traz profundidade */
+  --color-secondary: #0F172A;
+  
+  /* Hover e destaques sutis */
+  --color-surface-light: #334155;
+
+  /* Títulos e textos principais */
+  --color-title: #F8FAFC;
+  --color-text-muted: #94A3B8;
+
+  /* Accent: O verde neon da imagem de login, mas com brilho ajustado */
+  --color-btn-login: #2DD4BF; 
+  --color-btn-login-hover: #14B8A6;
+
+  /* Alertas e Erros com cores vibrantes mas equilibradas */
+  --color-btn-red: #EF4444;
+  --color-alert-txt: #F59E0B;
+  
+  /* Cor para bordas e inputs (substituindo o antigo transparente) */
+  --color-border-ui: rgba(255, 255, 255, 0.1);
 }
 
 @layer utilities {
