@@ -17,20 +17,15 @@ export function Dashboard() {
           <div
             key={index}
             className="
-              bg-secondary 
+              bg-secondary
+              text-white 
               p-10 
-              text-title
-              rounded-2xl 
+              rounded-xl 
               text-center 
-              shadow-xl 
-              border 
-              border-border-ui
-              transition-transform 
-              hover:scale-105 
-              duration-300"
+              shadow-lg"
           >
-            <p className="text-text-muted text-sm uppercase tracking-wider mb-4">{card.title}</p>
-            <h2 className="text-title text-5xl font-bold tracking-tight">{card.value}</h2>
+            <p className="text-slate-400 mb-6">{card.title}</p>
+            <h2 className="text-3xl font-semibold">{card.value}</h2>
           </div>
         ))}
       </div>
