@@ -1,11 +1,11 @@
 import { Modal } from "../../components/modal/Modal"
 import { Input } from "../../components/Input";
-import { Select } from "../../components/Select"; 
+import { Select } from "../../components/Select";
 import { useState, useEffect } from "react";
 import { Permission } from "../../utils/Arrays";
-import { 
-  IdNumberFormat, 
-  DateFormat 
+import {
+  IdNumberFormat,
+  DateFormat
 } from "../../utils/functions/Formats";
 
 export function UserAddEdit(props) {
@@ -42,24 +42,25 @@ export function UserAddEdit(props) {
       title={(props.isEdit ? "Edit" : "Create") + " user"}
       closeModal={props.closeModal}
       showGreenButton={true}
-      titleGreenButton="Create"
+      titleGreenButton={props.isEdit ? "Save" : "Create"}
       handlerGreenAction={handlerCreate}
+      greenVariant="brand"
     >
       <Input type="name" name="name">
         Name
       </Input>
-      <Input 
+      <Input
         disabled={props.isEdit}
-        type="idNumber" 
-        name="idNumber" 
+        type="idNumber"
+        name="idNumber"
         value={idNumber}
         mask="###.###.###-##"
         onChange={setIdNumber}
       >
         Id number
       </Input>
-      <Input 
-        type="bith" 
+      <Input
+        type="bith"
         name="bithDate"
         value={bithDate}
         mask="##/##/####"
@@ -74,7 +75,7 @@ export function UserAddEdit(props) {
         E-mail
       </Input>
 
-      <Select 
+      <Select
         placeholder="Permission"
         options={Permission}
         value={permission}

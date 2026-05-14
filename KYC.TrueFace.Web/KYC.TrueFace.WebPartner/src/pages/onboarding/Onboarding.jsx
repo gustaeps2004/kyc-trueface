@@ -22,11 +22,11 @@ export function Onboarding() {
 
   return(
     <Layout name="Onboarding">
-      <Content 
+      <Content
         placeholderFilter="ID or name"
         isShowFilter={true}
       >
-        <OnboardingGrid 
+        <OnboardingGrid
           columns={columns}
           onboardings={onboardings}
           isHistory={false}

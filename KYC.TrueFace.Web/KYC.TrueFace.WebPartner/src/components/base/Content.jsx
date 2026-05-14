@@ -4,39 +4,46 @@ import { InputFilter } from '../InputFilter';
 export function Content(props) {
   return(
     <div className="
-      bg-slate-700/40
-      shadow-2xl
+      bg-surface/60
+      border
+      border-divider/30
       h-full
-      rounded-lg
+      rounded-xl
+      p-4
     ">
       <div className="
-        p-2
         flex
         flex-row
+        items-center
+        justify-between
+        mb-2
       ">
-        <div className="w-1/2">
-          { 
-            props.isShowAdd 
-            ? <button 
-                onClick={props.openModal} 
+        <div>
+          {
+            props.isShowAdd
+            ? <button
+                onClick={props.openModal}
+                aria-label="Add new"
                 className="
-                  text-slate-300 
-                  hover:text-title 
-                  transition
-                  hover:scale-105"
+                  flex
+                  items-center
+                  justify-center
+                  text-brand
+                  hover:bg-brand/15
+                  rounded-full
+                  p-1
+                  transition-all
+                  duration-150
+                  cursor-pointer
+                "
               >
-                <CirclePlus size={28} className="cursor-pointer" />
-              </button> 
-            : ""
+                <CirclePlus size={28} />
+              </button>
+            : <div></div>
           }
         </div>
-        <div className="
-          w-1/2 
-          flex
-          justify-end
-          pr-2"
-        >
-          { props.isShowFilter ? <InputFilter placeholder={props.placeholderFilter} /> : ""}
+        <div className="flex justify-end">
+          { props.isShowFilter ? <InputFilter placeholder={props.placeholderFilter} /> : null}
         </div>
       </div>
       {props.children}

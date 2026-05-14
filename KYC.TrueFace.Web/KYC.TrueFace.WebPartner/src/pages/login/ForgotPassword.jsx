@@ -17,8 +17,8 @@ export function ForgotPassword() {
         h-40
         mt-20
       ">
-        { confirmed 
-          ? <ForgotPasswordConfirmed /> 
+        { confirmed
+          ? <ForgotPasswordConfirmed />
           : <FormForgotPassword handlerConfirmClick={handlerConfirm} />}
       </div>
     </LoginBase>

@@ -27,20 +27,29 @@ export function OnboardingAnalysed(props) {
         Date
       </Input>
       <div>
-        <textarea 
+        <label className="block text-xs text-fg-subtle font-medium mb-1.5">
+          Observation
+        </label>
+        <textarea
           id="txAreaObservation"
-          rows="10"
+          rows="8"
           disabled
           className="
-            rounded-md
-            border 
-            border-gray-300
-            bg-primary 
             w-full
-            text-title
-            focus:border-gray-300
-          ">
-        </textarea>
+            rounded-lg
+            border
+            border-divider/60
+            bg-base/80
+            text-fg-muted
+            px-4
+            py-3
+            text-sm
+            resize-none
+            opacity-80
+            cursor-not-allowed
+            focus:outline-none
+          "
+        />
       </div>
     </Modal>
   )

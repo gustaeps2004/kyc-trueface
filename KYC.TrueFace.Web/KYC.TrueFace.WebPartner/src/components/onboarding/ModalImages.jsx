@@ -1,41 +1,39 @@
 import { useEffect, useState } from "react";
-import { 
+import {
   MoveRight,
   RotateCw,
-  Download
+  Download,
+  X,
 } from 'lucide-react';
 
 export function ModalImages(props) {
   const [rotate, setRotate] = useState(90)
-  const [onboardingData, setOnboardingData] = useState()
   const [linkImage, setLinkImage] = useState()
   const [imageName, setImageName] = useState()
-  
+
   useEffect(() => {
-    setOnboardingData(props.onboardingData)
-    
     setLinkImage(props.onboardingData[0].linkImage)
     setImageName(props.onboardingData[0].nameImage)
 
     const handleEsc = (e) => {
       if (e.key === "Escape") props.closeModal();
     };
-  
+
     window.addEventListener("keydown", handleEsc);
-  
+
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
   const downloadImage = async () => {
     const response = await fetch(linkImage)
     const blob = await response.blob()
-    
+
     const url = window.URL.createObjectURL(blob);
-    
+
     const link = document.createElement('a');
     link.href = url;
     link.download = imageName
-    
+
     document.body.appendChild(link);
     link.click();
 
@@ -48,7 +46,7 @@ export function ModalImages(props) {
 
     const img = document.getElementById("image-validate");
 
-    img.style.transition = "transform 0.5s"; 
+    img.style.transition = "transform 0.5s";
     img.style.transform = `rotate(${rotate}deg)`;
   }
 
@@ -69,87 +67,120 @@ export function ModalImages(props) {
   }
 
   const listIcon = [
-    { icon: <RotateCw />, actionAtr: rotateImage },
-    { icon: <Download />, actionAtr: downloadImage },
-    { icon: <MoveRight />, actionAtr: nextImage }
+    { icon: <RotateCw size={18} />, actionAtr: rotateImage, label: "Rotate" },
+    { icon: <Download size={18} />, actionAtr: downloadImage, label: "Download" },
+    { icon: <MoveRight size={18} />, actionAtr: nextImage, label: "Next image" },
   ]
 
   return(
     <div className="
-      fixed 
-      inset-0 
-      flex 
-      items-center 
-      justify-center 
-      bg-black/50"
-    >
+      fixed
+      inset-0
+      flex
+      items-center
+      justify-center
+      bg-black/60
+      backdrop-blur-sm
+      z-50
+      p-4
+    ">
       <div className="
-        relative 
-        bg-primary 
-        p-6 
-        rounded-lg 
-        shadow-lg 
-        w-100"
-      >
-        <span className="
-          absolute
-          text-slate-300 
-          hover:text-title 
-          transition
-          right-5
-          -mt-8
-          -mr-3
-          text-3xl
-          cursor-pointer" 
+        relative
+        bg-surface
+        border
+        border-divider/40
+        p-6
+        rounded-2xl
+        shadow-2xl
+        w-full
+        max-w-md
+      ">
+        <button
           onClick={props.closeModal}
-        >
-          &times;
-        </span>
-        
-        <div
-          id="image-validate"  
+          aria-label="Close modal"
           className="
-          m-3
-          flex
-          flex-col
-          space-y-3
-          h-85
-          overflow-y-auto
-          scrollbar
-        ">
+            absolute
+            right-4
+            top-4
+            text-fg-subtle
+            hover:text-fg
+            hover:bg-raised
+            rounded-full
+            p-1.5
+            transition-all
+            duration-150
+            cursor-pointer
+            z-10
+          "
+        >
+          <X size={18} />
+        </button>
+
+        <div className="mb-4">
+          <p className="text-xs text-fg-subtle uppercase tracking-wide mb-1">
+            Image
+          </p>
+          <p className="text-sm text-fg font-medium truncate">
+            {imageName}
+          </p>
+        </div>
+
+        <div
+          id="image-validate"
+          className="
+            flex
+            flex-col
+            space-y-3
+            h-85
+            overflow-hidden
+            rounded-lg
+            bg-base
+            border
+            border-divider/30
+          "
+        >
          <img
             id="image-container"
             src={linkImage}
             alt={imageName}
-            className="w-full h-full object-cover rounded-lg shadow-md"
+            className="w-full h-full object-cover"
           />
         </div>
 
         <div className="
+          mt-4
           flex
           justify-center
-          w-full
-          h-10
-          space-x-4
-          bg-secondary
-          rounded-3xl
+          gap-2
+          bg-base
+          border
+          border-divider/30
+          rounded-full
+          p-1.5
         ">
-          {
-            listIcon.map((iconObj, index) => (
-              <button 
-                key={index}
-                onClick={() => iconObj.actionAtr()} 
-                className="
-                cursor-pointer  
-                text-slate-300 
-                hover:text-title 
-                transition
-                hover:scale-105
-              ">
-                {iconObj.icon}
-              </button>
-            ))
-          }
+          {listIcon.map((iconObj, index) => (
+            <button
+              key={index}
+              onClick={() => iconObj.actionAtr()}
+              aria-label={iconObj.label}
+              className="
+                flex
+                items-center
+                justify-center
+                w-9
+                h-9
+                rounded-full
+                text-fg-subtle
+                hover:text-fg
+                hover:bg-raised
+                transition-all
+                duration-150
+                cursor-pointer
+              "
+            >
+              {iconObj.icon}
+            </button>
+          ))}
         </div>
       </div>
     </div>

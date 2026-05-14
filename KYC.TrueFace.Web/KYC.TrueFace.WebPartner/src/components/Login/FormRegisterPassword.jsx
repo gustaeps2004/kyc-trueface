@@ -3,7 +3,7 @@ import { Button } from "../Button"
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export function FormRegisterPassword() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate()
   const email = searchParams.get('e');
 
@@ -12,14 +12,15 @@ export function FormRegisterPassword() {
   }
 
   return(
-    <div className="    
+    <div className="
       w-full
       h-70
-      mt-15">
+      mt-15
+    ">
       <form className="space-y-4">
-        <Input 
-          disabled="true" 
-          type="email" 
+        <Input
+          disabled={true}
+          type="email"
           name="email"
           value={email}
         >

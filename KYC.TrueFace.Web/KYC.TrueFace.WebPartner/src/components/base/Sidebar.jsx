@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -6,6 +6,7 @@ import {
   Fingerprint,
   History,
   Menu,
+  ShieldCheck,
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -36,46 +37,58 @@ export default function Sidebar() {
     <aside
       className={`
         ${collapsed ? "w-20" : "w-64"}
-        bg-secondary
-        text-white
+        bg-surface
+        border-r
+        border-divider/30
+        text-fg
         flex
         flex-col
         transition-all
         duration-500
       `}
     >
-      <div
-        className="
-          h-16
-          flex
-          items-center
-          px-6
-          text-lg
-          font-semibold
-        "
-      >
-        <button onClick={() => handlerSidebar()}>
-          <Menu size={20} className="mr-3 ml-1 cursor-pointer" />
+      <div className="h-16 flex items-center px-5 gap-3 border-b border-divider/30">
+        <button
+          onClick={handlerSidebar}
+          aria-label="Toggle sidebar"
+          className="
+            text-fg-subtle
+            hover:text-fg
+            hover:bg-raised
+            rounded-md
+            p-1.5
+            transition-all
+            duration-150
+            cursor-pointer
+          "
+        >
+          <Menu size={20} />
         </button>
 
-        {!collapsed && <span className="">KYC TrueFace</span>}
+        {!collapsed && (
+          <div className="flex items-center gap-2">
+            <ShieldCheck size={18} className="text-brand" />
+            <span className="text-sm font-medium text-fg">KYC TrueFace</span>
+          </div>
+        )}
       </div>
 
-      <nav className="flex-1 px-3 py-6 space-y-2">
+      <nav className="flex-1 px-3 py-5 space-y-1">
         {menuItems.map((item) => (
           <NavLink
             title={collapsed ? item.label : null}
             key={item.label}
             to={item.to}
+            end
             className={({ isActive }) =>
-              `flex items-center 
+              `flex items-center
               ${collapsed ? "justify-center" : "gap-3"}
-              px-4 py-3 rounded-lg transition-all
-              ${
-                isActive
-                  ? "bg-slate-700 text-title"
-                  : "text-slate-400 hover:bg-slate-700 hover:text-title"
-              }`
+              px-3 py-2.5 rounded-lg
+              text-sm font-medium
+              transition-all duration-150
+              ${isActive
+                ? "bg-raised text-fg [&_svg]:text-accent-light"
+                : "text-fg-subtle hover:bg-raised/60 hover:text-fg"}`
             }
           >
             {item.icon}
