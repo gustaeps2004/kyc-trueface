@@ -16,7 +16,7 @@ export function FormLogin() {
   return(
     <div>
       <form className="space-y-4">
-        
+
         <Input type="email" name="email">
           E-mail
         </Input>
@@ -24,23 +24,31 @@ export function FormLogin() {
           Password
         </Input>
 
-        <Button 
-          handlerAction={handleRedirectHome}
-          title="Login"
-        />
-        
+        <div className="pt-2">
+          <Button
+            handlerAction={handleRedirectHome}
+            title="Login"
+          />
+        </div>
+
       </form>
-      <a href="#" className="
-        text-sm
-        text-center
-        block
-        text-title
-        cursor-pointer
-        hover:underline
-        mt-0
-        ml-55"
-        onClick={handlerRedirectForgotPassword}
-      >Forgot your password?</a>
+
+      <div className="flex justify-end mt-3">
+        <a
+          href="#"
+          onClick={handlerRedirectForgotPassword}
+          className="
+            text-sm
+            text-fg-subtle
+            hover:text-accent-light
+            cursor-pointer
+            transition-colors
+            duration-150
+          "
+        >
+          Forgot your password?
+        </a>
+      </div>
     </div>
   )
 }

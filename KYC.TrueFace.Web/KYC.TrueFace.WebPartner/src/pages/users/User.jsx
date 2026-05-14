@@ -3,9 +3,9 @@ import { Content } from "../../components/base/Content";
 import { UserAddEdit } from "./UserAddEdit";
 import { useState } from "react";
 import { UserRoundPen } from 'lucide-react';
-import { 
-  IdNumberFormat, 
-  DateFormat 
+import {
+  IdNumberFormat,
+  DateFormat
 } from "../../utils/functions/Formats";
 
 export function User() {
@@ -49,77 +49,93 @@ export function User() {
   return(
     <div>
       <Layout name="Users">
-        <Content 
+        <Content
           placeholderFilter="ID, name or e-mail"
           isShowAdd={true}
           isShowFilter={true}
           openModal={() => handlerOpenModal(false, null)}
         >
-          
-          <div className="relative overflow-x-auto mt-10">
-            <table className="w-full text-sm text-center text-body text-title">
-              <thead className="text-sm ">
-                <tr className='bg-secondary'>
-                  {
-                    columns.map((column, index) => (
-                      <th key={index} className="px-6 py-3 rounded-s-base font-medium">
-                        {column}
-                      </th>
-                    ))
-                  }
+
+          <div className="relative overflow-x-auto mt-6 rounded-lg">
+            <table className="w-full text-sm text-center text-fg-muted">
+              <thead>
+                <tr className="bg-surface border-b border-divider/30">
+                  {columns.map((column, index) => (
+                    <th
+                      key={index}
+                      className="
+                        px-6
+                        py-3
+                        text-xs
+                        font-medium
+                        text-fg-subtle
+                        uppercase
+                        tracking-wide
+                      "
+                    >
+                      {column}
+                    </th>
+                  ))}
                 </tr>
               </thead>
-                <tbody>
-                  {
-                    users.map((user, index) => (
-                      <tr  key={index}>
-                        <th className="px-6 py-4">
-                          {user.name}
-                        </th>
-                        <th className="px-6 py-4">
-                          {IdNumberFormat(user.idNumber)}
-                        </th>
-                        <th className="px-6 py-4">
-                          {user.email}
-                        </th>
-                        <th className="px-6 py-4">
-                          {DateFormat(user.inclusionDate)}
-                        </th>
-                        <th>
-                          <button 
-                            onClick={() => handlerOpenModal(true, user)}
-                            className="
-                              cursor-pointer  
-                              text-slate-300 
-                              hover:text-title 
-                              transition
-                              hover:scale-105
-                              ml-3"
-                          >
-                            <UserRoundPen  />
-                          </button>
-                        </th>
-                      </tr>
-                    ))
-                  }
-                 </tbody>
-                 {/* <tfoot>
-                    <tr className="font-semibold text-heading">
-                      <th scope="row" className="px-6 py-3 text-base">Total</th>
-                      <td className="px-6 py-3">3</td>
-                      <td className="px-6 py-3">21,000</td>
-                    </tr>
-                </tfoot> */}
+              <tbody>
+                {users.map((user, index) => (
+                  <tr
+                    key={index}
+                    className="
+                      border-b
+                      border-divider/15
+                      transition-colors
+                      duration-150
+                      hover:bg-surface/50
+                    "
+                  >
+                    <td className="px-6 py-4 text-fg font-medium">
+                      {user.name}
+                    </td>
+                    <td className="px-6 py-4 font-mono text-xs text-fg-muted">
+                      {IdNumberFormat(user.idNumber)}
+                    </td>
+                    <td className="px-6 py-4 text-accent-light">
+                      {user.email}
+                    </td>
+                    <td className="px-6 py-4 text-fg-muted">
+                      {DateFormat(user.inclusionDate)}
+                    </td>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => handlerOpenModal(true, user)}
+                        aria-label="Edit user"
+                        className="
+                          inline-flex
+                          items-center
+                          justify-center
+                          text-fg-subtle
+                          hover:text-brand-soft
+                          hover:bg-brand/10
+                          rounded-md
+                          p-1.5
+                          transition-all
+                          duration-150
+                          cursor-pointer
+                        "
+                      >
+                        <UserRoundPen size={18} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
 
         </Content>
       </Layout>
 
-      { 
-        openModal 
+      {
+        openModal
         ? <UserAddEdit closeModal={handlerCloseModal} userEdit={userEdit} isEdit={isEdit}/>
-        : ""
+        : null
       }
     </div>
   )

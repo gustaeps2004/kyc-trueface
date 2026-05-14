@@ -1,19 +1,40 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #26395C;
-  --color-secondary: #2A374E;
-  --color-title: #FFFFFF;
-  --color-btn-login: #4ADE80;
-  --color-transparent: #D9D9D9;
-  --color-btn-red: #BD2130;
-  --color-alert-txt: #FFB74D;
+  /* ---------- Surfaces (dark theme) ---------- */
+  --color-base: #0F172A;             /* app background */
+  --color-surface: #1E293B;          /* cards, sidebar, modals */
+  --color-raised: #334155;           /* hover/active surfaces */
+  --color-divider: #475569;          /* borders */
+
+  /* ---------- Brand & accent ---------- */
+  --color-brand: #6366F1;            /* primary actions, login */
+  --color-brand-hover: #4F46E5;
+  --color-brand-soft: #A5B4FC;       /* on-brand text on tints */
+
+  --color-accent: #06B6D4;           /* numbers, info highlights */
+  --color-accent-light: #22D3EE;
+
+  /* ---------- Semantic states ---------- */
+  --color-success: #10B981;
+  --color-success-light: #34D399;
+  --color-danger: #EF4444;
+  --color-danger-light: #F87171;
+  --color-warning: #F59E0B;
+  --color-warning-light: #FBBF24;
+  --color-info: #3B82F6;
+
+  /* ---------- Text hierarchy ---------- */
+  --color-fg: #F8FAFC;               /* primary text */
+  --color-fg-muted: #CBD5E1;         /* secondary text */
+  --color-fg-subtle: #94A3B8;        /* labels, captions */
+  --color-fg-faint: #64748B;         /* placeholders, disabled */
 }
 
 @layer utilities {
   .scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: #2A374E #26395C;
+    scrollbar-color: var(--color-raised) var(--color-surface);
   }
 
   .scrollbar::-webkit-scrollbar {
@@ -21,16 +42,16 @@
   }
 
   .scrollbar::-webkit-scrollbar-track {
-    background: #f3f4f6;
+    background: var(--color-surface);
     border-radius: 9999px;
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background-color: #26395C;
+    background-color: var(--color-raised);
     border-radius: 9999px;
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: #26395C;
+    background-color: var(--color-divider);
   }
 }

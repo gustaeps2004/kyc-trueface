@@ -3,7 +3,7 @@ import { Content } from "../../components/base/Content";
 import { OnboardingGrid } from "../../components/onboarding/OnboardingGrid";
 
 export function OnboardingHistory() {
-  
+
   const columns = [
     "Id number",
     "Name",
@@ -26,11 +26,11 @@ export function OnboardingHistory() {
 
   return(
     <Layout name="History">
-      <Content 
+      <Content
         placeholderFilter="ID or name"
         isShowFilter={true}
       >
-        <OnboardingGrid 
+        <OnboardingGrid
           columns={columns}
           onboardings={onboardings}
           isHistory={true}

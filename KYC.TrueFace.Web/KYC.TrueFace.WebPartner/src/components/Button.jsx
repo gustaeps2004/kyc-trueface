@@ -1,40 +1,44 @@
 export function Button(props) {
+  const variant = props.variant || "brand"
+
+  const variants = {
+    brand:   "bg-brand hover:bg-brand-hover text-white border-brand",
+    success: "bg-success hover:brightness-110 text-white border-success",
+    danger:  "bg-danger hover:brightness-110 text-white border-danger",
+  }
+
   return(
-    <div className="
-      flex
-      justify-center
-      w-full
-    ">
-      <button type="submit" className="
-        bg-primary
-        text-btn-login
-        text-shadow-xs 
-        flex
-        items-center
-        justify-center
-        border-btn-login
-        font-semibold
-        py-2
-        px-4
-        w-full
-        cursor-pointer
-        rounded-full 
-        h-10 
-        overflow-hidden 
-        focus:brightness-110 
-        transition-all 
-        disabled:cursor-not-allowed 
-        disabled:opacity-10 
-        disabled:grayscale 
-        disabled:translate-y-0 
-        disabled:hover:translate-y-0 
-        hover:scale-90
-        min-w-full 
-        border-2! 
-        border-brand-primary! 
-        transparent
-        "
-      onClick={props.handlerAction}
+    <div className="flex justify-center w-full">
+      <button
+        type="submit"
+        onClick={props.handlerAction}
+        className={`
+          ${variants[variant]}
+          flex
+          items-center
+          justify-center
+          font-medium
+          py-2
+          px-4
+          w-full
+          min-w-full
+          cursor-pointer
+          rounded-full
+          h-11
+          border
+          overflow-hidden
+          transition-all
+          duration-200
+          focus:outline-none
+          focus:ring-2
+          focus:ring-brand/40
+          hover:-translate-y-0.5
+          active:translate-y-0
+          disabled:cursor-not-allowed
+          disabled:opacity-50
+          disabled:grayscale
+          disabled:hover:translate-y-0
+        `}
       >
         {props.title}
       </button>
