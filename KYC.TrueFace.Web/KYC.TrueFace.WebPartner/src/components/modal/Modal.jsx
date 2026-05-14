@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { X } from "lucide-react";
 import { ModalButton } from "./ModalButton";
 
 export function Modal(props) {
@@ -6,67 +7,69 @@ export function Modal(props) {
     const handleEsc = (e) => {
       if (e.key === "Escape") props.closeModal();
     };
-  
+
     window.addEventListener("keydown", handleEsc);
-  
+
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
   return(
     <div className="
-      fixed 
-      inset-0 
-      flex 
-      items-center 
-      justify-center 
-      bg-black/50"
-    >
+      fixed
+      inset-0
+      flex
+      items-center
+      justify-center
+      bg-black/60
+      backdrop-blur-sm
+      z-50
+      p-4
+    ">
       <div className="
-        relative 
-        bg-primary 
-        p-6 
-        rounded-lg 
-        shadow-lg 
-        w-100"
-      >
-        <span className="
-          absolute
-          text-slate-300 
-          hover:text-title 
-          transition
-          right-5
-          -mt-8
-          -mr-3
-          text-3xl
-          cursor-pointer" 
+        relative
+        bg-surface
+        border
+        border-divider/40
+        p-6
+        rounded-2xl
+        shadow-2xl
+        w-full
+        max-w-md
+      ">
+        <button
           onClick={props.closeModal}
+          aria-label="Close modal"
+          className="
+            absolute
+            right-4
+            top-4
+            text-fg-subtle
+            hover:text-fg
+            hover:bg-raised
+            rounded-full
+            p-1.5
+            transition-all
+            duration-150
+            cursor-pointer
+          "
         >
-          &times;
-        </span>
+          <X size={18} />
+        </button>
 
-        <div className=" 
-          -mt-2
-          flex
-          justify-center"
-        >
-          <h2 className="
-            text-2xl 
-            font-semibold 
-            mb-4 
-            text-title"
-          >
+        <div className="flex justify-center mb-5">
+          <h2 className="text-xl font-medium text-fg">
             {props.title}
           </h2>
         </div>
-        
+
         <div className="
-          p-4
           flex
           flex-col
           space-y-3
           h-85
           overflow-y-auto
           scrollbar
+          pr-1
         ">
           {props.children}
         </div>
@@ -74,33 +77,34 @@ export function Modal(props) {
         <div className="
           flex
           justify-end
+          gap-2
           w-full
+          mt-5
+          pt-4
+          border-t
+          border-divider/30
         ">
-          { 
+          {
             props.showRedButton
-            ? <div className="ml-auto">
-                <ModalButton 
-                  title={props.titleRedButton}
-                  handlerAction={props.handlerRedAction}
-                  bgColor="bg-btn-red"
-                  borderColor="border-btn-red"
-                />
-              </div>
+            ? <ModalButton
+                title={props.titleRedButton}
+                handlerAction={props.handlerRedAction}
+                variant="danger"
+              />
             : null
           }
-          
+
           {
-            props.showGreenButton 
-            ? <div className="ml-2">
-                <ModalButton 
-                  title={props.titleGreenButton}
-                  handlerAction={props.handlerGreenAction}
-                />
-              </div> 
+            props.showGreenButton
+            ? <ModalButton
+                title={props.titleGreenButton}
+                handlerAction={props.handlerGreenAction}
+                variant={props.greenVariant || "success"}
+              />
             : null
           }
         </div>
-        
+
       </div>
     </div>
   )

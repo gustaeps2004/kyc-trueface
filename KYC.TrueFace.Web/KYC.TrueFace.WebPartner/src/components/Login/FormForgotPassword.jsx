@@ -12,7 +12,7 @@ export function FormForgotPassword({ handlerConfirmClick }) {
   const handlerConfirm = () => {
     handlerConfirmClick()
   }
- 
+
   return(
     <div>
       <form className="space-y-4">
@@ -20,21 +20,30 @@ export function FormForgotPassword({ handlerConfirmClick }) {
           E-mail
         </Input>
 
-        <Button
-          handlerAction={handlerConfirm}
-          title="Confirm"
-        />
+        <div className="pt-2">
+          <Button
+            handlerAction={handlerConfirm}
+            title="Confirm"
+          />
+        </div>
       </form>
-      <a href="#" className="
-        text-sm
-        text-center
-        block
-        text-title
-        cursor-pointer
-        hover:underline
-        ml-68"
-        onClick={handlerRedirectToLogin}
-      >Back to login</a>
+
+      <div className="flex justify-end mt-3">
+        <a
+          href="#"
+          onClick={handlerRedirectToLogin}
+          className="
+            text-sm
+            text-fg-subtle
+            hover:text-accent-light
+            cursor-pointer
+            transition-colors
+            duration-150
+          "
+        >
+          Back to login
+        </a>
+      </div>
     </div>
   )
 }

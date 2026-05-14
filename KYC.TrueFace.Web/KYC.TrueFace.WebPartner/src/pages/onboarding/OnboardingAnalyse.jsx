@@ -1,4 +1,5 @@
 import { Modal } from "../../components/modal/Modal"
+import { AlertTriangle } from "lucide-react"
 
 export function OnboardingAnalyse(props) {
   return(
@@ -12,24 +13,48 @@ export function OnboardingAnalyse(props) {
       titleGreenButton="Approve"
       handlerGreenAction={() => console.log("APROVADO")}
     >
-      <div className="flex justify-center">
-        <h1 className="text-alert-txt text-2xl">
+      <div className="
+        flex
+        items-center
+        justify-center
+        gap-2
+        bg-warning/10
+        border
+        border-warning/30
+        rounded-lg
+        px-4
+        py-3
+      ">
+        <AlertTriangle size={18} className="text-warning-light shrink-0" />
+        <p className="text-warning-light text-sm font-medium">
           This action cannot be undone.
-        </h1>
+        </p>
       </div>
+
       <div className="h-full mt-3">
-        <textarea 
+        <textarea
           rows="10"
           placeholder="Observation"
           className="
-            rounded-md
-            border 
-            border-gray-300
-            bg-primary 
             w-full
-            text-title
-          ">
-        </textarea>
+            rounded-lg
+            border
+            border-divider/60
+            bg-base
+            text-fg
+            placeholder:text-fg-faint
+            px-4
+            py-3
+            text-sm
+            resize-none
+            transition-all
+            duration-200
+            focus:outline-none
+            focus:border-brand
+            focus:ring-2
+            focus:ring-brand/30
+          "
+        />
       </div>
     </Modal>
   )

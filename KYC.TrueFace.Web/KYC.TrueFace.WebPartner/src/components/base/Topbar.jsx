@@ -10,29 +10,36 @@ export default function Topbar({ name }) {
 
   return (
     <div className="
-      h-16 
-      bg-primary 
-      border-slate-600 
-      flex 
-      items-center 
-      justify-between 
-      px-8"
-    >
-      <h1 className="text-2xl text-title font-medium">
+      h-16
+      bg-base
+      border-b
+      border-divider/30
+      flex
+      items-center
+      justify-between
+      px-8
+    ">
+      <h1 className="text-xl text-fg font-medium">
         {name}
       </h1>
 
-      <div className="
-        justify-around 
-        m-3
-        flex
-        items-center
-        space-x-3"
+      <button
+        title="Log out"
+        onClick={handleRedirect}
+        aria-label="Log out"
+        className="
+          text-fg-subtle
+          hover:text-fg
+          hover:bg-raised
+          rounded-md
+          p-2
+          transition-all
+          duration-150
+          cursor-pointer
+        "
       >
-        <button title="Log out" className="text-slate-300 hover:text-title transition hover:scale-105">
-          <LogOut onClick={handleRedirect} className="cursor-pointer" />
-        </button>
-      </div>
+        <LogOut size={18} />
+      </button>
     </div>
   )
 }

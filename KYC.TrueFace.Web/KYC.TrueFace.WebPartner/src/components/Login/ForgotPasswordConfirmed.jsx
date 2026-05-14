@@ -7,17 +7,19 @@ export function ForgotPasswordConfirmed() {
   const handlerRedirectToLogin = () => {
     navigate('/login')
   }
- 
+
   return(
-    <div className="space-y-5">
+    <div className="space-y-6">
       <h2 className="
         -mt-8
-        text-title
-        text-lg
+        text-fg-muted
+        text-base
+        text-center
+        leading-relaxed
       ">
         An email has been sent to change your password.
       </h2>
-      
+
       <Button
         handlerAction={handlerRedirectToLogin}
         title="Back to login"
