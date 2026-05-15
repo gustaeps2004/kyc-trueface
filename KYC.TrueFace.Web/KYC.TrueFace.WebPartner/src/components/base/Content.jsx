@@ -42,7 +42,7 @@ export function Content(props) {
             : <div></div>
           }
         </div>
-        <div className="flex justify-end w-150">
+        <div className="flex justify-end">
           { props.isShowFilter ? <InputFilter placeholder={props.placeholderFilter} /> : null}
         </div>
       </div>

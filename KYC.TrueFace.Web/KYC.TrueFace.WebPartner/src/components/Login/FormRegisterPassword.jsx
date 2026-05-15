@@ -12,34 +12,28 @@ export function FormRegisterPassword() {
   }
 
   return(
-    <div className="
-      w-full
-      h-70
-      mt-15
-    ">
-      <form className="space-y-4">
-        <Input
-          disabled={true}
-          type="email"
-          name="email"
-          value={email}
-        >
-          E-mail
-        </Input>
-        <Input type="password" name="password">
-          Password
-        </Input>
-        <Input type="password" name="confirmPassword">
-          Confirm password
-        </Input>
+    <form className="space-y-3">
+      <Input
+        disabled={true}
+        type="email"
+        name="email"
+        value={email}
+      >
+        E-mail
+      </Input>
+      <Input type="password" name="password">
+        Password
+      </Input>
+      <Input type="password" name="confirmPassword">
+        Confirm password
+      </Input>
 
-        <div className="mt-8">
-          <Button
-            handlerAction={handlerRedirectToLogin}
-            title="Register"
-          />
-        </div>
-      </form>
-    </div>
+      <div className="pt-1">
+        <Button
+          handlerAction={handlerRedirectToLogin}
+          title="Register"
+        />
+      </div>
+    </form>
   )
 }

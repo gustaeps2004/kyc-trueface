@@ -3,7 +3,10 @@ import { FormRegisterPassword } from "../../components/Login/FormRegisterPasswor
 
 export function RegisterPassword() {
   return(
-    <LoginBase title="Register password">
+    <LoginBase
+      title="Register password"
+      subtitle="Create your password to continue"
+    >
       <FormRegisterPassword />
     </LoginBase>
   )

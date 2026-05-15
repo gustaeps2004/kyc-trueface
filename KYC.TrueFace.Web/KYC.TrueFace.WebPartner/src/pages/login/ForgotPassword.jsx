@@ -11,16 +11,13 @@ export function ForgotPassword() {
   }
 
   return(
-    <LoginBase title="Forgot password">
-      <div className="
-        w-full
-        h-40
-        mt-20
-      ">
-        { confirmed
-          ? <ForgotPasswordConfirmed />
-          : <FormForgotPassword handlerConfirmClick={handlerConfirm} />}
-      </div>
+    <LoginBase
+      title="Forgot password"
+      subtitle={confirmed ? "Check your inbox" : "We will send you a reset link"}
+    >
+      { confirmed
+        ? <ForgotPasswordConfirmed />
+        : <FormForgotPassword handlerConfirmClick={handlerConfirm} />}
     </LoginBase>
   )
 }

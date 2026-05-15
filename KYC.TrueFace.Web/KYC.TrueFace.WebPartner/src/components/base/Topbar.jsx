@@ -28,14 +28,21 @@ export default function Topbar({ name }) {
         onClick={handleRedirect}
         aria-label="Log out"
         className="
+          flex
+          items-center
+          justify-center
+          w-9
+          h-9
+          rounded-md
           text-fg-subtle
           hover:text-fg
           hover:bg-raised
-          rounded-md
-          p-2
           transition-all
           duration-150
           cursor-pointer
+          focus:outline-none
+          focus:ring-2
+          focus:ring-brand/40
         "
       >
         <LogOut size={18} />
