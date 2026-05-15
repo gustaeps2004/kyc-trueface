@@ -33,8 +33,7 @@ export function Modal(props) {
         p-6
         rounded-2xl
         shadow-2xl
-        w-full
-        max-w-md
+        w-110
       ">
         <button
           onClick={props.closeModal}
@@ -66,7 +65,7 @@ export function Modal(props) {
           flex
           flex-col
           space-y-3
-          h-85
+          h-100
           overflow-y-auto
           scrollbar
           pr-1
