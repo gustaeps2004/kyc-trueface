@@ -96,7 +96,7 @@ export function User() {
                     <td className="px-6 py-4 font-mono text-xs text-fg-muted">
                       {IdNumberFormat(user.idNumber)}
                     </td>
-                    <td className="px-6 py-4 text-accent-light">
+                    <td className="px-6 py-4 text-fg-muted">
                       {user.email}
                     </td>
                     <td className="px-6 py-4 text-fg-muted">
