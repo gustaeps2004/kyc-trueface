@@ -92,8 +92,7 @@ export function ModalImages(props) {
         p-6
         rounded-2xl
         shadow-2xl
-        w-full
-        max-w-md
+        w-120
       ">
         <button
           onClick={props.closeModal}
@@ -118,10 +117,7 @@ export function ModalImages(props) {
 
         <div className="mb-4">
           <p className="text-xs text-fg-subtle uppercase tracking-wide mb-1">
-            Image
-          </p>
-          <p className="text-sm text-fg font-medium truncate">
-            {imageName}
+            Images
           </p>
         </div>
 
@@ -131,7 +127,7 @@ export function ModalImages(props) {
             flex
             flex-col
             space-y-3
-            h-85
+            h-110
             overflow-hidden
             rounded-lg
             bg-base
