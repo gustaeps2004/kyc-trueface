@@ -9,14 +9,6 @@ export function LoginBase(props) {
       flex
       items-stretch
     ">
-      {/*
-        LEFT PANE — brand identity.
-        Hidden on small screens (form takes the whole viewport).
-        Uses a gradient background + decorative grid pattern +
-        glow blobs to create depth without raster images.
-        Three sections stacked vertically: logo (top),
-        headline (middle), trust signals (bottom).
-      */}
       <div className="
         hidden
         lg:flex
@@ -31,7 +23,6 @@ export function LoginBase(props) {
         via-slate-900
         to-slate-950
       ">
-        {/* Decorative dot grid pattern */}
         <div
           aria-hidden="true"
           className="
@@ -46,7 +37,6 @@ export function LoginBase(props) {
           }}
         />
 
-        {/* Glow accent in the top-right corner */}
         <div
           aria-hidden="true"
           className="
@@ -63,7 +53,6 @@ export function LoginBase(props) {
           "
         />
 
-        {/* Glow accent in the bottom-left */}
         <div
           aria-hidden="true"
           className="
@@ -80,7 +69,6 @@ export function LoginBase(props) {
           "
         />
 
-        {/* Top: logo lockup */}
         <div className="relative flex items-center gap-3">
           <div className="
             w-11
@@ -101,7 +89,6 @@ export function LoginBase(props) {
           </span>
         </div>
 
-        {/* Middle: headline + value prop */}
         <div className="relative max-w-md">
           <h2 className="
             text-4xl
@@ -122,38 +109,9 @@ export function LoginBase(props) {
             Real-time facial biometrics for secure, frictionless customer onboarding.
           </p>
         </div>
-
-        {/* Bottom: trust signals */}
-        <div className="relative">
-          <div className="
-            flex
-            flex-wrap
-            gap-x-6
-            gap-y-2
-            text-xs
-            text-slate-400
-          ">
-            <div className="flex items-center gap-1.5">
-              <Check size={14} className="text-emerald-400" />
-              SOC 2 Type II
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Check size={14} className="text-emerald-400" />
-              LGPD compliant
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Check size={14} className="text-emerald-400" />
-              ISO 27001
-            </div>
-          </div>
-        </div>
+        <div className="relative"></div>
       </div>
 
-      {/*
-        RIGHT PANE — form area.
-        Takes full width on mobile, ~480px on desktop.
-        Centered vertically, padded for comfort.
-      */}
       <div className="
         flex-1
         flex
@@ -165,7 +123,6 @@ export function LoginBase(props) {
       ">
         <div className="w-full max-w-sm flex flex-col gap-6">
 
-          {/* Mobile-only mini brand mark (since the left pane is hidden) */}
           <div className="lg:hidden flex items-center justify-center gap-2 mb-2">
             <div className="
               w-9
@@ -183,7 +140,6 @@ export function LoginBase(props) {
             </span>
           </div>
 
-          {/* Form header */}
           <div className="flex flex-col gap-1">
             <h1 className="text-2xl font-medium text-fg">
               {props.title}

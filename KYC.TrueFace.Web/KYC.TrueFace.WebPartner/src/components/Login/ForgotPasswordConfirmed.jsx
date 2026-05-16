@@ -10,16 +10,6 @@ export function ForgotPasswordConfirmed() {
 
   return(
     <div className="space-y-6">
-      <h2 className="
-        -mt-8
-        text-fg-muted
-        text-base
-        text-center
-        leading-relaxed
-      ">
-        An email has been sent to change your password.
-      </h2>
-
       <Button
         handlerAction={handlerRedirectToLogin}
         title="Back to login"

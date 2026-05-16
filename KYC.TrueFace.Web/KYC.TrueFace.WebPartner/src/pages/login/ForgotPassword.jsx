@@ -13,7 +13,7 @@ export function ForgotPassword() {
   return(
     <LoginBase
       title="Forgot password"
-      subtitle={confirmed ? "Check your inbox" : "We will send you a reset link"}
+      subtitle={confirmed ? "An email has been sent to change your password" : "We will send you a reset link"}
     >
       { confirmed
         ? <ForgotPasswordConfirmed />
