@@ -21,6 +21,14 @@ export function OnboardingHistory() {
       name: "Gustavo Do Espirito Santo",
       situation: 2,
       observation: "Low resolution on self"
+    },
+    {
+      code: "3d3b1f50-01df-4248-8eff-2ef575d6bbc2",
+      idNumber: "55566677788",
+      inclusionDate: "2026-05-02",
+      name: "Gustavo Do Espirito Santo",
+      situation: 1,
+      observation: "Approved"
     }
   ]
 
