@@ -97,7 +97,7 @@ export function OnboardingGrid(props) {
                 hover:bg-surface/50
               "
             >
-              <td className="px-6 py-4 font-mono text-xs text-fg-muted">
+              <td className="px-6 py-4 font-mono text-fg-muted">
                 {IdNumberFormat(onboarding.idNumber)}
               </td>
               <td className="px-6 py-4 text-fg font-medium">

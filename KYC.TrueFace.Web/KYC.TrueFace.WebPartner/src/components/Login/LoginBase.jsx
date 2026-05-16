@@ -1,53 +1,156 @@
-import ImgLogin from "../../assets/imgs/login.png"
+import { ShieldCheck, Check } from "lucide-react"
 
 export function LoginBase(props) {
-	return(
+  return(
     <div className="
+      relative
       min-h-screen
       bg-base
       flex
-      items-center
-      justify-center
-      px-10
+      items-stretch
     ">
       <div className="
+        hidden
+        lg:flex
+        relative
+        flex-1
+        flex-col
+        justify-between
+        p-12
+        overflow-hidden
+        bg-gradient-to-br
+        from-indigo-950
+        via-slate-900
+        to-slate-950
+      ">
+        <div
+          aria-hidden="true"
+          className="
+            absolute
+            inset-0
+            opacity-40
+            pointer-events-none
+          "
+          style={{
+            backgroundImage: "radial-gradient(circle at 1px 1px, rgba(165, 180, 252, 0.15) 1px, transparent 0)",
+            backgroundSize: "24px 24px"
+          }}
+        />
+
+        <div
+          aria-hidden="true"
+          className="
+            absolute
+            -top-20
+            -right-20
+            w-80
+            h-80
+            bg-indigo-500
+            rounded-full
+            blur-3xl
+            opacity-30
+            pointer-events-none
+          "
+        />
+
+        <div
+          aria-hidden="true"
+          className="
+            absolute
+            -bottom-32
+            -left-20
+            w-96
+            h-96
+            bg-cyan-500
+            rounded-full
+            blur-3xl
+            opacity-15
+            pointer-events-none
+          "
+        />
+
+        <div className="relative flex items-center gap-3">
+          <div className="
+            w-11
+            h-11
+            rounded-xl
+            bg-indigo-500/20
+            border
+            border-indigo-300/30
+            flex
+            items-center
+            justify-center
+            backdrop-blur-sm
+          ">
+            <ShieldCheck size={22} className="text-indigo-300" />
+          </div>
+          <span className="text-lg font-medium text-white tracking-tight">
+            KYC TrueFace
+          </span>
+        </div>
+
+        <div className="relative max-w-md">
+          <h2 className="
+            text-4xl
+            font-medium
+            text-white
+            leading-tight
+            tracking-tight
+            mb-4
+          ">
+            Identity verification,{" "}
+            <span className="text-indigo-300">simplified</span>.
+          </h2>
+          <p className="
+            text-base
+            text-slate-300
+            leading-relaxed
+          ">
+            Real-time facial biometrics for secure, frictionless customer onboarding.
+          </p>
+        </div>
+        <div className="relative"></div>
+      </div>
+
+      <div className="
+        flex-1
         flex
         items-center
-        gap-20
-        max-w-7xl
-        w-full
+        justify-center
+        px-6
+        py-10
+        lg:max-w-xl
       ">
-        <div className="flex-1">
-          <img
-            src={ImgLogin}
-            alt="login"
-            className="
-              w-full
-              max-h-150
-              h-[85vh]
-							object-contain
-            "
-          />
-        </div>
-        <div className="
-          w-full
-          max-w-md
-          bg-surface
-          border
-          border-divider/40
-          rounded-2xl
-          shadow-2xl
-          p-10
-        ">
-          <h1 className="
-            text-3xl
-            font-medium
-            text-fg
-            text-center
-            mb-8
-          ">
-            {props.title}
-          </h1>
+        <div className="w-full max-w-sm flex flex-col gap-6">
+
+          <div className="lg:hidden flex items-center justify-center gap-2 mb-2">
+            <div className="
+              w-9
+              h-9
+              rounded-lg
+              bg-brand/10
+              flex
+              items-center
+              justify-center
+            ">
+              <ShieldCheck size={18} className="text-brand" />
+            </div>
+            <span className="text-base font-medium text-fg">
+              KYC TrueFace
+            </span>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <h1 className="text-2xl font-medium text-fg">
+              {props.title}
+            </h1>
+            <p className="text-sm text-fg-subtle">
+              {props.subtitle !== undefined
+                ? props.subtitle
+                : "Sign in to your account"}
+            </p>
+          </div>
+
           {props.children}
         </div>
       </div>

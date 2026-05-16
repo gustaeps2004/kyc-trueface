@@ -87,16 +87,15 @@ export function User() {
                       border-divider/15
                       transition-colors
                       duration-150
-                      hover:bg-surface/50
-                    "
+                      hover:bg-surface/50"
                   >
+                    <td className="px-6 py-4 font-mono text-fg-muted">
+                      {IdNumberFormat(user.idNumber)}
+                    </td>
                     <td className="px-6 py-4 text-fg font-medium">
                       {user.name}
                     </td>
-                    <td className="px-6 py-4 font-mono text-xs text-fg-muted">
-                      {IdNumberFormat(user.idNumber)}
-                    </td>
-                    <td className="px-6 py-4 text-accent-light">
+                    <td className="px-6 py-4 text-fg-muted">
                       {user.email}
                     </td>
                     <td className="px-6 py-4 text-fg-muted">

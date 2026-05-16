@@ -1,16 +1,21 @@
 @import "tailwindcss";
 
+/*
+  Dark theme tokens — applied directly via @theme so Tailwind
+  generates utility classes (bg-base, text-fg-muted, etc.).
+  No light theme; no class-based switching.
+*/
 @theme {
-  /* ---------- Surfaces (dark theme) ---------- */
+  /* ---------- Surfaces ---------- */
   --color-base: #0F172A;             /* app background */
   --color-surface: #1E293B;          /* cards, sidebar, modals */
   --color-raised: #334155;           /* hover/active surfaces */
   --color-divider: #475569;          /* borders */
 
   /* ---------- Brand & accent ---------- */
-  --color-brand: #6366F1;            /* primary actions, login */
+  --color-brand: #6366F1;            /* primary actions */
   --color-brand-hover: #4F46E5;
-  --color-brand-soft: #A5B4FC;       /* on-brand text on tints */
+  --color-brand-soft: #A5B4FC;       /* text on brand-tinted bg */
 
   --color-accent: #06B6D4;           /* numbers, info highlights */
   --color-accent-light: #22D3EE;
