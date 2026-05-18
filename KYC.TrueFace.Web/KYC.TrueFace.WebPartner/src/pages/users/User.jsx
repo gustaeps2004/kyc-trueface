@@ -26,8 +26,8 @@ export function User() {
   }
 
   const columns = [
-    "Name",
     "Id number",
+    "Name",
     "E-mail",
     "Inclusion date",
     "Edit",
