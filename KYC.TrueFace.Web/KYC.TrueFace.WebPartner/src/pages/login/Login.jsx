@@ -6,7 +6,7 @@ export function Login() {
   const { t } = useTranslation();
 
   return(
-    <LoginBase title={t('login.login')}>
+    <LoginBase title="testse">
       <FormLogin />
     </LoginBase>
   )
