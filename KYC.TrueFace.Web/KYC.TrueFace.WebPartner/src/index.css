@@ -1,26 +1,18 @@
 @import "tailwindcss";
 
-/*
-  Dark theme tokens — applied directly via @theme so Tailwind
-  generates utility classes (bg-base, text-fg-muted, etc.).
-  No light theme; no class-based switching.
-*/
 @theme {
-  /* ---------- Surfaces ---------- */
-  --color-base: #0F172A;             /* app background */
-  --color-surface: #1E293B;          /* cards, sidebar, modals */
-  --color-raised: #334155;           /* hover/active surfaces */
-  --color-divider: #475569;          /* borders */
+  --color-base: #0F172A;             
+  --color-surface: #1E293B;          
+  --color-raised: #334155;           
+  --color-divider: #475569;          
 
-  /* ---------- Brand & accent ---------- */
-  --color-brand: #6366F1;            /* primary actions */
+  --color-brand: #6366F1;            
   --color-brand-hover: #4F46E5;
-  --color-brand-soft: #A5B4FC;       /* text on brand-tinted bg */
+  --color-brand-soft: #A5B4FC;      
 
-  --color-accent: #06B6D4;           /* numbers, info highlights */
+  --color-accent: #06B6D4;           
   --color-accent-light: #22D3EE;
 
-  /* ---------- Semantic states ---------- */
   --color-success: #10B981;
   --color-success-light: #34D399;
   --color-danger: #EF4444;
@@ -29,11 +21,10 @@
   --color-warning-light: #FBBF24;
   --color-info: #3B82F6;
 
-  /* ---------- Text hierarchy ---------- */
-  --color-fg: #F8FAFC;               /* primary text */
-  --color-fg-muted: #CBD5E1;         /* secondary text */
-  --color-fg-subtle: #94A3B8;        /* labels, captions */
-  --color-fg-faint: #64748B;         /* placeholders, disabled */
+  --color-fg: #F8FAFC;               
+  --color-fg-muted: #CBD5E1;        
+  --color-fg-subtle: #94A3B8;        
+  --color-fg-faint: #64748B;         
 }
 
 @layer utilities {
