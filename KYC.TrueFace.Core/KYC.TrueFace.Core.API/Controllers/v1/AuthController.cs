@@ -17,7 +17,7 @@ public class AuthController(
     IAuthenticateService authenticateService) : BaseController
 {
     [AllowAnonymous]
-    [HttpPost("auth")]
+    [HttpPost]
     public ActionResult<AuthenticateLoginResponse> Login(LoginRequest request)
     {
         try

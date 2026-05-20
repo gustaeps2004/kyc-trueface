@@ -7,8 +7,17 @@ import {
   ThumbsUp,
   ThumbsDown,
 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { GetTokenData } from "../../utils/functions/GetTokenData";
 
 export function Dashboard() {
+  const [loggedName, setloggedName] = useState("")
+
+  useEffect(() => {
+    const tokenData = GetTokenData()
+    setloggedName(tokenData?.user_name?.split(' ')[0])
+  }, []);
+
   const cards = [
     {
       title: "Consulted in the last week",
@@ -72,7 +81,7 @@ export function Dashboard() {
   };
 
   return (
-    <Layout name="Welcome, Gustavo">
+    <Layout name={`Welcome, ${loggedName}`}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {cards.map((card, index) => {
           const styles = variantStyles[card.variant];
