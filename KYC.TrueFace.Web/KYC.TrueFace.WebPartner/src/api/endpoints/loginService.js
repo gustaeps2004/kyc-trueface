@@ -1,7 +1,7 @@
 import apiClient from '../client';
 
-const LOGIN_PREFIX = '/v1/auth';
+const BASE_PATH = '/v1/auth';
 
-export const userService = {
-  postLogin: (request) => apiClient.post(LOGIN_PREFIX, request)
+export const loginService = {
+  postLogin: (request) => apiClient.post(BASE_PATH, request)
 };
