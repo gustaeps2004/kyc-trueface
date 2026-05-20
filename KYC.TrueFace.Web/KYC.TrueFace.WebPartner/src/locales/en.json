@@ -1,0 +1,104 @@
+{
+  "login": {
+    "email": "E-mail",
+    "password": "Password",
+    "login": "Login",
+    "signingIn": "Signing in...",
+    "forgotPassword": "Forgot your password?",
+    "signInToAccount": "Sign in to your account",
+    "heroTitleStart": "Identity verification,",
+    "heroTitleHighlight": "simplified",
+    "heroSubtitle": "Real-time facial biometrics for secure, frictionless customer onboarding.",
+    "confirm": "Confirm",
+    "backToLogin": "Back to login",
+    "confirmPassword": "Confirm password",
+    "register": "Register",
+    "forgotPasswordTitle": "Forgot password",
+    "resetLinkSent": "An email has been sent to change your password",
+    "resetLinkDescription": "We will send you a reset link",
+    "registerPasswordTitle": "Register password",
+    "registerPasswordSubtitle": "Create your password to continue"
+  },
+  "topbar": {
+    "logout": "Log out",
+    "switchLanguage": "Switch language"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "onboarding": "Onboarding",
+    "history": "History"
+  },
+  "dashboard": {
+    "welcome": "Welcome, {{name}}",
+    "consultedLastWeek": "Consulted in the last week",
+    "reprovedLastWeek": "Reproved in the last week",
+    "approvedLastWeek": "Approved in the last week",
+    "pendingManual": "Pending manual action",
+    "approvedManuallyLastMonth": "Approved manually in the last month",
+    "reprovedManuallyLastMonth": "Reproved manually in the last month"
+  },
+  "users": {
+    "pageTitle": "Users",
+    "searchPlaceholder": "ID, name or e-mail",
+    "idNumber": "Id number",
+    "name": "Name",
+    "email": "E-mail",
+    "inclusionDate": "Inclusion date",
+    "edit": "Edit",
+    "editUser": "Edit user",
+    "createUser": "Create user",
+    "save": "Save",
+    "create": "Create",
+    "birthDate": "Birth date",
+    "motherName": "Mother name",
+    "permission": "Permission"
+  },
+  "onboarding": {
+    "pageTitle": "Onboarding",
+    "searchPlaceholder": "ID or name",
+    "idNumber": "Id number",
+    "name": "Name",
+    "reason": "Reason",
+    "viewImages": "View images",
+    "analysis": "Analysis",
+    "analyse": "Analyse",
+    "deny": "Deny",
+    "approve": "Approve",
+    "actionUndone": "This action cannot be undone.",
+    "observation": "Observation"
+  },
+  "history": {
+    "pageTitle": "History",
+    "searchPlaceholder": "ID or name",
+    "idNumber": "Id number",
+    "name": "Name",
+    "situation": "Situation",
+    "date": "Date",
+    "viewImages": "View images",
+    "analysis": "Analysis",
+    "analysed": "Analysed",
+    "observation": "Observation"
+  },
+  "select": {
+    "placeholder": "Select",
+    "search": "Search...",
+    "noResults": "No results"
+  },
+  "mobile": {
+    "restrictedAccess": "Restricted Access",
+    "notAvailable": "This application is not available for mobile devices. Please access it via a computer."
+  },
+  "notifications": {
+    "successDefault": "Operation completed successfully.",
+    "errorDefault": "An unexpected error occurred. Please try again later."
+  },
+  "permission": {
+    "common": "Common",
+    "administrator": "Administrator"
+  },
+  "situation": {
+    "approved": "Approved",
+    "denied": "Denied"
+  }
+}

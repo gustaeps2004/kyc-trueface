@@ -1,24 +1,11 @@
 import { useState, useCallback } from 'react';
 import { useNotification } from '../context/NotificationContext';
+import { useTranslation } from 'react-i18next';
 
-/**
- * Hook padrão para chamadas de API.
- *
- * @returns {{ execute: Function, isLoading: boolean }}
- *
- * execute(apiCall, options)
- *   apiCall          — função que retorna a promise da chamada (ex: () => userService.postLogin(body))
- *   options:
- *     onSuccess(response)    — callback executado em caso de sucesso
- *     onError(error)         — callback executado em caso de erro
- *     showSuccessPopup       — exibe popup de sucesso (default: false)
- *     successMessage         — mensagem do popup de sucesso
- *     showErrorPopup         — exibe popup de erro (default: true)
- *     errorMessage           — sobrescreve a mensagem de erro da API
- */
 export function useApi() {
   const [isLoading, setIsLoading] = useState(false);
   const { notify } = useNotification();
+  const { t } = useTranslation();
 
   const execute = useCallback(async (
     apiCall,
@@ -26,7 +13,7 @@ export function useApi() {
       onSuccess,
       onError,
       showSuccessPopup = false,
-      successMessage = 'Operação realizada com sucesso.',
+      successMessage,
       showErrorPopup = true,
       errorMessage,
     } = {}
@@ -36,7 +23,7 @@ export function useApi() {
       const response = await apiCall();
 
       if (showSuccessPopup) {
-        notify({ message: successMessage, type: 'success' });
+        notify({ message: successMessage ?? t('notifications.successDefault'), type: 'success' });
       }
 
       onSuccess?.(response);
@@ -45,7 +32,7 @@ export function useApi() {
       const msg =
         errorMessage ??
         error.response?.data?.message ??
-        'Ocorreu um erro inesperado. Tente novamente mais tarde.';
+        t('notifications.errorDefault');
 
       if (showErrorPopup) {
         notify({ message: msg, type: 'error' });
@@ -56,7 +43,7 @@ export function useApi() {
     } finally {
       setIsLoading(false);
     }
-  }, [notify]);
+  }, [notify, t]);
 
   return { execute, isLoading };
 }

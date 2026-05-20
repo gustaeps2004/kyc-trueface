@@ -2,6 +2,7 @@ import { Modal } from "../../components/modal/Modal"
 import { Input } from "../../components/Input";
 import { Select } from "../../components/Select";
 import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { Permission } from "../../utils/Arrays";
 import {
   IdNumberFormat,
@@ -12,6 +13,7 @@ export function UserAddEdit(props) {
   const [permission, setPermission] = useState()
   const [idNumber, setIdNumber] = useState("")
   const [bithDate, setBithDate] = useState("")
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!props.isEdit) return
@@ -39,15 +41,15 @@ export function UserAddEdit(props) {
 
   return(
     <Modal
-      title={(props.isEdit ? "Edit" : "Create") + " user"}
+      title={props.isEdit ? t('users.editUser') : t('users.createUser')}
       closeModal={props.closeModal}
       showGreenButton={true}
-      titleGreenButton={props.isEdit ? "Save" : "Create"}
+      titleGreenButton={props.isEdit ? t('users.save') : t('users.create')}
       handlerGreenAction={handlerCreate}
       greenVariant="brand"
     >
       <Input type="name" name="name">
-        Name
+        {t('users.name')}
       </Input>
       <Input
         disabled={props.isEdit}
@@ -57,7 +59,7 @@ export function UserAddEdit(props) {
         mask="###.###.###-##"
         onChange={setIdNumber}
       >
-        Id number
+        {t('users.idNumber')}
       </Input>
       <Input
         type="bith"
@@ -66,17 +68,17 @@ export function UserAddEdit(props) {
         mask="##/##/####"
         onChange={setBithDate}
       >
-        Birth date
+        {t('users.birthDate')}
       </Input>
       <Input type="motherName" name="motherName">
-        Mother name
+        {t('users.motherName')}
       </Input>
       <Input disabled={props.isEdit} type="email" name="email">
-        E-mail
+        {t('users.email')}
       </Input>
 
       <Select
-        placeholder="Permission"
+        placeholder={t('users.permission')}
         options={Permission}
         value={permission}
         onChange={setPermission}

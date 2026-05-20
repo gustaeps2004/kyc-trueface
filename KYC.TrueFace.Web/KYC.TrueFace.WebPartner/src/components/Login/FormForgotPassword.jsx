@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 import { Input } from '../Input'
 import { Button } from "../Button"
+import { useTranslation } from 'react-i18next';
 
 export function FormForgotPassword({ handlerConfirmClick }) {
   const navigate = useNavigate()
+  const { t } = useTranslation();
 
   const handlerRedirectToLogin = () => {
     navigate('/login')
@@ -17,13 +19,13 @@ export function FormForgotPassword({ handlerConfirmClick }) {
     <div className="flex flex-col gap-4">
       <form className="space-y-3">
         <Input type="email" name="email">
-          E-mail
+          {t('login.email')}
         </Input>
 
         <div className="pt-1">
           <Button
             handlerAction={handlerConfirm}
-            title="Confirm"
+            title={t('login.confirm')}
           />
         </div>
       </form>
@@ -42,7 +44,7 @@ export function FormForgotPassword({ handlerConfirmClick }) {
             duration-150
           "
         >
-          Back to login
+          {t('login.backToLogin')}
         </a>
       </div>
     </div>

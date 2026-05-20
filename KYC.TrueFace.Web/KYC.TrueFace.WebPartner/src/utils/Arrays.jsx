@@ -1,9 +1,9 @@
 export const Permission = [
-  { value: 1, label: "Common" },
-  { value: 2, label: "Administrator" }
+  { value: 1, labelKey: "permission.common" },
+  { value: 2, labelKey: "permission.administrator" }
 ]
 
 export const Situation = [
-  { value: 1, label: "Approved", },
-  { value: 2, label: "Denied", }
+  { value: 1, labelKey: "situation.approved" },
+  { value: 2, labelKey: "situation.denied" }
 ]

@@ -3,6 +3,7 @@ import { ModalImages } from './ModalImages';
 import { OnboardingAnalyse } from '../../pages/onboarding/OnboardingAnalyse';
 import { OnboardingAnalysed } from '../../pages/history/OnboardingAnalysed';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Situation } from '../../utils/Arrays';
 import {
   IdNumberFormat,
@@ -10,14 +11,13 @@ import {
 } from "../../utils/functions/Formats";
 
 function SituationBadge({ situationValue }) {
+  const { t } = useTranslation();
   const situation = Situation.find(x => x.value == situationValue);
   if (!situation) return null;
 
-  const label = situation.label?.toLowerCase() || "";
-
-  const styles = label.includes("approv")
+  const styles = situationValue === 1
     ? "bg-success/15 text-success-light"
-    : label.includes("denied") || label.includes("reproved")
+    : situationValue === 2
     ? "bg-danger/15 text-danger-light"
     : "bg-warning/15 text-warning-light";
 
@@ -31,7 +31,7 @@ function SituationBadge({ situationValue }) {
       rounded-full
       ${styles}
     `}>
-      {situation.label}
+      {t(situation.labelKey)}
     </span>
   );
 }
@@ -40,6 +40,7 @@ export function OnboardingGrid(props) {
   const [openModalImages, setOpenModalImages] = useState(false)
   const [openModalAnalyse, setOpenModalAnalyse] = useState(false)
   const [onboardingData, setOnboardingData] = useState(null)
+  const { t } = useTranslation();
 
   const handlerOpenModalImagens = () => {
     const response = [
@@ -117,7 +118,7 @@ export function OnboardingGrid(props) {
               <td className="px-6 py-4">
                 <button
                   onClick={() => handlerOpenModalImagens(onboarding)}
-                  aria-label="View images"
+                  aria-label={t('onboarding.viewImages')}
                   className="
                     inline-flex
                     items-center
@@ -138,7 +139,7 @@ export function OnboardingGrid(props) {
               <td className="px-6 py-4">
                 <button
                   onClick={() => handlerOpenAnalysis(onboarding)}
-                  aria-label="Open analysis"
+                  aria-label={t('onboarding.analysis')}
                   className="
                     inline-flex
                     items-center

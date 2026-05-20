@@ -1,16 +1,19 @@
 import { Modal } from "../../components/modal/Modal"
 import { AlertTriangle } from "lucide-react"
+import { useTranslation } from 'react-i18next';
 
 export function OnboardingAnalyse(props) {
+  const { t } = useTranslation();
+
   return(
     <Modal
-      title="Analyse"
+      title={t('onboarding.analyse')}
       closeModal={props.closeModal}
       showRedButton={true}
-      titleRedButton="Deny"
+      titleRedButton={t('onboarding.deny')}
       handlerRedAction={() => console.log("REPROVADO")}
       showGreenButton={true}
-      titleGreenButton="Approve"
+      titleGreenButton={t('onboarding.approve')}
       handlerGreenAction={() => console.log("APROVADO")}
     >
       <div className="
@@ -27,14 +30,14 @@ export function OnboardingAnalyse(props) {
       ">
         <AlertTriangle size={18} className="text-warning-light shrink-0" />
         <p className="text-warning-light text-sm font-medium">
-          This action cannot be undone.
+          {t('onboarding.actionUndone')}
         </p>
       </div>
 
       <div className="h-full mt-3">
         <textarea
           rows="10"
-          placeholder="Observation"
+          placeholder={t('onboarding.observation')}
           className="
             w-full
             rounded-lg

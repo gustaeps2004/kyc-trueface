@@ -1,16 +1,18 @@
 import Layout from "../../components/base/Layout";
 import { Content } from "../../components/base/Content";
 import { OnboardingGrid } from "../../components/onboarding/OnboardingGrid";
+import { useTranslation } from 'react-i18next';
 
 export function OnboardingHistory() {
+  const { t } = useTranslation();
 
   const columns = [
-    "Id number",
-    "Name",
-    "Situation",
-    "Date",
-    "View images",
-    "Analysis",
+    t('history.idNumber'),
+    t('history.name'),
+    t('history.situation'),
+    t('history.date'),
+    t('history.viewImages'),
+    t('history.analysis'),
   ]
 
   const onboardings = [
@@ -33,9 +35,9 @@ export function OnboardingHistory() {
   ]
 
   return(
-    <Layout name="History">
+    <Layout name={t('history.pageTitle')}>
       <Content
-        placeholderFilter="ID or name"
+        placeholderFilter={t('history.searchPlaceholder')}
         isShowFilter={true}
       >
         <OnboardingGrid

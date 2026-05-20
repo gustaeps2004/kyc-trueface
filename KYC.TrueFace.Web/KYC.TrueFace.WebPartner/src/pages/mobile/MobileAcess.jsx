@@ -1,6 +1,9 @@
 import { AlertCircle } from "lucide-react"
+import { useTranslation } from 'react-i18next';
 
 export function MobileAcess() {
+  const { t } = useTranslation();
+
   return(
     <div className="
       flex
@@ -33,9 +36,9 @@ export function MobileAcess() {
         ">
           <AlertCircle size={28} className="text-danger-light" />
         </div>
-        <h1 className="text-xl font-medium text-fg">Restricted Access</h1>
+        <h1 className="text-xl font-medium text-fg">{t('mobile.restrictedAccess')}</h1>
         <p className="mt-3 text-sm text-fg-muted leading-relaxed">
-          This application is not available for mobile devices. Please access it via a computer.
+          {t('mobile.notAvailable')}
         </p>
       </div>
     </div>

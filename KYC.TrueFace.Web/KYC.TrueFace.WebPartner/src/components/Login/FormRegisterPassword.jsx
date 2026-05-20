@@ -1,10 +1,12 @@
 import { Input } from "../Input"
 import { Button } from "../Button"
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export function FormRegisterPassword() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate()
+  const { t } = useTranslation();
   const email = searchParams.get('e');
 
   const handlerRedirectToLogin = () => {
@@ -19,19 +21,19 @@ export function FormRegisterPassword() {
         name="email"
         value={email}
       >
-        E-mail
+        {t('login.email')}
       </Input>
       <Input type="password" name="password">
-        Password
+        {t('login.password')}
       </Input>
       <Input type="password" name="confirmPassword">
-        Confirm password
+        {t('login.confirmPassword')}
       </Input>
 
       <div className="pt-1">
         <Button
           handlerAction={handlerRedirectToLogin}
-          title="Register"
+          title={t('login.register')}
         />
       </div>
     </form>

@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "../Button";
 import { loginService } from "../../api/endpoints/loginService";
 import { useApi } from "../../hooks/useApi";
+import { useTranslation } from 'react-i18next';
 
 export function FormLogin() {
   const { execute, isLoading } = useApi();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handlePostLogin = async (e) => {
     if (e && e.preventDefault)
@@ -36,16 +38,16 @@ export function FormLogin() {
     <div className="flex flex-col gap-4">
       <form className="space-y-3">
         <Input type="email" name="email">
-          E-mail
+          {t('login.email')}
         </Input>
         <Input type="password" name="password">
-          Password
+          {t('login.password')}
         </Input>
 
         <div className="pt-1">
           <Button
             handlerAction={(e) => handlePostLogin(e)}
-            title={isLoading ? "Entrando..." : "Login"}
+            title={isLoading ? t('login.signingIn') : t('login.login')}
             disabled={isLoading}
           />
         </div>
@@ -65,7 +67,7 @@ export function FormLogin() {
             duration-150
           "
         >
-          Forgot your password?
+          {t('login.forgotPassword')}
         </a>
       </div>
     </div>

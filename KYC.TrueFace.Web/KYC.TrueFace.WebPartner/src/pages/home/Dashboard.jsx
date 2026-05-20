@@ -8,10 +8,12 @@ import {
   ThumbsDown,
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { GetTokenData } from "../../utils/functions/GetTokenData";
 
 export function Dashboard() {
   const [loggedName, setloggedName] = useState("")
+  const { t } = useTranslation();
 
   useEffect(() => {
     const tokenData = GetTokenData()
@@ -20,37 +22,37 @@ export function Dashboard() {
 
   const cards = [
     {
-      title: "Consulted in the last week",
+      titleKey: "dashboard.consultedLastWeek",
       value: 34,
       variant: "accent",
       icon: <Search size={18} />,
     },
     {
-      title: "Reproved in the last week",
+      titleKey: "dashboard.reprovedLastWeek",
       value: 15,
       variant: "danger",
       icon: <XCircle size={18} />,
     },
     {
-      title: "Approved in the last week",
+      titleKey: "dashboard.approvedLastWeek",
       value: 19,
       variant: "success",
       icon: <CheckCircle2 size={18} />,
     },
     {
-      title: "Pending manual action",
+      titleKey: "dashboard.pendingManual",
       value: 10,
       variant: "warning",
       icon: <Clock size={18} />,
     },
     {
-      title: "Approved manually in the last month",
+      titleKey: "dashboard.approvedManuallyLastMonth",
       value: 15,
       variant: "success",
       icon: <ThumbsUp size={18} />,
     },
     {
-      title: "Reproved manually in the last month",
+      titleKey: "dashboard.reprovedManuallyLastMonth",
       value: 3,
       variant: "danger",
       icon: <ThumbsDown size={18} />,
@@ -81,7 +83,7 @@ export function Dashboard() {
   };
 
   return (
-    <Layout name={`Welcome, ${loggedName}`}>
+    <Layout name={t('dashboard.welcome', { name: loggedName })}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {cards.map((card, index) => {
           const styles = variantStyles[card.variant];
@@ -104,7 +106,7 @@ export function Dashboard() {
             >
               <div className="flex items-start justify-between mb-4">
                 <p className="text-xs text-fg-subtle uppercase tracking-wide leading-tight max-w-[80%]">
-                  {card.title}
+                  {t(card.titleKey)}
                 </p>
                 <div className={`${styles.icon} rounded-lg p-2 flex items-center justify-center`}>
                   {card.icon}

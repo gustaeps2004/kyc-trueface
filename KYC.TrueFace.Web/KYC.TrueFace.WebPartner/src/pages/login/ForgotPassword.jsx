@@ -2,9 +2,11 @@ import { LoginBase } from "../../components/Login/LoginBase"
 import { FormForgotPassword } from "../../components/Login/FormForgotPassword"
 import { ForgotPasswordConfirmed } from "../../components/Login/ForgotPasswordConfirmed"
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 export function ForgotPassword() {
   const [confirmed, setConfirmed] = useState(false)
+  const { t } = useTranslation();
 
   const handlerConfirm = () => {
     setConfirmed(true)
@@ -12,8 +14,8 @@ export function ForgotPassword() {
 
   return(
     <LoginBase
-      title="Forgot password"
-      subtitle={confirmed ? "An email has been sent to change your password" : "We will send you a reset link"}
+      title={t('login.forgotPasswordTitle')}
+      subtitle={confirmed ? t('login.resetLinkSent') : t('login.resetLinkDescription')}
     >
       { confirmed
         ? <ForgotPasswordConfirmed />

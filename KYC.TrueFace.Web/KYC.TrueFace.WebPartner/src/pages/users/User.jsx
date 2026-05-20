@@ -2,6 +2,7 @@ import Layout from "../../components/base/Layout";
 import { Content } from "../../components/base/Content";
 import { UserAddEdit } from "./UserAddEdit";
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { UserRoundPen } from 'lucide-react';
 import {
   IdNumberFormat,
@@ -12,6 +13,7 @@ export function User() {
   const [openModal, setOpenModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [userEdit, setUserEdit] = useState(null)
+  const { t } = useTranslation();
 
   const handlerOpenModal = (isEdit, user) => {
     setIsEdit(isEdit)
@@ -26,11 +28,11 @@ export function User() {
   }
 
   const columns = [
-    "Id number",
-    "Name",
-    "E-mail",
-    "Inclusion date",
-    "Edit",
+    t('users.idNumber'),
+    t('users.name'),
+    t('users.email'),
+    t('users.inclusionDate'),
+    t('users.edit'),
   ]
 
   const users = [
@@ -48,9 +50,9 @@ export function User() {
 
   return(
     <div>
-      <Layout name="Users">
+      <Layout name={t('users.pageTitle')}>
         <Content
-          placeholderFilter="ID, name or e-mail"
+          placeholderFilter={t('users.searchPlaceholder')}
           isShowAdd={true}
           isShowFilter={true}
           openModal={() => handlerOpenModal(false, null)}
@@ -104,7 +106,7 @@ export function User() {
                     <td className="px-6 py-4">
                       <button
                         onClick={() => handlerOpenModal(true, user)}
-                        aria-label="Edit user"
+                        aria-label={t('users.edit')}
                         className="
                           inline-flex
                           items-center

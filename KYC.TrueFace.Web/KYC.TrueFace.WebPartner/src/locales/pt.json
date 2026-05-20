@@ -1,0 +1,104 @@
+{
+  "login": {
+    "email": "E-mail",
+    "password": "Senha",
+    "login": "Entrar",
+    "signingIn": "Entrando...",
+    "forgotPassword": "Esqueceu sua senha?",
+    "signInToAccount": "Entre na sua conta",
+    "heroTitleStart": "Verificação de identidade,",
+    "heroTitleHighlight": "simplificada",
+    "heroSubtitle": "Biometria facial em tempo real para um onboarding seguro e sem fricção.",
+    "confirm": "Confirmar",
+    "backToLogin": "Voltar ao login",
+    "confirmPassword": "Confirmar senha",
+    "register": "Registrar",
+    "forgotPasswordTitle": "Esqueci a senha",
+    "resetLinkSent": "Um e-mail foi enviado para alterar sua senha",
+    "resetLinkDescription": "Enviaremos um link de redefinição",
+    "registerPasswordTitle": "Cadastrar senha",
+    "registerPasswordSubtitle": "Crie sua senha para continuar"
+  },
+  "topbar": {
+    "logout": "Sair",
+    "switchLanguage": "Alterar idioma"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "users": "Usuários",
+    "onboarding": "Onboarding",
+    "history": "Histórico"
+  },
+  "dashboard": {
+    "welcome": "Bem-vindo, {{name}}",
+    "consultedLastWeek": "Consultados na última semana",
+    "reprovedLastWeek": "Reprovados na última semana",
+    "approvedLastWeek": "Aprovados na última semana",
+    "pendingManual": "Pendente de ação manual",
+    "approvedManuallyLastMonth": "Aprovados manualmente no último mês",
+    "reprovedManuallyLastMonth": "Reprovados manualmente no último mês"
+  },
+  "users": {
+    "pageTitle": "Usuários",
+    "searchPlaceholder": "ID, nome ou e-mail",
+    "idNumber": "CPF",
+    "name": "Nome",
+    "email": "E-mail",
+    "inclusionDate": "Data de inclusão",
+    "edit": "Editar",
+    "editUser": "Editar usuário",
+    "createUser": "Criar usuário",
+    "save": "Salvar",
+    "create": "Criar",
+    "birthDate": "Data de nascimento",
+    "motherName": "Nome da mãe",
+    "permission": "Permissão"
+  },
+  "onboarding": {
+    "pageTitle": "Onboarding",
+    "searchPlaceholder": "ID ou nome",
+    "idNumber": "CPF",
+    "name": "Nome",
+    "reason": "Motivo",
+    "viewImages": "Ver imagens",
+    "analysis": "Análise",
+    "analyse": "Analisar",
+    "deny": "Reprovar",
+    "approve": "Aprovar",
+    "actionUndone": "Esta ação não pode ser desfeita.",
+    "observation": "Observação"
+  },
+  "history": {
+    "pageTitle": "Histórico",
+    "searchPlaceholder": "ID ou nome",
+    "idNumber": "CPF",
+    "name": "Nome",
+    "situation": "Situação",
+    "date": "Data",
+    "viewImages": "Ver imagens",
+    "analysis": "Análise",
+    "analysed": "Analisado",
+    "observation": "Observação"
+  },
+  "select": {
+    "placeholder": "Selecionar",
+    "search": "Pesquisar...",
+    "noResults": "Nenhum resultado"
+  },
+  "mobile": {
+    "restrictedAccess": "Acesso Restrito",
+    "notAvailable": "Este aplicativo não está disponível para dispositivos móveis. Por favor, acesse via computador."
+  },
+  "notifications": {
+    "successDefault": "Operação realizada com sucesso.",
+    "errorDefault": "Ocorreu um erro inesperado. Tente novamente mais tarde."
+  },
+  "permission": {
+    "common": "Comum",
+    "administrator": "Administrador"
+  },
+  "situation": {
+    "approved": "Aprovado",
+    "denied": "Negado"
+  }
+}

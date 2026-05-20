@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import {
   LayoutDashboard,
   Users,
@@ -10,6 +11,7 @@ import {
 } from "lucide-react";
 
 export default function Sidebar() {
+  const { t } = useTranslation();
   const [collapsed, setCollapsed] = useState(() => {
     var closed = localStorage.getItem("sidebar")
 
@@ -27,10 +29,10 @@ export default function Sidebar() {
   }
 
   const menuItems = [
-    { label: "Dashboard", icon: <LayoutDashboard size={18} />, to: "/home" },
-    { label: "Users", icon: <Users size={18} />, to: "/users" },
-    { label: "Onboarding", icon: <Fingerprint size={18} />, to: "/onboarding" },
-    { label: "History", icon: <History size={18} />, to: "/history/onboarding" },
+    { labelKey: "sidebar.dashboard", icon: <LayoutDashboard size={18} />, to: "/home" },
+    { labelKey: "sidebar.users", icon: <Users size={18} />, to: "/users" },
+    { labelKey: "sidebar.onboarding", icon: <Fingerprint size={18} />, to: "/onboarding" },
+    { labelKey: "sidebar.history", icon: <History size={18} />, to: "/history/onboarding" },
   ];
 
   return (
@@ -76,8 +78,8 @@ export default function Sidebar() {
       <nav className="flex-1 px-3 py-5 space-y-1">
         {menuItems.map((item) => (
           <NavLink
-            title={collapsed ? item.label : null}
-            key={item.label}
+            title={collapsed ? t(item.labelKey) : null}
+            key={item.labelKey}
             to={item.to}
             end
             className={({ isActive }) =>
@@ -92,7 +94,7 @@ export default function Sidebar() {
             }
           >
             {item.icon}
-            {!collapsed && <span>{item.label}</span>}
+            {!collapsed && <span>{t(item.labelKey)}</span>}
           </NavLink>
         ))}
       </nav>

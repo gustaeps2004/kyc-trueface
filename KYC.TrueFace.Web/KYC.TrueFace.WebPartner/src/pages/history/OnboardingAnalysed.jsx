@@ -1,34 +1,37 @@
 import { Modal } from "../../components/modal/Modal"
 import { Input } from '../../components/Input'
 import { useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { DateFormat } from "../../utils/functions/Formats";
 import { Situation } from "../../utils/Arrays";
 
 export function OnboardingAnalysed(props) {
+  const { t } = useTranslation();
+
   useEffect(() => {
     document.getElementById('name').value = props.onboardingData.name
     document.getElementById('txAreaObservation').value = props.onboardingData.observation
-    document.getElementById('situation').value = Situation.find(x => x.value == props.onboardingData.situation)?.label
+    document.getElementById('situation').value = t(Situation.find(x => x.value == props.onboardingData.situation)?.labelKey)
     document.getElementById('dtSituation').value = DateFormat(props.onboardingData.inclusionDate)
   }, []);
 
   return(
     <Modal
-      title="Analysed"
+      title={t('history.analysed')}
       closeModal={props.closeModal}
     >
       <Input type="name" name="name" disabled={true}>
-        Name
+        {t('history.name')}
       </Input>
       <Input type="situation" name="situation" disabled={true}>
-        Situation
+        {t('history.situation')}
       </Input>
       <Input type="dtSituation" name="dtSituation" disabled={true}>
-        Date
+        {t('history.date')}
       </Input>
       <div>
         <label className="block text-xs text-fg-subtle font-medium mb-1.5">
-          Observation
+          {t('history.observation')}
         </label>
         <textarea
           id="txAreaObservation"

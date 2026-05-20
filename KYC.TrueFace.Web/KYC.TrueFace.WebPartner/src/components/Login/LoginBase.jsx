@@ -1,6 +1,9 @@
-import { ShieldCheck, Check } from "lucide-react"
+import { ShieldCheck } from "lucide-react"
+import { useTranslation } from 'react-i18next';
 
 export function LoginBase(props) {
+  const { t } = useTranslation();
+
   return(
     <div className="
       relative
@@ -18,7 +21,7 @@ export function LoginBase(props) {
         justify-between
         p-12
         overflow-hidden
-        bg-gradient-to-br
+        bg-linear-to-br
         from-indigo-950
         via-slate-900
         to-slate-950
@@ -98,15 +101,11 @@ export function LoginBase(props) {
             tracking-tight
             mb-4
           ">
-            Identity verification,{" "}
-            <span className="text-indigo-300">simplified</span>.
+            {t('login.heroTitleStart')}{" "}
+            <span className="text-indigo-300">{t('login.heroTitleHighlight')}</span>.
           </h2>
-          <p className="
-            text-base
-            text-slate-300
-            leading-relaxed
-          ">
-            Real-time facial biometrics for secure, frictionless customer onboarding.
+          <p className="text-base text-slate-300 leading-relaxed">
+            {t('login.heroSubtitle')}
           </p>
         </div>
         <div className="relative"></div>
@@ -135,7 +134,7 @@ export function LoginBase(props) {
             ">
               <ShieldCheck size={18} className="text-brand" />
             </div>
-            <span className="text-base font-medium text-fg">
+            <span className="text-sm font-medium text-fg">
               KYC TrueFace
             </span>
           </div>
@@ -147,7 +146,7 @@ export function LoginBase(props) {
             <p className="text-sm text-fg-subtle">
               {props.subtitle !== undefined
                 ? props.subtitle
-                : "Sign in to your account"}
+                : t('login.signInToAccount')}
             </p>
           </div>
 

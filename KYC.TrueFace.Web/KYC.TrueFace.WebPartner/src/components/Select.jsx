@@ -1,21 +1,27 @@
 import { useState, useRef, useEffect } from "react"
 import { ChevronDown } from "lucide-react"
+import { useTranslation } from 'react-i18next';
 
 export function Select({
   label,
   options = [],
   value,
   onChange,
-  placeholder="Select"
+  placeholder
 }) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState("")
   const ref = useRef(null)
+  const { t } = useTranslation();
+
+  const resolvedPlaceholder = placeholder ?? t('select.placeholder');
+
+  const getLabel = (option) => option.labelKey ? t(option.labelKey) : option.label;
 
   const selected = options.find(o => o.value === value)
 
   const filteredOptions = options.filter(option =>
-    option.label.toLowerCase().includes(search.toLowerCase())
+    getLabel(option).toLowerCase().includes(search.toLowerCase())
   )
 
   useEffect(() => {
@@ -64,7 +70,7 @@ export function Select({
         "
       >
         <span className={selected ? "text-fg" : "text-fg-faint"}>
-          {selected ? selected.label : placeholder}
+          {selected ? getLabel(selected) : resolvedPlaceholder}
         </span>
 
         <ChevronDown
@@ -93,7 +99,7 @@ export function Select({
           <div className="p-2 border-b border-divider/40">
             <input
               type="text"
-              placeholder="Search..."
+              placeholder={t('select.search')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               autoFocus
@@ -117,7 +123,7 @@ export function Select({
           <div className="max-h-48 overflow-y-auto scrollbar">
             {filteredOptions.length === 0 ? (
               <div className="px-3 py-3 text-sm text-fg-faint text-center">
-                No results
+                {t('select.noResults')}
               </div>
             ) : (
               filteredOptions.map(option => (
@@ -140,7 +146,7 @@ export function Select({
                       : "text-fg-muted hover:bg-raised hover:text-fg"}
                   `}
                 >
-                  {option.label}
+                  {getLabel(option)}
                 </div>
               ))
             )}
