@@ -2,7 +2,13 @@ import { ShieldCheck } from "lucide-react"
 import { useTranslation } from 'react-i18next';
 
 export function LoginBase(props) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const toggleLanguage = () => {
+    const next = i18n.language === 'en' ? 'pt' : 'en';
+    i18n.changeLanguage(next);
+    localStorage.setItem('language', next);
+  };
 
   return(
     <div className="
@@ -12,6 +18,36 @@ export function LoginBase(props) {
       flex
       items-stretch
     ">
+      <button
+        title={t('topbar.switchLanguage')}
+        onClick={toggleLanguage}
+        aria-label={t('topbar.switchLanguage')}
+        className="
+          absolute
+          top-4
+          right-4
+          z-10
+          flex
+          items-center
+          justify-center
+          w-9
+          h-9
+          rounded-md
+          text-fg-subtle
+          hover:text-fg
+          hover:bg-raised
+          transition-all
+          duration-150
+          cursor-pointer
+          focus:outline-none
+          focus:ring-2
+          focus:ring-brand/40
+          text-lg
+          leading-none
+        "
+      >
+        {i18n.language === 'en' ? '🇺🇸' : '🇧🇷'}
+      </button>
       <div className="
         hidden
         lg:flex
