@@ -1,7 +1,7 @@
 import { LogOut } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Logout } from "../../utils/functions/Logout";
+import { Logout } from "@/utils/logout";
 
 export default function Topbar({ name }) {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { Button } from "../Button"
+import { Button } from "@/components/ui/Button"
 import { useTranslation } from 'react-i18next';
 
 export function ForgotPasswordConfirmed() {

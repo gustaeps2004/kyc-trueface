@@ -1,5 +1,5 @@
-import { LoginBase } from "../../components/Login/LoginBase"
-import { FormRegisterPassword } from "../../components/Login/FormRegisterPassword"
+import { LoginBase } from "@/components/login/LoginBase"
+import { FormRegisterPassword } from "@/components/login/FormRegisterPassword"
 import { useTranslation } from 'react-i18next';
 
 export function RegisterPassword() {

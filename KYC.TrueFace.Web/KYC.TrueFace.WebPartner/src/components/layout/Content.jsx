@@ -1,5 +1,5 @@
 import { CirclePlus } from 'lucide-react';
-import { InputFilter } from '../InputFilter';
+import { InputFilter } from '@/components/ui/InputFilter';
 
 export function Content(props) {
   return(

@@ -1,9 +1,9 @@
 import { Modal } from "../../components/modal/Modal"
-import { Input } from '../../components/Input'
+import { Input } from '@/components/ui/Input'
 import { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-import { DateFormat } from "../../utils/functions/Formats";
-import { Situation } from "../../utils/Arrays";
+import { DateFormat } from "@/utils/formats";
+import { Situation } from "@/utils/arrays";
 
 export function OnboardingAnalysed(props) {
   const { t } = useTranslation();

@@ -1,5 +1,5 @@
-import Layout from "../../components/base/Layout";
-import { Content } from "../../components/base/Content";
+import Layout from "@/components/layout/Layout";
+import { Content } from "@/components/layout/Content";
 import { UserAddEdit } from "./UserAddEdit";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,7 @@ import { UserRoundPen } from 'lucide-react';
 import {
   IdNumberFormat,
   DateFormat
-} from "../../utils/functions/Formats";
+} from "@/utils/formats";
 
 export function User() {
   const [openModal, setOpenModal] = useState(false)

@@ -1,8 +1,8 @@
-import { Input } from "../Input"
+import { Input } from "@/components/ui/Input"
 import { useNavigate } from 'react-router-dom';
-import { Button } from "../Button";
-import { loginService } from "../../api/endpoints/loginService";
-import { useApi } from "../../hooks/useApi";
+import { Button } from "@/components/ui/Button";
+import { loginService } from "@/api/services/loginService";
+import { useApi } from "@/hooks/useApi";
 import { useTranslation } from 'react-i18next';
 
 export function FormLogin() {

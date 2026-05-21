@@ -5,10 +5,10 @@ import { ForgotPassword } from "./pages/login/ForgotPassword";
 import { RegisterPassword } from "./pages/login/RegisterPassword"
 import { Dashboard } from "./pages/home/Dashboard";
 import { User } from "./pages/users/User";
-import { MobileAcess } from "./pages/mobile/MobileAcess";
+import { MobileAccess } from "./pages/mobile/MobileAccess";
 import { Onboarding } from "./pages/onboarding/Onboarding";
 import { OnboardingHistory } from "./pages/history/Onboarding";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./routes/PrivateRoute";
 
 export default function App() {
   const [isMobile, setIsMobile] = useState(false);
@@ -27,7 +27,7 @@ export default function App() {
 
   if (isMobile) {
     return(
-      <MobileAcess />
+      <MobileAccess />
     )
   } else {
     return (

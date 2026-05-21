@@ -1,6 +1,6 @@
-import { LoginBase } from "../../components/Login/LoginBase"
-import { FormForgotPassword } from "../../components/Login/FormForgotPassword"
-import { ForgotPasswordConfirmed } from "../../components/Login/ForgotPasswordConfirmed"
+import { LoginBase } from "@/components/login/LoginBase"
+import { FormForgotPassword } from "@/components/login/FormForgotPassword"
+import { ForgotPasswordConfirmed } from "@/components/login/ForgotPasswordConfirmed"
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 

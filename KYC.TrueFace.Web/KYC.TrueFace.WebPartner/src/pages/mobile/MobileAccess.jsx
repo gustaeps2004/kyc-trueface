@@ -1,7 +1,7 @@
 import { AlertCircle } from "lucide-react"
 import { useTranslation } from 'react-i18next';
 
-export function MobileAcess() {
+export function MobileAccess() {
   const { t } = useTranslation();
 
   return(

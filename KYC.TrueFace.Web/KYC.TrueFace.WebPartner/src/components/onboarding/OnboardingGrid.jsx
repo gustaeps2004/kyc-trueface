@@ -4,11 +4,11 @@ import { OnboardingAnalyse } from '../../pages/onboarding/OnboardingAnalyse';
 import { OnboardingAnalysed } from '../../pages/history/OnboardingAnalysed';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Situation } from '../../utils/Arrays';
+import { Situation } from '@/utils/arrays';
 import {
   IdNumberFormat,
   DateFormat
-} from "../../utils/functions/Formats";
+} from "@/utils/formats";
 
 function SituationBadge({ situationValue }) {
   const { t } = useTranslation();

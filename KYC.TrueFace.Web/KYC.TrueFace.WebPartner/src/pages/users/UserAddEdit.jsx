@@ -1,13 +1,13 @@
 import { Modal } from "../../components/modal/Modal"
-import { Input } from "../../components/Input";
-import { Select } from "../../components/Select";
+import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-import { Permission } from "../../utils/Arrays";
+import { Permission } from "@/utils/arrays";
 import {
   IdNumberFormat,
   DateFormat
-} from "../../utils/functions/Formats";
+} from "@/utils/formats";
 
 export function UserAddEdit(props) {
   const [permission, setPermission] = useState()

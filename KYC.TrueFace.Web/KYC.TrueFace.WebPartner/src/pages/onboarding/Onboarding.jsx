@@ -1,6 +1,6 @@
-import Layout from "../../components/base/Layout";
-import { Content } from "../../components/base/Content";
-import { OnboardingGrid } from "../../components/onboarding/OnboardingGrid";
+import Layout from "@/components/layout/Layout";
+import { Content } from "@/components/layout/Content";
+import { OnboardingGrid } from "@/components/onboarding/OnboardingGrid";
 import { useTranslation } from 'react-i18next';
 
 export function Onboarding() {

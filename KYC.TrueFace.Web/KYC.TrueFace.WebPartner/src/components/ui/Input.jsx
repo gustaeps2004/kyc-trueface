@@ -1,4 +1,4 @@
-import { ApplyMask } from "../utils/functions/Mask"
+import { ApplyMask } from '@/utils/mask'
 
 export function Input(props) {
 

@@ -25,7 +25,7 @@ const PrivateRoute = ({ allowedRoles }) => {
     }
 
     return <Outlet />;
-    
+
   } catch (error) {
     localStorage.removeItem('token');
     return <Navigate to="/login" replace />;

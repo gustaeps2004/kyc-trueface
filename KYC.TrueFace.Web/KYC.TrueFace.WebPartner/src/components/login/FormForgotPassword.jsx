@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import { Input } from '../Input'
-import { Button } from "../Button"
+import { Input } from '@/components/ui/Input'
+import { Button } from "@/components/ui/Button"
 import { useTranslation } from 'react-i18next';
 
 export function FormForgotPassword({ handlerConfirmClick }) {

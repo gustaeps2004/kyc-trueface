@@ -1,4 +1,4 @@
-import Layout from "../../components/base/Layout";
+import Layout from "@/components/layout/Layout";
 import {
   Search,
   XCircle,
@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-import { GetTokenData } from "../../utils/functions/GetTokenData";
+import { GetTokenData } from "@/utils/getTokenData";
 
 export function Dashboard() {
   const [loggedName, setloggedName] = useState("")
