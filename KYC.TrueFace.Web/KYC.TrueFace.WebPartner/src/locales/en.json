@@ -41,18 +41,25 @@
   "users": {
     "pageTitle": "Users",
     "searchPlaceholder": "ID, name or e-mail",
-    "idNumber": "Id number",
-    "name": "Name",
-    "email": "E-mail",
-    "inclusionDate": "Inclusion date",
-    "edit": "Edit",
     "editUser": "Edit user",
     "createUser": "Create user",
     "save": "Save",
     "create": "Create",
     "birthDate": "Birth date",
     "motherName": "Mother name",
-    "permission": "Permission"
+    "permission": "Permission",
+    "gridColumns": {
+      "situation": "Situation",
+      "idNumber": "Id number",
+      "name": "Name",
+      "email": "E-mail",
+      "inclusionDate": "Inclusion date",
+      "edit": "Edit"
+    },
+    "situation": {
+      "enabled": "Enabled",
+      "disabled": "Disabled"
+    }
   },
   "onboarding": {
     "pageTitle": "Onboarding",

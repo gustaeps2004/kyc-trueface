@@ -5,36 +5,11 @@ import { OnboardingAnalysed } from '../../pages/history/OnboardingAnalysed';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Situation } from '@/utils/arrays';
+import { SituationBadge } from '../ui/SituationBadge';
 import {
   IdNumberFormat,
   DateFormat
 } from "@/utils/formats";
-
-function SituationBadge({ situationValue }) {
-  const { t } = useTranslation();
-  const situation = Situation.find(x => x.value == situationValue);
-  if (!situation) return null;
-
-  const styles = situationValue === 1
-    ? "bg-success/15 text-success-light"
-    : situationValue === 2
-    ? "bg-danger/15 text-danger-light"
-    : "bg-warning/15 text-warning-light";
-
-  return (
-    <span className={`
-      inline-block
-      text-xs
-      font-medium
-      px-3
-      py-1
-      rounded-full
-      ${styles}
-    `}>
-      {t(situation.labelKey)}
-    </span>
-  );
-}
 
 export function OnboardingGrid(props) {
   const [openModalImages, setOpenModalImages] = useState(false)
@@ -107,7 +82,7 @@ export function OnboardingGrid(props) {
               <td className="px-6 py-4">
                 {!props.isHistory
                   ? <span className="text-warning-light">{onboarding.reason}</span>
-                  : <SituationBadge situationValue={onboarding.situation} />
+                  : <SituationBadge situationValue={onboarding.situation} array={Situation} />
                 }
               </td>
               {props.isHistory && (

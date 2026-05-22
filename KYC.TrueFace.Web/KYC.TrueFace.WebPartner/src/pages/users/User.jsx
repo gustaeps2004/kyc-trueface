@@ -4,6 +4,8 @@ import { UserAddEdit } from "./UserAddEdit";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { UserRoundPen } from 'lucide-react';
+import { UserSituation } from "@/utils/arrays";
+import { SituationBadge } from "@/components/ui/SituationBadge";
 import {
   IdNumberFormat,
   DateFormat
@@ -28,11 +30,12 @@ export function User() {
   }
 
   const columns = [
-    t('users.idNumber'),
-    t('users.name'),
-    t('users.email'),
-    t('users.inclusionDate'),
-    t('users.edit'),
+    t('users.gridColumns.idNumber'),
+    t('users.gridColumns.name'),
+    t('users.gridColumns.email'),
+    t('users.gridColumns.situation'),
+    t('users.gridColumns.inclusionDate'),
+    t('users.gridColumns.edit')
   ]
 
   const users = [
@@ -44,6 +47,18 @@ export function User() {
       motherName: "Marlene dal pra",
       permission: 2,
       birthDate: "2004-08-18",
+      situation: 1,
+      code: "3d3b1f50-01df-4248-8eff-2ef575d6bbc5"
+    },
+    {
+      name: "Gustavo Do Espirito Santo",
+      idNumber: "11122233344",
+      email: "gustavo.santo@teste.com.br",
+      inclusionDate: "2026-03-30",
+      motherName: "Marlene dal pra",
+      permission: 2,
+      birthDate: "2004-08-18",
+      situation: 2,
       code: "3d3b1f50-01df-4248-8eff-2ef575d6bbc5"
     }
   ]
@@ -99,6 +114,9 @@ export function User() {
                     </td>
                     <td className="px-6 py-4 text-fg-muted">
                       {user.email}
+                    </td>
+                    <td className="px-6 py-4 text-fg-muted">
+                      <SituationBadge array={UserSituation}  situationValue={user.situation}/>
                     </td>
                     <td className="px-6 py-4 text-fg-muted">
                       {DateFormat(user.inclusionDate)}
