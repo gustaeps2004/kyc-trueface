@@ -3,7 +3,7 @@ using KYC.TrueFace.Core.Application.Messaging.DTOs;
 using KYC.TrueFace.Core.Application.Services.UserAccess;
 using KYC.TrueFace.Core.Domain.Exceptions;
 using KYC.TrueFace.Core.Domain.Extensions;
-using KYC.TrueFace.Core.Infra.Data.Repositories.User;
+using KYC.TrueFace.Core.Domain.Repositories;
 
 namespace KYC.TrueFace.Core.Application.Services.User;
 

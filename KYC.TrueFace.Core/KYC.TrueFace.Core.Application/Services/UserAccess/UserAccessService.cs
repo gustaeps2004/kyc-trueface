@@ -1,6 +1,6 @@
 ﻿using KYC.TrueFace.Core.Application.Helpers;
 using KYC.TrueFace.Core.Application.Messaging.DTOs;
-using KYC.TrueFace.Core.Infra.Data.Repositories.Base;
+using KYC.TrueFace.Core.Domain.Repositories;
 using System.Text.Json;
 
 namespace KYC.TrueFace.Core.Application.Services.UserAccess;

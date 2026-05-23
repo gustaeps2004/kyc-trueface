@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KYC.TrueFace.Core.Infra.Data\KYC.TrueFace.Core.Infra.Data.csproj" />
+    <ProjectReference Include="..\KYC.TrueFace.Core.Domain\KYC.TrueFace.Core.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -12,7 +12,7 @@ namespace KYC.TrueFace.Core.API.Controllers.v1;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/user")]
-public class UserController(
+public class UsersController(
     IUserService userService) : BaseController
 {
     [HttpPost]

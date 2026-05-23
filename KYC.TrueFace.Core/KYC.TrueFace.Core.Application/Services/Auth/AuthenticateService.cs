@@ -5,8 +5,7 @@ using KYC.TrueFace.Core.Application.Services.Token;
 using KYC.TrueFace.Core.Domain.Entities;
 using KYC.TrueFace.Core.Domain.Enums;
 using KYC.TrueFace.Core.Domain.Exceptions;
-using KYC.TrueFace.Core.Infra.Data.Repositories.Base;
-using KYC.TrueFace.Core.Infra.Data.Repositories.UsersAccess;
+using KYC.TrueFace.Core.Domain.Repositories;
 
 namespace KYC.TrueFace.Core.Application.Services.Auth;
 

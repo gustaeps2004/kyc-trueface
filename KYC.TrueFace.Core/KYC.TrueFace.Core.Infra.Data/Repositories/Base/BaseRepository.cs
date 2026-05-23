@@ -1,20 +1,21 @@
-﻿using KYC.TrueFace.Core.Infra.Data.Data;
-using Microsoft.EntityFrameworkCore.Storage;
+using KYC.TrueFace.Core.Domain.Repositories;
+using KYC.TrueFace.Core.Infra.Data.Data;
 
 namespace KYC.TrueFace.Core.Infra.Data.Repositories.Base;
 
-public class BaseRepository(
-    ApplicationDbContext context) : IBaseRepository
+public class BaseRepository(ApplicationDbContext context) : IBaseRepository
 {
-    public void Insert<T>(T entity)
-        => context.Add(entity!);
+    protected readonly ApplicationDbContext DbContext = context;
 
-    public void Update<T>(T entity)
-        => context.Update(entity!);
+    public void Insert<T>(T entity) where T : class
+        => DbContext.Add(entity);
+
+    public void Update<T>(T entity) where T : class
+        => DbContext.Update(entity);
 
     public void SaveChanges()
-        => context.SaveChanges();
+        => DbContext.SaveChanges();
 
-    public IDbContextTransaction BeginTransaction()
-        => context.Database.BeginTransaction();
+    public ITransaction BeginTransaction()
+        => new DbTransactionAdapter(DbContext.Database.BeginTransaction());
 }

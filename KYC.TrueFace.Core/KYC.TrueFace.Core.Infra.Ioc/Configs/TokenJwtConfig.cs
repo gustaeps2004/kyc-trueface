@@ -31,7 +31,7 @@ public static class TokenJwtConfig
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = configuration["SSO:Issuer"],
                 ValidAudience = configuration["SSO:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["SSO:Key"]))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["SSO:Key"]!))
             };
         });
     }

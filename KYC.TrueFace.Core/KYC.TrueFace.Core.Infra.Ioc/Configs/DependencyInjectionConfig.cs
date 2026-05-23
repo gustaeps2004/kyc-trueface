@@ -1,7 +1,8 @@
-﻿using KYC.TrueFace.Core.Application.Services.Auth;
+using KYC.TrueFace.Core.Application.Services.Auth;
 using KYC.TrueFace.Core.Application.Services.Token;
 using KYC.TrueFace.Core.Application.Services.User;
 using KYC.TrueFace.Core.Application.Services.UserAccess;
+using KYC.TrueFace.Core.Domain.Repositories;
 using KYC.TrueFace.Core.Infra.Data.Repositories.Base;
 using KYC.TrueFace.Core.Infra.Data.Repositories.User;
 using KYC.TrueFace.Core.Infra.Data.Repositories.UsersAccess;
