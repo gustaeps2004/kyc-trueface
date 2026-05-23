@@ -200,28 +200,6 @@ https://localhost:7065/swagger
 
 ---
 
-## Deployment
-
-### Frontend — Vercel (GitHub Actions)
-
-The frontend is automatically deployed to Vercel on every push to `main` that modifies files under `KYC.TrueFace.Web/KYC.TrueFace.WebPartner/`.
-
-**Required repository secrets:**
-
-| Secret | Description |
-|---|---|
-| `VERCEL_TOKEN` | Vercel authentication token |
-| `VERCEL_ORG_ID` | Vercel organization ID |
-| `VERCEL_PROJECT_ID` | Vercel project ID |
-
-To set these up, install the [Vercel CLI](https://vercel.com/docs/cli), run `vercel link` inside the frontend directory, and copy the generated values to your GitHub repository secrets (`Settings → Secrets and variables → Actions`).
-
-### Backend — Docker
-
-Build and push the Docker image to your container registry of choice, then deploy using the environment variables described in the [Running with Docker](#running-with-docker) section.
-
----
-
 ## License
 
 MIT © 2026 Gustavo Do Espirito Santo
