@@ -13,7 +13,6 @@ A full-stack KYC (Know Your Customer) platform for identity verification, built 
 - [Running with Docker](#running-with-docker)
 - [Database Migrations](#database-migrations)
 - [API Documentation](#api-documentation)
-- [Deployment](#deployment)
 
 ---
 
