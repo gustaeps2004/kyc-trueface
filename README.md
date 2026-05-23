@@ -5,8 +5,6 @@ A full-stack KYC (Know Your Customer) platform for identity verification, built 
 ## Table of Contents
 
 - [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Prerequisites](#prerequisites)
 - [Environment Variables](#environment-variables)
 - [Running the Backend](#running-the-backend)
 - [Running the Frontend](#running-the-frontend)
