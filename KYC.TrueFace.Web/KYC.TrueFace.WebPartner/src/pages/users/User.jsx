@@ -116,7 +116,7 @@ export function User() {
                       {user.email}
                     </td>
                     <td className="px-6 py-4 text-fg-muted">
-                      <SituationBadge array={UserSituation}  situationValue={user.situation}/>
+                      <SituationBadge array={UserSituation} situationValue={user.situation} isUser={true} />
                     </td>
                     <td className="px-6 py-4 text-fg-muted">
                       {DateFormat(user.inclusionDate)}
