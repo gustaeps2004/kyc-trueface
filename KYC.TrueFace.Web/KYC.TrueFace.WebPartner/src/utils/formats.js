@@ -8,8 +8,9 @@ export function IdNumberFormat(idNumber) {
   return idNumber;
 }
 
-export function DateFormat(date) {
-  const [year, month, day] = date.split('-');
+export function DateFormat(date) { 
+  const datePart = date.split('T')[0]; 
+  const [year, month, day] = datePart.split('-');
 
   const d = new Date(year, month - 1, day);
 

@@ -103,7 +103,8 @@
   },
   "notifications": {
     "successDefault": "Operação realizada com sucesso.",
-    "errorDefault": "Ocorreu um erro inesperado. Tente novamente mais tarde."
+    "errorDefault": "Ocorreu um erro inesperado. Tente novamente mais tarde.",
+    "loading": "Carregando..."
   },
   "permission": {
     "common": "Comum",

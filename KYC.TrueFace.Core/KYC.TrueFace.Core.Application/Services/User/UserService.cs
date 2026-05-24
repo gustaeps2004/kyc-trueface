@@ -72,4 +72,7 @@ public class UserService(
             { "user_name", name },
         };
     }
+
+    public IEnumerable<Domain.Entities.User> ListByPartner(Guid codePartner)
+        => userRepository.ListByPartner(codePartner);
 }

@@ -1,11 +1,13 @@
 import Layout from "@/components/layout/Layout";
 import { Content } from "@/components/layout/Content";
 import { UserAddEdit } from "./UserAddEdit";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import { UserRoundPen } from 'lucide-react';
 import { UserSituation } from "@/utils/arrays";
 import { SituationBadge } from "@/components/ui/SituationBadge";
+import { userService } from "@/api/services/userService";
+import { useApi } from "@/hooks/useApi";
 import {
   IdNumberFormat,
   DateFormat
@@ -15,7 +17,23 @@ export function User() {
   const [openModal, setOpenModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [userEdit, setUserEdit] = useState(null)
+  const [users, setUsers] = useState([])
+  const { execute, isLoading } = useApi();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    execute(
+      () => userService.listByPartner(),
+      {
+        onSuccess: (response) => {
+          setUsers(response.data.map(u => ({
+            ...u,
+            inclusionDate: u.inclusionDt,
+          })));
+        },
+      }
+    );
+  }, [execute]);
 
   const handlerOpenModal = (isEdit, user) => {
     setIsEdit(isEdit)
@@ -36,31 +54,6 @@ export function User() {
     t('users.gridColumns.situation'),
     t('users.gridColumns.inclusionDate'),
     t('users.gridColumns.edit')
-  ]
-
-  const users = [
-    {
-      name: "Gustavo Do Espirito Santo",
-      idNumber: "11122233344",
-      email: "gustavo.santo@teste.com.br",
-      inclusionDate: "2026-03-30",
-      motherName: "Marlene dal pra",
-      permission: 2,
-      birthDate: "2004-08-18",
-      situation: 1,
-      code: "3d3b1f50-01df-4248-8eff-2ef575d6bbc5"
-    },
-    {
-      name: "Gustavo Do Espirito Santo",
-      idNumber: "11122233344",
-      email: "gustavo.santo@teste.com.br",
-      inclusionDate: "2026-03-30",
-      motherName: "Marlene dal pra",
-      permission: 2,
-      birthDate: "2004-08-18",
-      situation: 2,
-      code: "3d3b1f50-01df-4248-8eff-2ef575d6bbc5"
-    }
   ]
 
   return(
@@ -96,9 +89,16 @@ export function User() {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
+                {isLoading ? (
+                  <tr>
+                    <td colSpan={columns.length} className="py-8 text-center text-fg-subtle">
+                      {t('notifications.loading')}
+                    </td>
+                  </tr>
+                ) : (
+                  users.map((user) => (
                   <tr
-                    key={index}
+                    key={user.code}
                     className="
                       border-b
                       border-divider/15
@@ -143,7 +143,8 @@ export function User() {
                       </button>
                     </td>
                   </tr>
-                ))}
+                ))
+                )}
               </tbody>
             </table>
           </div>

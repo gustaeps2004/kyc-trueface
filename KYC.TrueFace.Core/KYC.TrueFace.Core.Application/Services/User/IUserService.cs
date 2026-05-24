@@ -7,4 +7,6 @@ public interface IUserService
     void Create(
         CreateUserDto userDto,
         Guid codePartner);
+
+    IEnumerable<Domain.Entities.User> ListByPartner(Guid codePartner);
 }

@@ -5,7 +5,10 @@ namespace KYC.TrueFace.Core.API.Controllers.Base;
 public class BaseController : ControllerBase
 {
     protected Guid GetPartnerCode()
-        => Guid.Parse("780ebffa-ef6f-4cf8-b9d2-d2b54bdaf63b");
+    {
+        var strCodePartner = User.Claims.FirstOrDefault(c => c.Type == "user_code_partner")!.Value;
+        return Guid.Parse(strCodePartner);
+    }
 
     protected string GetIp()
         => HttpContext.Connection.RemoteIpAddress?.ToString() 

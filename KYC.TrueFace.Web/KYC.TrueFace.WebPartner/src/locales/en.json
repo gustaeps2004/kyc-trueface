@@ -103,7 +103,8 @@
   },
   "notifications": {
     "successDefault": "Operation completed successfully.",
-    "errorDefault": "An unexpected error occurred. Please try again later."
+    "errorDefault": "An unexpected error occurred. Please try again later.",
+    "loading": "Loading..."
   },
   "permission": {
     "common": "Common",

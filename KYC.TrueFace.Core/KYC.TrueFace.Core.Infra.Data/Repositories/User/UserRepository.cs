@@ -13,4 +13,9 @@ public class UserRepository(ApplicationDbContext context) : BaseRepository(conte
                     x.IdNumber.Equals(idNumber) ||
                     x.Email.Equals(email)
             );
+
+    public IEnumerable<Domain.Entities.User> ListByPartner(Guid codePartner)
+        => DbContext
+            .Users
+            .Where(x => x.CodePartner.Equals(codePartner));
 }
