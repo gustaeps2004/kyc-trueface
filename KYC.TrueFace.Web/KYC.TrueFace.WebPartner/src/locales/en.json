@@ -45,9 +45,14 @@
     "createUser": "Create user",
     "save": "Save",
     "create": "Create",
-    "birthDate": "Birth date",
-    "motherName": "Mother name",
-    "permission": "Permission",
+    "modal": {
+      "idNumber": "Id number",
+      "name": "Name",
+      "email": "E-mail",
+      "motherName": "Mother name",
+      "permission": "Permission",
+      "birthDate": "Birth date"
+    },
     "gridColumns": {
       "situation": "Situation",
       "idNumber": "Id number",

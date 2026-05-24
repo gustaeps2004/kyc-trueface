@@ -49,7 +49,7 @@ export function UserAddEdit(props) {
       greenVariant="brand"
     >
       <Input type="name" name="name">
-        {t('users.name')}
+        {t('users.modal.name')}
       </Input>
       <Input
         disabled={props.isEdit}
@@ -59,7 +59,7 @@ export function UserAddEdit(props) {
         mask="###.###.###-##"
         onChange={setIdNumber}
       >
-        {t('users.idNumber')}
+        {t('users.modal.idNumber')}
       </Input>
       <Input
         type="bith"
@@ -68,17 +68,17 @@ export function UserAddEdit(props) {
         mask="##/##/####"
         onChange={setBithDate}
       >
-        {t('users.birthDate')}
+        {t('users.modal.birthDate')}
       </Input>
       <Input type="motherName" name="motherName">
-        {t('users.motherName')}
+        {t('users.modal.motherName')}
       </Input>
       <Input disabled={props.isEdit} type="email" name="email">
-        {t('users.email')}
+        {t('users.modal.email')}
       </Input>
 
       <Select
-        placeholder={t('users.permission')}
+        placeholder={t('users.modal.permission')}
         options={Permission}
         value={permission}
         onChange={setPermission}
