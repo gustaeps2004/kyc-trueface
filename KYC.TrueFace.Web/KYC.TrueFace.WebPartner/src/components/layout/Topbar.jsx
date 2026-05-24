@@ -1,9 +1,9 @@
-import { LogOut } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Logout } from "@/utils/logout";
 
-export default function Topbar({ name }) {
+export default function Topbar({ name, onToggleSidebar }) {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
@@ -27,11 +27,36 @@ export default function Topbar({ name }) {
       flex
       items-center
       justify-between
-      px-8
+      px-4
+      lg:px-8
     ">
-      <h1 className="text-xl text-fg font-medium">
-        {name}
-      </h1>
+      <div className="flex items-center gap-3">
+        <button
+          onClick={onToggleSidebar}
+          aria-label="Open menu"
+          className="
+            flex
+            lg:hidden
+            items-center
+            justify-center
+            w-9
+            h-9
+            rounded-md
+            text-fg-subtle
+            hover:text-fg
+            hover:bg-raised
+            transition-all
+            duration-150
+            cursor-pointer
+          "
+        >
+          <Menu size={20} />
+        </button>
+
+        <h1 className="text-lg lg:text-xl text-fg font-medium truncate">
+          {name}
+        </h1>
+      </div>
 
       <div className="flex items-center gap-2">
         <button

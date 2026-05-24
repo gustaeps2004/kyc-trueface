@@ -2,7 +2,7 @@ import { Search } from "lucide-react"
 
 export function InputFilter(props) {
   return(
-    <div className="relative w-1/2">
+    <div className="relative w-full">
       <Search
         size={16}
         className="

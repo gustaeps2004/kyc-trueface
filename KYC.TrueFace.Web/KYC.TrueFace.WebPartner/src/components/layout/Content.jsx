@@ -13,9 +13,12 @@ export function Content(props) {
     ">
       <div className="
         flex
-        flex-row
-        items-center
+        flex-col
+        sm:flex-row
+        items-start
+        sm:items-center
         justify-between
+        gap-2
         mb-2
       ">
         <div>
@@ -42,7 +45,7 @@ export function Content(props) {
             : <div></div>
           }
         </div>
-        <div className="flex justify-end w-150">
+        <div className="flex justify-end w-full sm:w-auto sm:max-w-xs md:max-w-sm lg:max-w-md">
           { props.isShowFilter ? <InputFilter placeholder={props.placeholderFilter} /> : null}
         </div>
       </div>

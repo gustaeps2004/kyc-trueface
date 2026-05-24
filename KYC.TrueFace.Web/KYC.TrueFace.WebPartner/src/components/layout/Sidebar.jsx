@@ -10,7 +10,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
   const { t } = useTranslation();
   const [collapsed, setCollapsed] = useState(() => {
     var closed = localStorage.getItem("sidebar")
@@ -38,15 +38,22 @@ export default function Sidebar() {
   return (
     <aside
       className={`
-        ${collapsed ? "w-20" : "w-64"}
+        fixed inset-y-0 left-0 z-40
+        lg:static lg:z-auto
+        w-64
+        ${collapsed ? "lg:w-20" : "lg:w-64"}
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        lg:translate-x-0
         bg-surface
         border-r
         border-divider/30
         text-fg
         flex
         flex-col
+        shrink-0
         transition-all
-        duration-500
+        duration-300
+        ease-in-out
       `}
     >
       <div className="h-16 flex items-center px-5 gap-3 border-b border-divider/30">
@@ -54,6 +61,10 @@ export default function Sidebar() {
           onClick={handlerSidebar}
           aria-label="Toggle sidebar"
           className="
+            hidden
+            lg:flex
+            items-center
+            justify-center
             text-fg-subtle
             hover:text-fg
             hover:bg-raised
@@ -67,12 +78,10 @@ export default function Sidebar() {
           <Menu size={20} />
         </button>
 
-        {!collapsed && (
-          <div className="flex items-center gap-2">
-            <ShieldCheck size={18} className="text-brand" />
-            <span className="text-sm font-medium text-fg">KYC TrueFace</span>
-          </div>
-        )}
+        <div className={`flex items-center gap-2 ${collapsed ? "lg:hidden" : ""}`}>
+          <ShieldCheck size={18} className="text-brand" />
+          <span className="text-sm font-medium text-fg">KYC TrueFace</span>
+        </div>
       </div>
 
       <nav className="flex-1 px-3 py-5 space-y-1">
@@ -82,9 +91,10 @@ export default function Sidebar() {
             key={item.labelKey}
             to={item.to}
             end
+            onClick={onClose}
             className={({ isActive }) =>
               `flex items-center
-              ${collapsed ? "justify-center" : "gap-3"}
+              ${collapsed ? "lg:justify-center gap-3 lg:gap-0" : "gap-3"}
               px-3 py-2.5 rounded-lg
               text-sm font-medium
               transition-all duration-150
@@ -94,7 +104,7 @@ export default function Sidebar() {
             }
           >
             {item.icon}
-            {!collapsed && <span>{t(item.labelKey)}</span>}
+            <span className={collapsed ? "lg:hidden" : ""}>{t(item.labelKey)}</span>
           </NavLink>
         ))}
       </nav>
