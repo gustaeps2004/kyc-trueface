@@ -1,4 +1,5 @@
 ﻿using KYC.TrueFace.Core.Application.Messaging.DTOs;
+using KYC.TrueFace.Core.Application.Messaging.Response;
 
 namespace KYC.TrueFace.Core.Application.Services.User;
 
@@ -8,5 +9,7 @@ public interface IUserService
         CreateUserDto userDto,
         Guid codePartner);
 
-    IEnumerable<Domain.Entities.User> ListByPartner(Guid codePartner);
+    IEnumerable<UserResponse> ListByPartner(
+        Guid codePartner,
+        string filter);
 }

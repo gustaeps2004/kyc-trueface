@@ -18,12 +18,20 @@ export function User() {
   const [isEdit, setIsEdit] = useState(false)
   const [userEdit, setUserEdit] = useState(null)
   const [users, setUsers] = useState([])
+  const [filterValue, setFilterValue] = useState("")
   const { execute, isLoading } = useApi();
   const { t } = useTranslation();
 
   useEffect(() => {
-    execute(
-      () => userService.listByPartner(),
+    const timer = setTimeout(() => {
+      handlerListUsers(filterValue)
+    }, 400)
+    return () => clearTimeout(timer)
+  }, [filterValue]);
+
+  const handlerListUsers = async (filter) => {
+    await execute(
+      () => userService.listByPartner(filter),
       {
         onSuccess: (response) => {
           setUsers(response.data.map(u => ({
@@ -33,7 +41,7 @@ export function User() {
         },
       }
     );
-  }, [execute]);
+  }
 
   const handlerOpenModal = (isEdit, user) => {
     setIsEdit(isEdit)
@@ -64,6 +72,8 @@ export function User() {
           isShowAdd={true}
           isShowFilter={true}
           openModal={() => handlerOpenModal(false, null)}
+          filterValue={filterValue}
+          onFilter={setFilterValue}
         >
 
           <div className="relative overflow-x-auto mt-6 rounded-lg">

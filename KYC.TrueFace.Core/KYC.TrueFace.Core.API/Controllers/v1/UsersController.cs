@@ -4,7 +4,6 @@ using KYC.TrueFace.Core.Application.Messaging.Request;
 using KYC.TrueFace.Core.Application.Messaging.Response;
 using KYC.TrueFace.Core.Application.Messaging.Response.Base;
 using KYC.TrueFace.Core.Application.Services.User;
-using KYC.TrueFace.Core.Domain.Entities;
 using KYC.TrueFace.Core.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +18,13 @@ public class UsersController(
     IUserService userService) : BaseController
 {
     [HttpGet]
-    public ActionResult<IEnumerable<User>> ListByPartner()
+    public ActionResult<IEnumerable<UserResponse>> ListByPartner([FromQuery] string? filter)
     {
         try
         {
-            var response = userService.ListByPartner(GetPartnerCode());
-
-            return Ok(response);
+            return Ok(
+                userService.ListByPartner(GetPartnerCode(), filter ?? string.Empty)
+            );
         }
         catch (KycException ex)
         {

@@ -46,7 +46,7 @@ export function Content(props) {
           }
         </div>
         <div className="flex justify-end w-full sm:w-auto sm:max-w-xs md:max-w-sm lg:max-w-md">
-          { props.isShowFilter ? <InputFilter placeholder={props.placeholderFilter} /> : null}
+          { props.isShowFilter ? <InputFilter placeholder={props.placeholderFilter} value={props.filterValue} onChange={props.onFilter} /> : null}
         </div>
       </div>
       {props.children}

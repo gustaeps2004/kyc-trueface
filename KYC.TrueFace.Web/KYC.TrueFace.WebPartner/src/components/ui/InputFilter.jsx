@@ -16,6 +16,8 @@ export function InputFilter(props) {
       />
       <input
         type="text"
+        value={props.value ?? ""}
+        onChange={(e) => props.onChange?.(e.target.value)}
         placeholder={props.placeholder}
         autoComplete="off"
         className="

@@ -1,5 +1,6 @@
 ﻿using KYC.TrueFace.Core.Application.Helpers;
 using KYC.TrueFace.Core.Application.Messaging.DTOs;
+using KYC.TrueFace.Core.Application.Messaging.Response;
 using KYC.TrueFace.Core.Application.Services.UserAccess;
 using KYC.TrueFace.Core.Domain.Exceptions;
 using KYC.TrueFace.Core.Domain.Extensions;
@@ -15,7 +16,7 @@ public class UserService(
         CreateUserDto userDto,
         Guid codePartner)
     {
-         if (userRepository.IsExist(userDto.IdNumber, userDto.Email))
+        if (userRepository.IsExist(userDto.IdNumber, userDto.Email))
             throw new KycException("User is already existed.");
 
         userDto.Validate();
@@ -73,6 +74,32 @@ public class UserService(
         };
     }
 
-    public IEnumerable<Domain.Entities.User> ListByPartner(Guid codePartner)
-        => userRepository.ListByPartner(codePartner);
+    public IEnumerable<UserResponse> ListByPartner(
+        Guid codePartner,
+        string filter)
+    {
+        var response = userRepository
+                        .ListByPartner(codePartner)
+                        .Select(u => new UserResponse
+                        {
+                            Code = u.Code,
+                            InclusionDt = u.InclusionDt,
+                            Name = u.Name,
+                            IdNumber = u.IdNumber,
+                            BirthDate = u.BirthDate,
+                            MotherName = u.MotherName,
+                            Email = u.Email,
+                            Permission = u.Permission,
+                            Situation = u.Situation
+                        });
+
+        if (!string.IsNullOrEmpty(filter))
+            response = response.Where(u =>
+                            u.Name.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
+                            u.IdNumber.Contains(filter.JustNumbers()) ||
+                            u.Email.Contains(filter, StringComparison.InvariantCultureIgnoreCase)
+                        );
+
+        return response;
+    }
 }
