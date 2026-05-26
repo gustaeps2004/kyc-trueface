@@ -17,7 +17,12 @@
     "resetLinkSent": "Um e-mail foi enviado para alterar sua senha",
     "resetLinkDescription": "Enviaremos um link de redefinição",
     "registerPasswordTitle": "Cadastrar senha",
-    "registerPasswordSubtitle": "Crie sua senha para continuar"
+    "registerPasswordSubtitle": "Crie sua senha para continuar",
+    "validation": {
+      "incorrectLogin": "Usuário ou senha inválidos.",
+      "passwordWeak": "Senha muito fraca.",
+      "resetPassword": "A senha deve ser igual a senha de confirmação."
+    }
   },
   "topbar": {
     "logout": "Sair",
@@ -64,6 +69,17 @@
     "situation": {
       "enabled": "Enabled",
       "disabled": "Disabled"
+    },
+    "validation": {
+      "existed": "Usuário já existe.",
+      "password": "A senha deve ser preenchida.",
+      "idNumber": "Número de identidade inválido.",
+      "nameEmpty": "O nome deve ser preenchido.",
+      "nameExceed": "O nome não pode exceder 150 caracteres.",
+      "emailEmpty": "O e-mail deve ser preenchido.",
+      "emailExceed": "O e-mail não pode exceder 150 caracteres.",
+      "permission": "Permissão inválida.",
+      "birthDate": "Data de nascimento inválida."
     }
   },
   "onboarding": {

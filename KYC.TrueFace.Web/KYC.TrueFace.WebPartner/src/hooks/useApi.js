@@ -31,7 +31,7 @@ export function useApi() {
     } catch (error) {
       const msg =
         errorMessage ??
-        error.response?.data?.message ??
+        t(error.response?.data?.message) ??
         t('notifications.errorDefault');
 
       if (showErrorPopup) {

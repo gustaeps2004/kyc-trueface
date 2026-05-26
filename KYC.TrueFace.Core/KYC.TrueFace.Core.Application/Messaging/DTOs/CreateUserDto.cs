@@ -1,7 +1,7 @@
-﻿using KYC.TrueFace.Core.Domain.Enums;
+﻿using KYC.TrueFace.Core.Domain.Constants;
+using KYC.TrueFace.Core.Domain.Enums;
 using KYC.TrueFace.Core.Domain.Exceptions;
 using KYC.TrueFace.Core.Domain.Extensions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KYC.TrueFace.Core.Application.Messaging.DTOs;
 
@@ -22,19 +22,25 @@ public class CreateUserDto(
 
     public void Validate()
     {
+        if (string.IsNullOrWhiteSpace(Name))
+            throw new KycException(ValidationErrors.UserNameNullOrEmpty);
+
         if (Name.Length > 150)
-            throw new KycException("The name cannot exceed 150 characters.");
+            throw new KycException(ValidationErrors.UserNameExceed);
 
         if (ValidationsExtension.IsIdNumberInvalid(IdNumber))
-            throw new KycException("Invalid id number.");
+            throw new KycException(ValidationErrors.UserInvalidIdNumber);
+
+        if (string.IsNullOrWhiteSpace(Email))
+            throw new KycException(ValidationErrors.UserEmailNullOrEmpty);
 
         if (Email.Length > 150)
-            throw new KycException("The e-mail cannot exceed 150 characters.");
+            throw new KycException(ValidationErrors.UserEmailExceed);
 
         if (!Enum.IsDefined(typeof(Permission), Permission))
-            throw new KycException("Invalid permission.");
+            throw new KycException(ValidationErrors.UserPermissionInvalid);
 
         if (BirthDate == default || BirthDate >= DateTime.Now)
-            throw new KycException("Invalid birth date.");
+            throw new KycException(ValidationErrors.UserBirthDatenvalid);
     }
 }

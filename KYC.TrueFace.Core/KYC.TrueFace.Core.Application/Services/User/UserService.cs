@@ -2,6 +2,7 @@
 using KYC.TrueFace.Core.Application.Messaging.DTOs;
 using KYC.TrueFace.Core.Application.Messaging.Response;
 using KYC.TrueFace.Core.Application.Services.UserAccess;
+using KYC.TrueFace.Core.Domain.Constants;
 using KYC.TrueFace.Core.Domain.Exceptions;
 using KYC.TrueFace.Core.Domain.Extensions;
 using KYC.TrueFace.Core.Domain.Repositories;
@@ -17,7 +18,7 @@ public class UserService(
         Guid codePartner)
     {
         if (userRepository.IsExist(userDto.IdNumber, userDto.Email))
-            throw new KycException("User is already existed.");
+            throw new KycException(ValidationErrors.UserExisted);
 
         userDto.Validate();
 
