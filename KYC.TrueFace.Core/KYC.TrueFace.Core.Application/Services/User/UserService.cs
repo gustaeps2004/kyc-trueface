@@ -69,9 +69,9 @@ public class UserService(
     {
         return new Dictionary<string, string>
         {
-            { "user_code", code.ToString() },
-            { "user_code_partner", codePartner.ToString() },
-            { "user_name", name },
+            { IdentityClaims.UserCode, code.ToString() },
+            { IdentityClaims.PartnerCode, codePartner.ToString() },
+            { IdentityClaims.UserName, name },
         };
     }
 
