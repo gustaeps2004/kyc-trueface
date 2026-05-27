@@ -53,13 +53,7 @@ export function UserAddEdit(props) {
       () => userService.insert(request),
       {
         onSuccess: (response) => {
-          const handleEsc = (e) => {
-            if (e.key === "Escape") props.closeModal();
-          };
-
-          window.addEventListener("keydown", handleEsc);
-
-          return () => window.removeEventListener("keydown", handleEsc);
+          
         },
         showSuccessPopup: true
       }
