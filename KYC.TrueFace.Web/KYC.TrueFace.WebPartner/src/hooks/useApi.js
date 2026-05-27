@@ -29,13 +29,14 @@ export function useApi() {
       onSuccess?.(response);
       return response;
     } catch (error) {
+
       const msg =
         errorMessage ??
-        t(error.response?.data?.message) ??
-        t('notifications.errorDefault');
-
+        error.response?.data?.message ??
+        'notifications.errorDefault';
+      
       if (showErrorPopup) {
-        notify({ message: msg, type: 'error' });
+        notify({ message: t(msg), type: 'error' });
       }
 
       onError?.(error);

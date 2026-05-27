@@ -38,6 +38,8 @@ public class UserService(
                 )
             )
         );
+        
+        //send email to first access
 
         userRepository.SaveChanges();
         ts.Commit();
