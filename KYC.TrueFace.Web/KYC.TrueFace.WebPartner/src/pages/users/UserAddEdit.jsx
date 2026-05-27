@@ -35,6 +35,16 @@ export function UserAddEdit(props) {
     setBithDate(DateFormat(props.userEdit.birthDate))
   }, []);
 
+  const handlerCleanFields = () => {
+    setCode("")
+    setName("")
+    setMotherName("")
+    setEmail("")
+    setPermission()
+    setIdNumber("")
+    setBithDate("")
+  }
+
   const handlerPersist = async (e) => {
     if (e && e.preventDefault)
       e.preventDefault();
@@ -53,7 +63,9 @@ export function UserAddEdit(props) {
       () => userService.insert(request),
       {
         onSuccess: (response) => {
-          
+          handlerCleanFields()
+          props.closeModal()
+          props.onSuccess()
         },
         showSuccessPopup: true
       }
