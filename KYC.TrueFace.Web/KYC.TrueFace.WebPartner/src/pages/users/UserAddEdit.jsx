@@ -8,7 +8,8 @@ import { userService } from "@/api/services/userService";
 import { useApi } from "@/hooks/useApi";
 import {
   IdNumberFormat,
-  DateFormat
+  DateFormat,
+  ConvertDate
 } from "@/utils/formats";
 
 export function UserAddEdit(props) {
@@ -44,7 +45,7 @@ export function UserAddEdit(props) {
       email,
       permission,
       idNumber,
-      bithDate,
+      bithDate: ConvertDate(bithDate),
       code
     }
     
