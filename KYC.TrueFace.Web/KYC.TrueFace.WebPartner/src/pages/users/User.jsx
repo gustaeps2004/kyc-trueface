@@ -164,7 +164,7 @@ export function User() {
 
       {
         openModal
-        ? <UserAddEdit closeModal={handlerCloseModal} userEdit={userEdit} isEdit={isEdit}/>
+        ? <UserAddEdit closeModal={handlerCloseModal} userEdit={userEdit} isEdit={isEdit} onSuccess={() => handlerListUsers(filterValue)}/>
         : null
       }
     </div>

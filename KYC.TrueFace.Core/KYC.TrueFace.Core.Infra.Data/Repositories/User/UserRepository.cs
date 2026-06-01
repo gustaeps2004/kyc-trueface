@@ -18,4 +18,9 @@ public class UserRepository(ApplicationDbContext context) : BaseRepository(conte
         => DbContext
             .Users
             .Where(x => x.CodePartner.Equals(codePartner));
+
+    public Domain.Entities.User? GetByCode(Guid code)
+        => DbContext
+            .Users
+            .SingleOrDefault(x => x.Code.Equals(code));
 }

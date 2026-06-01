@@ -3,40 +3,77 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-import { Permission } from "@/utils/arrays";
+import { Permission, UserSituation } from "@/utils/arrays";
+import { userService } from "@/api/services/userService";
+import { useApi } from "@/hooks/useApi";
 import {
   IdNumberFormat,
-  DateFormat
+  DateFormat,
+  ConvertDate
 } from "@/utils/formats";
 
 export function UserAddEdit(props) {
+  const { execute, isLoading } = useApi();
   const [permission, setPermission] = useState()
+  const [situation, setSituation] = useState()
+  const [name, setName] = useState("")
+  const [motherName, setMotherName] = useState("")
+  const [email, setEmail] = useState("")
   const [idNumber, setIdNumber] = useState("")
   const [bithDate, setBithDate] = useState("")
+  const [code, setCode] = useState("")
   const { t } = useTranslation();
 
   useEffect(() => {
     if (!props.isEdit) return
-
-    document.getElementById('motherName').value = props.userEdit.motherName
-    document.getElementById('email').value = props.userEdit.email
-    document.getElementById('name').value = props.userEdit.name
+    
+    setCode(props.userEdit.code)
+    setName(props.userEdit.name)
+    setMotherName(props.userEdit.motherName)
+    setEmail(props.userEdit.email)
     setPermission(props.userEdit.permission)
+    setSituation(props.userEdit.situation)
     setIdNumber(IdNumberFormat(props.userEdit.idNumber))
     setBithDate(DateFormat(props.userEdit.birthDate))
   }, []);
 
-  const handlerCreate = () => {
-    const dto = {
-      motherName: document.getElementById('motherName').value,
-      email: document.getElementById('email').value,
-      name: document.getElementById('name').value,
-      permission: permission,
-      idNumber: idNumber,
-      bithDate: bithDate,
-    }
+  const handlerCleanFields = () => {
+    setCode("")
+    setName("")
+    setMotherName("")
+    setEmail("")
+    setPermission()
+    setSituation()
+    setIdNumber("")
+    setBithDate("")
+  }
 
-    console.log(dto)
+  const handlerPersist = async (e) => {
+    if (e && e.preventDefault)
+      e.preventDefault();
+
+    const request = {
+      name,
+      motherName,
+      email,
+      permission,
+      situation,
+      idNumber,
+      bithDate: ConvertDate(bithDate),
+      code
+    }
+    
+    await execute(
+      () => props.isEdit ? userService.update(request) : userService.insert(request),
+      {
+        onSuccess: (response) => {
+          handlerCleanFields()
+          props.closeModal()
+          props.onSuccess()
+        },
+        showSuccessPopup: true
+      }
+    );
   }
 
   return(
@@ -45,10 +82,10 @@ export function UserAddEdit(props) {
       closeModal={props.closeModal}
       showGreenButton={true}
       titleGreenButton={props.isEdit ? t('users.save') : t('users.create')}
-      handlerGreenAction={handlerCreate}
+      handlerGreenAction={(e) => handlerPersist(e)}
       greenVariant="brand"
     >
-      <Input type="name" name="name">
+      <Input type="name" name="name" value={name} onChange={setName}>
         {t('users.modal.name')}
       </Input>
       <Input
@@ -70,12 +107,22 @@ export function UserAddEdit(props) {
       >
         {t('users.modal.birthDate')}
       </Input>
-      <Input type="motherName" name="motherName">
+      <Input type="motherName" name="motherName" value={motherName} onChange={setMotherName}>
         {t('users.modal.motherName')}
       </Input>
-      <Input disabled={props.isEdit} type="email" name="email">
+      <Input disabled={props.isEdit} type="email" name="email" value={email} onChange={setEmail}>
         {t('users.modal.email')}
       </Input>
+
+      { props.isEdit 
+        ? <Select
+            placeholder={t('users.modal.situation')}
+            options={UserSituation}
+            value={situation}
+            onChange={setSituation}
+          /> 
+        : null
+      }
 
       <Select
         placeholder={t('users.modal.permission')}

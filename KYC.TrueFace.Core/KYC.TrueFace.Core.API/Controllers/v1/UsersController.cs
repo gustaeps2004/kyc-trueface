@@ -67,4 +67,32 @@ public class UsersController(
             );
         }
     }
+
+    [HttpPut("{code:Guid}")]
+    public IActionResult Update(
+        UpdateUserRequest request, 
+        [FromRoute] Guid code)
+    {
+        try
+        {
+            userService.Update(
+                request.ToDto(), 
+                code);
+
+            return NoContent();
+        }
+        catch (KycException ex)
+        {
+            return BadRequest(
+                new BaseResponse(ex.Message)
+            );
+        }
+        catch
+        {
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                new ResponseError()
+            );
+        }
+    }
 }

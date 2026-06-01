@@ -12,4 +12,8 @@ public interface IUserService
     IEnumerable<UserResponse> ListByPartner(
         Guid codePartner,
         string filter);
+
+    void Update(
+        UpdateUserDto userDto, 
+        Guid code);
 }
