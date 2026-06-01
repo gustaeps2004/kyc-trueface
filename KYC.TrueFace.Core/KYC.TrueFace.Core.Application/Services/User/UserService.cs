@@ -105,4 +105,24 @@ public class UserService(
 
         return response;
     }
+
+    public void Update(
+        UpdateUserDto userDto,
+        Guid code)
+    {
+        var user = userRepository.GetByCode(code)
+                        ?? throw new KycException(ValidationErrors.UserNotExisted);
+
+        userDto.Validate();
+
+        user.Update(
+            userDto.Name,
+            userDto.BirthDate,
+            userDto.MotherName,
+            userDto.Situation,
+            userDto.Permission);
+
+        userRepository.Update(user);
+        userRepository.SaveChanges();
+    }
 }

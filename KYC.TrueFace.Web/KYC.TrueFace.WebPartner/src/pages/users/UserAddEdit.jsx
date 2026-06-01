@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-import { Permission } from "@/utils/arrays";
+import { Permission, UserSituation } from "@/utils/arrays";
 import { userService } from "@/api/services/userService";
 import { useApi } from "@/hooks/useApi";
 import {
@@ -15,6 +15,7 @@ import {
 export function UserAddEdit(props) {
   const { execute, isLoading } = useApi();
   const [permission, setPermission] = useState()
+  const [situation, setSituation] = useState()
   const [name, setName] = useState("")
   const [motherName, setMotherName] = useState("")
   const [email, setEmail] = useState("")
@@ -31,6 +32,7 @@ export function UserAddEdit(props) {
     setMotherName(props.userEdit.motherName)
     setEmail(props.userEdit.email)
     setPermission(props.userEdit.permission)
+    setSituation(props.userEdit.situation)
     setIdNumber(IdNumberFormat(props.userEdit.idNumber))
     setBithDate(DateFormat(props.userEdit.birthDate))
   }, []);
@@ -41,6 +43,7 @@ export function UserAddEdit(props) {
     setMotherName("")
     setEmail("")
     setPermission()
+    setSituation()
     setIdNumber("")
     setBithDate("")
   }
@@ -54,13 +57,14 @@ export function UserAddEdit(props) {
       motherName,
       email,
       permission,
+      situation,
       idNumber,
       bithDate: ConvertDate(bithDate),
       code
     }
     
     await execute(
-      () => userService.insert(request),
+      () => props.isEdit ? userService.update(request) : userService.insert(request),
       {
         onSuccess: (response) => {
           handlerCleanFields()
@@ -109,6 +113,16 @@ export function UserAddEdit(props) {
       <Input disabled={props.isEdit} type="email" name="email" value={email} onChange={setEmail}>
         {t('users.modal.email')}
       </Input>
+
+      { props.isEdit 
+        ? <Select
+            placeholder={t('users.modal.situation')}
+            options={UserSituation}
+            value={situation}
+            onChange={setSituation}
+          /> 
+        : null
+      }
 
       <Select
         placeholder={t('users.modal.permission')}

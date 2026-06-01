@@ -56,6 +56,7 @@
       "email": "E-mail",
       "motherName": "Nome da mãe",
       "permission": "Permissão",
+      "situation": "Situação",
       "birthDate": "Data de nascimento"
     },
     "gridColumns": {
@@ -67,11 +68,12 @@
       "edit": "Editar"
     },
     "situation": {
-      "enabled": "Enabled",
-      "disabled": "Disabled"
+      "enabled": "Ativo",
+      "disabled": "Inativo"
     },
     "validation": {
       "existed": "Usuário já existe.",
+      "notExisted": "Usuário não localizado.",
       "password": "A senha deve ser preenchida.",
       "idNumber": "Número de identidade inválido.",
       "nameEmpty": "O nome deve ser preenchido.",
@@ -79,6 +81,7 @@
       "emailEmpty": "O e-mail deve ser preenchido.",
       "emailExceed": "O e-mail não pode exceder 150 caracteres.",
       "permission": "Permissão inválida.",
+      "situation": "Situação inválida.",
       "birthDate": "Data de nascimento inválida."
     }
   },

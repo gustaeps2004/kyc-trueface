@@ -37,4 +37,18 @@ public class User : EntityBase
         Permission = permission;
         Situation = Situation.Enabled;
     }
+
+    public void Update(
+        string name,
+        DateTime birthDate,
+        string? motherName,
+        Situation situation,
+        Permission permission)
+    {
+        Name = name;
+        BirthDate = birthDate;
+        MotherName = motherName;
+        Situation = situation;
+        Permission = permission;
+    }
 }

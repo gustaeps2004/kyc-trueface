@@ -56,6 +56,7 @@
       "email": "E-mail",
       "motherName": "Mother name",
       "permission": "Permission",
+      "situation": "Situation",
       "birthDate": "Birth date"
     },
     "gridColumns": {
@@ -72,6 +73,7 @@
     },
     "validation": {
       "existed": "User is already existed.",
+      "notExisted": "User not found.",
       "password": "Password cannot be null or empty.",
       "idNumber": "Invalid id number.",
       "nameEmpty": "Name cannot be null or empty.",
@@ -79,6 +81,7 @@
       "emailEmpty": "E-mail cannot be null or empty.",
       "emailExceed": "The e-mail cannot exceed 150 characters.",
       "permission": "Invalid permission.",
+      "situation": "Invalid situation.",
       "birthDate": "Invalid birth date."
     }
   },
