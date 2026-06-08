@@ -1,3 +1,4 @@
+using KYC.TrueFace.Core.API.Middlewares;
 using KYC.TrueFace.Core.Infra.Data.Data;
 using KYC.TrueFace.Core.Infra.Ioc.Configs;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseCors(builder.Configuration["CorsName"]!);
 

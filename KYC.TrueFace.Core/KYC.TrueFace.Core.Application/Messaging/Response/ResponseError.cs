@@ -1,6 +1,9 @@
-﻿namespace KYC.TrueFace.Core.Application.Messaging.Response;
+﻿using KYC.TrueFace.Core.Domain.Constants;
 
-public class ResponseError
+namespace KYC.TrueFace.Core.Application.Messaging.Response;
+
+public sealed record ResponseError(
+    string Message = ValidationErrors.GenericError)
 {
-    public string Message { get; } = "A general error occurred. Please try again later.";
+    public static ResponseError Create() => new();
 }

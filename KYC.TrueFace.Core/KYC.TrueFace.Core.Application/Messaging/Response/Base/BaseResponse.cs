@@ -1,6 +1,7 @@
 ﻿namespace KYC.TrueFace.Core.Application.Messaging.Response.Base;
 
-public class BaseResponse(string message)
+public sealed record BaseResponse(string Message)
 {
-    public string Message { get; set; } = message;
+    public static BaseResponse Create(string message)
+        => new (message);
 }

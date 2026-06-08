@@ -1,10 +1,8 @@
-﻿using Asp.Versioning;
+using Asp.Versioning;
 using KYC.TrueFace.Core.API.Controllers.Base;
 using KYC.TrueFace.Core.Application.Messaging.Request;
 using KYC.TrueFace.Core.Application.Messaging.Response;
-using KYC.TrueFace.Core.Application.Messaging.Response.Base;
 using KYC.TrueFace.Core.Application.Services.Auth;
-using KYC.TrueFace.Core.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,53 +17,13 @@ public class AuthController(
     [AllowAnonymous]
     [HttpPost]
     public ActionResult<AuthenticateLoginResponse> Login(LoginRequest request)
-    {
-        try
-        {
-            return Ok(
-                authenticateService.Login(request.ToDto(), GetIp())
-            );
-        }
-        catch (KycException ex)
-        {
-            return BadRequest(
-                new BaseResponse(ex.Message)
-            );
-        }
-        catch
-        {
-            return StatusCode(
-                StatusCodes.Status500InternalServerError,
-                new ResponseError()
-            );
-        }
-    }
+        => Ok(authenticateService.Login(request.ToDto(), GetIp()));
 
     [AllowAnonymous]
     [HttpPost("reset-password")]
     public IActionResult ResetPassword(ResetPasswordRequest request)
     {
-        try
-        {
-            authenticateService.ResetPassword(
-                request.ToDto(),
-                GetIp()
-            );
-
-            return NoContent();
-        }
-        catch (KycException ex)
-        {
-            return BadRequest(
-                new BaseResponse(ex.Message)
-            );
-        }
-        catch
-        {
-            return StatusCode(
-                StatusCodes.Status500InternalServerError,
-                new ResponseError()
-            );
-        }
+        authenticateService.ResetPassword(request.ToDto(), GetIp());
+        return NoContent();
     }
 }

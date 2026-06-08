@@ -16,4 +16,6 @@ public static class ValidationErrors
     public const string UserPermissionInvalid = "users.validation.permission";
     public const string UserSituationInvalid = "users.validation.situation";
     public const string UserBirthDatenvalid = "users.validation.birthDate";
+
+    public const string GenericError = "notifications.errorDefault";
 }
