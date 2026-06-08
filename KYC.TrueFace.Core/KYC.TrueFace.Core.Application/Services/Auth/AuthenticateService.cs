@@ -2,6 +2,7 @@
 using KYC.TrueFace.Core.Application.Messaging.DTOs;
 using KYC.TrueFace.Core.Application.Messaging.Response;
 using KYC.TrueFace.Core.Application.Services.Token;
+using KYC.TrueFace.Core.Domain.Constants;
 using KYC.TrueFace.Core.Domain.Entities;
 using KYC.TrueFace.Core.Domain.Enums;
 using KYC.TrueFace.Core.Domain.Exceptions;
@@ -14,8 +15,6 @@ public class AuthenticateService(
     IBaseRepository baseRepository,
     IUserAccessRepository userAccessRepository) : IAuthenticateService
 {
-    private const string genericErrorMessage = "Incorect user or password.";
-
     public AuthenticateLoginResponse Login(
         LoginDto loginDto,
         string ip)
@@ -23,7 +22,7 @@ public class AuthenticateService(
         loginDto.Validate();
 
         var userAccess = userAccessRepository.GetByUsername(PasswordHelper.GetSuffix(loginDto.Email))
-                            ?? throw new KycException(genericErrorMessage);
+                            ?? throw new KycException(ValidationErrors.AuthIncorrectUserOrPassword);
 
         var isValid = PasswordHelper.IsValidPassword(loginDto.Password, userAccess.Password);
 
@@ -34,7 +33,7 @@ public class AuthenticateService(
         );
 
         if (!isValid)
-            throw new KycException(genericErrorMessage);
+            throw new KycException(ValidationErrors.AuthIncorrectUserOrPassword);
 
         var token = tokenService.GenerateToken(
                         userAccess.Username,
@@ -67,7 +66,7 @@ public class AuthenticateService(
         passwordDto.Validate();
 
         var userAccess = userAccessRepository.GetByUsername(PasswordHelper.GetSuffix(passwordDto.Email))
-                            ?? throw new KycException(genericErrorMessage);
+                            ?? throw new KycException(ValidationErrors.AuthIncorrectUserOrPassword);
 
         var newPassword = PasswordHelper.HashPassword(passwordDto.Password);
         userAccess.UpdatePassword(newPassword);

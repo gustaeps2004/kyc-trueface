@@ -1,4 +1,5 @@
-﻿using KYC.TrueFace.Core.Domain.Exceptions;
+﻿using KYC.TrueFace.Core.Domain.Constants;
+using KYC.TrueFace.Core.Domain.Exceptions;
 
 namespace KYC.TrueFace.Core.Application.Messaging.DTOs;
 
@@ -12,9 +13,9 @@ public class LoginDto(
     public void Validate()
     {
         if (string.IsNullOrWhiteSpace(Email))
-            throw new KycException("E-mail cannot be null or empty.");
+            throw new KycException(ValidationErrors.UserEmailNullOrEmpty);
 
         if (string.IsNullOrWhiteSpace(Password))
-            throw new KycException("Password cannot be null or empty.");
+            throw new KycException(ValidationErrors.UserPasswordCannotBeNullOrEmpty);
     }
 }

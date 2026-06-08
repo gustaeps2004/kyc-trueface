@@ -2,6 +2,7 @@
 using KYC.TrueFace.Core.Application.Messaging.DTOs;
 using KYC.TrueFace.Core.Application.Messaging.Response;
 using KYC.TrueFace.Core.Application.Services.UserAccess;
+using KYC.TrueFace.Core.Domain.Constants;
 using KYC.TrueFace.Core.Domain.Exceptions;
 using KYC.TrueFace.Core.Domain.Extensions;
 using KYC.TrueFace.Core.Domain.Repositories;
@@ -17,7 +18,7 @@ public class UserService(
         Guid codePartner)
     {
         if (userRepository.IsExist(userDto.IdNumber, userDto.Email))
-            throw new KycException("User is already existed.");
+            throw new KycException(ValidationErrors.UserExisted);
 
         userDto.Validate();
 
@@ -37,6 +38,8 @@ public class UserService(
                 )
             )
         );
+        
+        //send email to first access
 
         userRepository.SaveChanges();
         ts.Commit();
@@ -68,9 +71,9 @@ public class UserService(
     {
         return new Dictionary<string, string>
         {
-            { "user_code", code.ToString() },
-            { "user_code_partner", codePartner.ToString() },
-            { "user_name", name },
+            { IdentityClaims.UserCode, code.ToString() },
+            { IdentityClaims.PartnerCode, codePartner.ToString() },
+            { IdentityClaims.UserName, name },
         };
     }
 
@@ -101,5 +104,25 @@ public class UserService(
                         );
 
         return response;
+    }
+
+    public void Update(
+        UpdateUserDto userDto,
+        Guid code)
+    {
+        var user = userRepository.GetByCode(code)
+                        ?? throw new KycException(ValidationErrors.UserNotExisted);
+
+        userDto.Validate();
+
+        user.Update(
+            userDto.Name,
+            userDto.BirthDate,
+            userDto.MotherName,
+            userDto.Situation,
+            userDto.Permission);
+
+        userRepository.Update(user);
+        userRepository.SaveChanges();
     }
 }

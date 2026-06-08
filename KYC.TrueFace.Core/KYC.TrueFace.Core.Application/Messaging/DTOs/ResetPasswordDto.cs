@@ -1,4 +1,5 @@
-﻿using KYC.TrueFace.Core.Domain.Exceptions;
+﻿using KYC.TrueFace.Core.Domain.Constants;
+using KYC.TrueFace.Core.Domain.Exceptions;
 using KYC.TrueFace.Core.Domain.Extensions;
 
 namespace KYC.TrueFace.Core.Application.Messaging.DTOs;
@@ -17,9 +18,9 @@ public class ResetPasswordDto(
     public void Validate()
     {
         if (!Password.Equals(ConfirmPassword))
-            throw new KycException("Password should be equals than confirm password.");
+            throw new KycException(ValidationErrors.AuthIncorrectPasswordAndConfirmPassword);
 
         if (!ValidationsExtension.IsValidPassword(Password))
-            throw new KycException("Password is too weak.");
+            throw new KycException(ValidationErrors.AuthPasswordWeak);
     }
 }
