@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-appdb}
+      # Locale/collation do cluster (aplicado apenas na criação inicial)
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+      TZ: America/Sao_Paulo
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Scripts .sql ou .sh nesta pasta rodam automaticamente na primeira subida
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-appdb}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Descomente se quiser uma UI web para o banco
+  # pgadmin:
+  #   image: dpage/pgadmin4:latest
+  #   container_name: pgadmin
+  #   restart: unless-stopped
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@local.dev
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #     PGADMIN_CONFIG_SERVER_MODE: "False"
+  #   ports:
+  #     - "5050:80"
+  #   volumes:
+  #     - pgadmin:/var/lib/pgadmin
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+
+volumes:
+  pgdata:
+  # pgadmin:
