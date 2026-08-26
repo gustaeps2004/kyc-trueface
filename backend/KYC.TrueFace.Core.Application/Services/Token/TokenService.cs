@@ -2,20 +2,22 @@
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
-using Microsoft.Extensions.Configuration;
+using KYC.TrueFace.Core.Domain.Options;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace KYC.TrueFace.Core.Application.Services.Token;
 
 public class TokenService(
-    IConfiguration configuration) : ITokenService
+    IOptions<SsoOptions> ssoOptions) : ITokenService
 {
     public string GenerateToken(
-        string username, 
-        string role, 
+        string username,
+        string role,
         string? additionalClaims)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["SSO:Key"]!));
+        var sso = ssoOptions.Value;
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(sso.Key));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var claims = new List<Claim>
@@ -34,8 +36,8 @@ public class TokenService(
         }
 
         var token = new JwtSecurityToken(
-            issuer: configuration["SSO:Issuer"],
-            audience: configuration["SSO:Audience"],
+            issuer: sso.Issuer,
+            audience: sso.Audience,
             claims: claims,
             expires: DateTime.Now.AddHours(1),
             signingCredentials: creds

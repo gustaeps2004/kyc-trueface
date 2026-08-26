@@ -1,17 +1,13 @@
 using KYC.TrueFace.Core.API.Middlewares;
+using KYC.TrueFace.Core.Domain.Options;
 using KYC.TrueFace.Core.Infra.Data.Data;
 using KYC.TrueFace.Core.Infra.Ioc.Configs;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration
-    .AddEnvironmentVariables()
-    .AddEnvironmentVariables("KYC_")
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-
-var connectionString = builder.Configuration["StrConn"];
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
@@ -37,9 +33,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+var appOptions = app.Services.GetRequiredService<IOptions<AppOptions>>().Value;
+
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.UseCors(builder.Configuration["CorsName"]!);
+app.UseCors(appOptions.CorsName);
 
 app.UseHttpsRedirection();
 

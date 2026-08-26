@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
+using KYC.TrueFace.Core.Domain.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +13,11 @@ public static class TokenJwtConfig
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        var section = configuration.GetSection("Sso");
+        var ssoOptions = section.Get<SsoOptions>()!;
+
+        services.Configure<SsoOptions>(section);
+
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -29,9 +31,9 @@ public static class TokenJwtConfig
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = configuration["SSO:Issuer"],
-                ValidAudience = configuration["SSO:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["SSO:Key"]!))
+                ValidIssuer = ssoOptions.Issuer,
+                ValidAudience = ssoOptions.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ssoOptions.Key))
             };
         });
     }
