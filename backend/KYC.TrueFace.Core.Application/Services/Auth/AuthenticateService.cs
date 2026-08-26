@@ -6,13 +6,16 @@ using KYC.TrueFace.Core.Domain.Constants;
 using KYC.TrueFace.Core.Domain.Entities;
 using KYC.TrueFace.Core.Domain.Enums;
 using KYC.TrueFace.Core.Domain.Exceptions;
+using KYC.TrueFace.Core.Domain.Options;
 using KYC.TrueFace.Core.Domain.Repositories;
+using Microsoft.Extensions.Options;
 
 namespace KYC.TrueFace.Core.Application.Services.Auth;
 
 public class AuthenticateService(
     ITokenService tokenService,
     IBaseRepository baseRepository,
+    IOptions<SsoOptions> ssoOptions,
     IUserAccessRepository userAccessRepository) : IAuthenticateService
 {
     public AuthenticateLoginResponse Login(
@@ -68,8 +71,12 @@ public class AuthenticateService(
         var userAccess = userAccessRepository.GetByUsername(PasswordHelper.GetSuffix(passwordDto.Email))
                             ?? throw new KycException(ValidationErrors.AuthIncorrectUserOrPassword);
 
+        if (!PasswordHelper.IsValidToken(passwordDto.Token, userAccess.ResetPasswordTokenHash, userAccess.ResetPasswordTokenExpiresAt))
+            throw new KycException(ValidationErrors.AuthInvalidOrExpiredResetToken);
+
         var newPassword = PasswordHelper.HashPassword(passwordDto.Password);
         userAccess.UpdatePassword(newPassword);
+        userAccess.ClearResetPasswordToken();
 
         using var ts = baseRepository.BeginTransaction();
 
@@ -82,5 +89,24 @@ public class AuthenticateService(
         );
 
         ts.Commit();
+    }
+
+    public void ForgotPassword(ForgotPasswordDto forgotPasswordDto)
+    {
+        forgotPasswordDto.Validate();
+
+        var userAccess = userAccessRepository.GetByUsername(PasswordHelper.GetSuffix(forgotPasswordDto.Email));
+
+        if (userAccess is null)
+            return;
+
+        var token = PasswordHelper.GenerateSecureToken();
+
+        userAccess.SetResetPasswordToken(
+            PasswordHelper.HashToken(token),
+            DateTime.UtcNow.AddMinutes(ssoOptions.Value.ResetPasswordTokenExpiration));
+
+        userAccessRepository.Update(userAccess);
+        userAccessRepository.SaveChanges();
     }
 }

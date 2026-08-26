@@ -26,4 +26,12 @@ public class AuthController(
         authenticateService.ResetPassword(request.ToDto(), GetIp());
         return NoContent();
     }
+
+    [AllowAnonymous]
+    [HttpPost("forgot-password")]
+    public IActionResult ForgotPassword(ForgotPasswordRequest request)
+    {
+        authenticateService.ForgotPassword(request.ToDto());
+        return NoContent();
+    }
 }

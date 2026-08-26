@@ -108,10 +108,15 @@ public class UserService(
 
     public void Update(
         UpdateUserDto userDto,
-        Guid code)
+        Guid code,
+        Guid codePartner)
     {
         var user = userRepository.GetByCode(code)
                         ?? throw new KycException(ValidationErrors.UserNotExisted);
+
+        // Treat a user from another partner as not found, so callers can't probe for existence across partners.
+        if (user.CodePartner != codePartner)
+            throw new KycException(ValidationErrors.UserNotExisted);
 
         userDto.Validate();
 

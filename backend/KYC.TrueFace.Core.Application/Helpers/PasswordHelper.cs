@@ -67,6 +67,22 @@ public static class PasswordHelper
     public static string GetSuffix(string username)
         => $"{username}_onb";
 
+    public static string GenerateSecureToken()
+        => Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
+
+    public static string HashToken(string token)
+        => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(token)));
+
+    public static bool IsValidToken(string token, string? storedTokenHash, DateTime? expiresAt)
+    {
+        if (storedTokenHash is null || expiresAt is null || expiresAt < DateTime.UtcNow)
+            return false;
+
+        return CryptographicOperations.FixedTimeEquals(
+            Encoding.UTF8.GetBytes(storedTokenHash),
+            Encoding.UTF8.GetBytes(HashToken(token)));
+    }
+
     private static byte[] Hash(
         string password, 
         byte[] salt, 

@@ -13,4 +13,5 @@ public interface IAuthenticateService
         ResetPasswordDto passwordDto,
         string ip
     );
+    void ForgotPassword(ForgotPasswordDto forgotPasswordDto);
 }

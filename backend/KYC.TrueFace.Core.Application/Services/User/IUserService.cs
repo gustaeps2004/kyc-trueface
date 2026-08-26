@@ -14,6 +14,7 @@ public interface IUserService
         string filter);
 
     void Update(
-        UpdateUserDto userDto, 
-        Guid code);
+        UpdateUserDto userDto,
+        Guid code,
+        Guid codePartner);
 }

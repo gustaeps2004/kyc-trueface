@@ -10,6 +10,8 @@ public class UserAccess : EntityBase
     public Situation Situation { get; set; }
     public string Role { get; set; } = null!;
     public string Claim { get; set; } = null!;
+    public string? ResetPasswordTokenHash { get; set; }
+    public DateTime? ResetPasswordTokenExpiresAt { get; set; }
 
     public UserAccess() {  }
     public UserAccess(
@@ -29,4 +31,16 @@ public class UserAccess : EntityBase
 
     public void UpdatePassword(string password)
         => Password = password;
+
+    public void SetResetPasswordToken(string tokenHash, DateTime expiresAt)
+    {
+        ResetPasswordTokenHash = tokenHash;
+        ResetPasswordTokenExpiresAt = expiresAt;
+    }
+
+    public void ClearResetPasswordToken()
+    {
+        ResetPasswordTokenHash = null;
+        ResetPasswordTokenExpiresAt = null;
+    }
 }
