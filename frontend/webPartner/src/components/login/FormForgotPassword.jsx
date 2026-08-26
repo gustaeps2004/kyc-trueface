@@ -2,17 +2,32 @@ import { useNavigate } from 'react-router-dom'
 import { Input } from '@/components/ui/Input'
 import { Button } from "@/components/ui/Button"
 import { useTranslation } from 'react-i18next';
+import { loginService } from "@/api/services/loginService";
+import { useApi } from "@/hooks/useApi";
 
 export function FormForgotPassword({ handlerConfirmClick }) {
   const navigate = useNavigate()
   const { t } = useTranslation();
+  const { execute, isLoading } = useApi();
 
   const handlerRedirectToLogin = () => {
     navigate('/login')
   }
 
-  const handlerConfirm = () => {
-    handlerConfirmClick()
+  const handlerConfirm = async (e) => {
+    if (e && e.preventDefault)
+      e.preventDefault();
+
+    const request = {
+      email: document.getElementById("email").value
+    };
+
+    await execute(
+      () => loginService.postForgotPassword(request),
+      {
+        onSuccess: () => handlerConfirmClick(),
+      }
+    );
   }
 
   return(
@@ -26,6 +41,7 @@ export function FormForgotPassword({ handlerConfirmClick }) {
           <Button
             handlerAction={handlerConfirm}
             title={t('login.confirm')}
+            disabled={isLoading}
           />
         </div>
       </form>
