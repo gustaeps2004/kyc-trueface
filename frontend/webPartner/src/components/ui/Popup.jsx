@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const TYPES = {
   error: {
@@ -28,26 +28,33 @@ const TYPES = {
 };
 
 const Popup = ({ message, type = 'info', duration = 5000, onClose }) => {
-  const [visible, setVisible] = useState(true);
+  const [entered, setEntered] = useState(false);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
   const styles = TYPES[type] ?? TYPES.info;
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setVisible(false);
-      setTimeout(onClose, 300);
-    }, duration);
-    return () => clearTimeout(timer);
-  }, [duration, onClose]);
-
   const dismiss = () => {
-    setVisible(false);
-    setTimeout(onClose, 300);
+    setEntered(false);
+    setTimeout(() => onCloseRef.current?.(), 300);
   };
 
-  if (!visible) return null;
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setEntered(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(dismiss, duration);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [duration]);
 
   return (
-    <div className="animate-in fade-in slide-in-from-right-10 duration-300 w-80">
+    <div
+      className={`w-80 transition-all duration-300 ease-out ${
+        entered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+      }`}
+    >
       <div className="relative bg-surface text-fg px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-divider/40 overflow-hidden">
 
         <div className={`absolute left-0 top-0 h-full w-1 ${styles.bar}`} />
