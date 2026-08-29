@@ -38,7 +38,7 @@ A full-stack KYC (Know Your Customer) platform for identity verification, built 
 - npm (bundled with Node.js)
 
 ### Docker (optional)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Docker official installation docs](https://docs.docker.com/get-docker/)
 
 ---
 
@@ -46,26 +46,48 @@ A full-stack KYC (Know Your Customer) platform for identity verification, built 
 
 ### Backend
 
-The API reads environment variables prefixed with `KYC_`. Set the following before running:
+Configuration lives in standard ASP.NET Core `appsettings.json` files inside `backend/KYC.TrueFace.Core.API/`:
 
-| Variable | Description | Example |
+- **`appsettings.json`** — base structure, checked into the repo with empty secrets.
+- **`appsettings.Development.json`** — ready-to-use local development values (already pointing at the Dockerized PostgreSQL database described in [Running with Docker](#running-with-docker)).
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=appdb;Username=postgres;Password=postgres"
+  },
+  "Sso": {
+    "Issuer": "kyc-trueface-dev",
+    "Audience": "kyc-trueface-dev",
+    "Key": "dev-only-signing-key-change-me-please-32chars",
+    "ResetPasswordTokenExpiration": 3600
+  },
+  "App": {
+    "CorsName": "DefaultCorsPolicy",
+    "FrontendUrl": "http://localhost:5173"
+  }
+}
+```
+
+| Key | Description | Example |
 |---|---|---|
-| `StrConn` | PostgreSQL connection string | `Host=localhost;Port=5432;Database=KYC_TRUEFACE;Username=postgres;Password=secret` |
-| `URLFront` | Frontend URL for CORS | `http://localhost:5173` |
-| `CorsName` | CORS policy name | `front_onboarding` |
-| `SSO__Key` | JWT signing secret key | `your-256-bit-secret` |
-| `SSO__Issuer` | JWT issuer | `KYC.TrueFace.Core.API` |
-| `SSO__Audience` | JWT audience | `KYC.TrueFace.Web.WebPartner` |
+| `ConnectionStrings:DefaultConnection` | PostgreSQL connection string | `Host=localhost;Port=5432;Database=appdb;Username=postgres;Password=postgres` |
+| `Sso:Issuer` | JWT issuer | `kyc-trueface-dev` |
+| `Sso:Audience` | JWT audience | `kyc-trueface-dev` |
+| `Sso:Key` | JWT signing secret key | `your-256-bit-secret` |
+| `Sso:ResetPasswordTokenExpiration` | Password reset token expiration, in seconds | `3600` |
+| `App:CorsName` | CORS policy name | `DefaultCorsPolicy` |
+| `App:FrontendUrl` | Frontend URL allowed by CORS | `http://localhost:5173` |
 
-For local development these values are already pre-configured in `launchSettings.json`.
+Any of these values can also be overridden via environment variables using ASP.NET Core's double-underscore convention (e.g. `ConnectionStrings__DefaultConnection`, `Sso__Key`) — this is the approach used when running the API container (see [Running with Docker](#running-with-docker)).
 
 ### Frontend
 
-Create a `.env` file inside `KYC.TrueFace.Web/KYC.TrueFace.WebPartner/` based on the provided template:
+Create a `.env` file inside `frontend/webPartner/` based on the provided template:
 
 ```bash
-cp KYC.TrueFace.Web/KYC.TrueFace.WebPartner/.example.env \
-   KYC.TrueFace.Web/KYC.TrueFace.WebPartner/.env
+cp frontend/webPartner/.example.env \
+   frontend/webPartner/.env
 ```
 
 Then set the value:
@@ -84,7 +106,7 @@ VITE_URL_API_BASE=https://localhost:7065/api
 
 ```bash
 # Navigate to the solution directory
-cd KYC.TrueFace.Core
+cd backend
 
 # Restore dependencies
 dotnet restore
@@ -99,7 +121,7 @@ The API will be available at:
 
 ### Option 2 — Visual Studio
 
-1. Open `KYC.TrueFace.Core/KYC.TrueFace.Core.sln` in Visual Studio 2022.
+1. Open `backend/KYC.TrueFace.Core.sln` in Visual Studio 2022.
 2. Set `KYC.TrueFace.Core.API` as the startup project.
 3. Select the `https` launch profile.
 4. Press **F5** to run with debugger or **Ctrl+F5** without.
@@ -110,7 +132,7 @@ The API will be available at:
 
 ```bash
 # Navigate to the frontend directory
-cd KYC.TrueFace.Web/KYC.TrueFace.WebPartner
+cd frontend/webPartner
 
 # Install dependencies
 npm install
@@ -133,35 +155,65 @@ The application will be available at `http://localhost:5173`.
 
 ## Running with Docker
 
-The backend includes a multi-stage `Dockerfile` for containerized deployments.
+Make sure Docker is installed first — see the [official installation docs](https://docs.docker.com/get-docker/).
 
-### Build the image
+### Database (PostgreSQL via Docker Compose)
+
+The local PostgreSQL instance is defined in `docker/database/docker-compose.yml`, together with a `pgAdmin` UI:
 
 ```bash
-# Run from inside KYC.TrueFace.Core/
-cd KYC.TrueFace.Core
+cd docker/database
+
+docker compose --env-file env up -d
+```
+
+> The `--env-file env` flag is required because the file is named `env`, not `.env` — Docker Compose only auto-loads a file literally named `.env`.
+
+This starts:
+- **PostgreSQL 16** on `localhost:5432`
+- **pgAdmin** on `http://localhost:5050` (login: `admin@local.dev` / `admin`)
+
+Default credentials (from `docker/database/env`) are `postgres` / `postgres` with database `appdb` — these already match the values pre-configured in `appsettings.Development.json`.
+
+To stop the containers:
+
+```bash
+docker compose --env-file env down
+```
+
+> Add `-v` to also remove the data volume and reset the database.
+
+### Backend API
+
+The backend includes a multi-stage `Dockerfile` for containerized deployments.
+
+#### Build the image
+
+```bash
+# Run from inside backend/
+cd backend
 
 docker build -f KYC.TrueFace.Core.API/Dockerfile -t kyc-trueface-api .
 ```
 
-### Run the container
+#### Run the container
 
 ```bash
 docker run -d \
   -p 8080:8080 \
-  -e StrConn="Host=host.docker.internal;Port=5432;Database=KYC_TRUEFACE;Username=postgres;Password=secret" \
-  -e URLFront="http://localhost:5173" \
-  -e CorsName="front_onboarding" \
-  -e SSO__Key="your-256-bit-secret" \
-  -e SSO__Issuer="KYC.TrueFace.Core.API" \
-  -e SSO__Audience="KYC.TrueFace.Web.WebPartner" \
+  -e ConnectionStrings__DefaultConnection="Host=host.docker.internal;Port=5432;Database=appdb;Username=postgres;Password=postgres" \
+  -e App__FrontendUrl="http://localhost:5173" \
+  -e App__CorsName="DefaultCorsPolicy" \
+  -e Sso__Key="your-256-bit-secret" \
+  -e Sso__Issuer="KYC.TrueFace.Core.API" \
+  -e Sso__Audience="KYC.TrueFace.Web.WebPartner" \
   --name kyc-trueface-api \
   kyc-trueface-api
 ```
 
 The API will be available at `http://localhost:8080`.
 
-> **Note:** Use `host.docker.internal` in `StrConn` to reach a PostgreSQL instance running on your host machine from inside the container.
+> **Note:** Use `host.docker.internal` in `ConnectionStrings__DefaultConnection` to reach the PostgreSQL container (or any PostgreSQL instance running on your host machine) from inside the API container.
 
 ---
 
@@ -169,21 +221,16 @@ The API will be available at `http://localhost:8080`.
 
 Migrations are managed by Entity Framework Core. Run all commands from the solution root.
 
+> Before running any command below, make sure the PostgreSQL container is up (see [Database (PostgreSQL via Docker Compose)](#running-with-docker)) and that `ConnectionStrings:DefaultConnection` in `appsettings.Development.json` points to a reachable database.
+
 ```bash
-cd KYC.TrueFace.Core
+cd backend
 
 # Apply pending migrations to the database
 dotnet ef database update \
   --project KYC.TrueFace.Core.Infra.Data/KYC.TrueFace.Core.Infra.Data.csproj \
   --startup-project KYC.TrueFace.Core.API/KYC.TrueFace.Core.API.csproj
-
-# Create a new migration after changing domain entities
-dotnet ef migrations add <MigrationName> \
-  --project KYC.TrueFace.Core.Infra.Data/KYC.TrueFace.Core.Infra.Data.csproj \
-  --startup-project KYC.TrueFace.Core.API/KYC.TrueFace.Core.API.csproj
 ```
-
-> Ensure the `StrConn` environment variable is set to a reachable PostgreSQL instance before running migrations.
 
 ---
 
