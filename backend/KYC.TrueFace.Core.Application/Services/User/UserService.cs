@@ -13,20 +13,21 @@ public class UserService(
     IUserRepository userRepository,
     IUserAccessService userAccessService) : IUserService
 {
-    public void Create(
+    public async Task CreateAsync(
         CreateUserDto userDto,
-        Guid codePartner)
+        Guid codePartner,
+        CancellationToken ct = default)
     {
-        if (userRepository.IsExist(userDto.IdNumber, userDto.Email))
+        if (await userRepository.IsExistAsync(userDto.IdNumber, userDto.Email, ct))
             throw new KycException(ValidationErrors.UserExisted);
 
         userDto.Validate();
 
-        using var ts = userRepository.BeginTransaction();
+        await using var ts = await userRepository.BeginTransactionAsync(ct);
 
         var user = Insert(userDto, codePartner);
 
-        userAccessService.Create(
+        await userAccessService.CreateAsync(
             new CreateUserAccessDto(
                 PasswordHelper.GetSuffix(userDto.Email),
                 PasswordHelper.GenerateStrongRandom(),
@@ -38,11 +39,11 @@ public class UserService(
                 )
             )
         );
-        
+
         //send email to first access
 
-        userRepository.SaveChanges();
-        ts.Commit();
+        await userRepository.SaveChangesAsync(ct);
+        await ts.CommitAsync(ct);
     }
 
     private Domain.Entities.User Insert(
@@ -77,12 +78,14 @@ public class UserService(
         };
     }
 
-    public IEnumerable<UserResponse> ListByPartner(
+    public async Task<IEnumerable<UserResponse>> ListByPartnerAsync(
         Guid codePartner,
-        string filter)
+        string filter,
+        CancellationToken ct = default)
     {
-        var response = userRepository
-                        .ListByPartner(codePartner)
+        var users = await userRepository.ListByPartnerAsync(codePartner, ct);
+
+        var response = users
                         .Select(u => new UserResponse
                         {
                             Code = u.Code,
@@ -106,12 +109,13 @@ public class UserService(
         return response;
     }
 
-    public void Update(
+    public async Task UpdateAsync(
         UpdateUserDto userDto,
         Guid code,
-        Guid codePartner)
+        Guid codePartner,
+        CancellationToken ct = default)
     {
-        var user = userRepository.GetByCode(code)
+        var user = await userRepository.GetByCodeAsync(code, ct)
                         ?? throw new KycException(ValidationErrors.UserNotExisted);
 
         // Treat a user from another partner as not found, so callers can't probe for existence across partners.
@@ -128,6 +132,6 @@ public class UserService(
             userDto.Permission);
 
         userRepository.Update(user);
-        userRepository.SaveChanges();
+        await userRepository.SaveChangesAsync(ct);
     }
 }

@@ -5,13 +5,15 @@ namespace KYC.TrueFace.Core.Application.Services.Auth;
 
 public interface IAuthenticateService
 {
-    AuthenticateLoginResponse Login(
+    Task<AuthenticateLoginResponse> LoginAsync(
         LoginDto loginDto,
-        string ip
+        string ip,
+        CancellationToken ct = default
     );
-    void ResetPassword(
+    Task ResetPasswordAsync(
         ResetPasswordDto passwordDto,
-        string ip
+        string ip,
+        CancellationToken ct = default
     );
-    void ForgotPassword(ForgotPasswordDto forgotPasswordDto);
+    Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto, CancellationToken ct = default);
 }

@@ -18,21 +18,23 @@ public class AuthenticateService(
     IOptions<SsoOptions> ssoOptions,
     IUserAccessRepository userAccessRepository) : IAuthenticateService
 {
-    public AuthenticateLoginResponse Login(
+    public async Task<AuthenticateLoginResponse> LoginAsync(
         LoginDto loginDto,
-        string ip)
+        string ip,
+        CancellationToken ct = default)
     {
         loginDto.Validate();
 
-        var userAccess = userAccessRepository.GetByUsername(PasswordHelper.GetSuffix(loginDto.Email))
+        var userAccess = await userAccessRepository.GetByUsernameAsync(PasswordHelper.GetSuffix(loginDto.Email), ct)
                             ?? throw new KycException(ValidationErrors.AuthIncorrectUserOrPassword);
 
-        var isValid = PasswordHelper.IsValidPassword(loginDto.Password, userAccess.Password);
+        var isValid = await PasswordHelper.IsValidPasswordAsync(loginDto.Password, userAccess.Password);
 
-        InsertLog(
+        await InsertLogAsync(
             userAccess.Code,
             FlowIdentity.Login,
-            ip
+            ip,
+            ct
         );
 
         if (!isValid)
@@ -47,10 +49,11 @@ public class AuthenticateService(
         return new AuthenticateLoginResponse(token);
     }
 
-    private void InsertLog(
+    private async Task InsertLogAsync(
         Guid codeUserAccess,
         FlowIdentity flow,
-        string ip)
+        string ip,
+        CancellationToken ct)
     {
         var log = new UserAccessLog(
                     codeUserAccess,
@@ -59,43 +62,45 @@ public class AuthenticateService(
                 );
 
         baseRepository.Insert(log);
-        baseRepository.SaveChanges();
+        await baseRepository.SaveChangesAsync(ct);
     }
 
-    public void ResetPassword(
+    public async Task ResetPasswordAsync(
         ResetPasswordDto passwordDto,
-        string ip)
+        string ip,
+        CancellationToken ct = default)
     {
         passwordDto.Validate();
 
-        var userAccess = userAccessRepository.GetByUsername(PasswordHelper.GetSuffix(passwordDto.Email))
+        var userAccess = await userAccessRepository.GetByUsernameAsync(PasswordHelper.GetSuffix(passwordDto.Email), ct)
                             ?? throw new KycException(ValidationErrors.AuthIncorrectUserOrPassword);
 
         if (!PasswordHelper.IsValidToken(passwordDto.Token, userAccess.ResetPasswordTokenHash, userAccess.ResetPasswordTokenExpiresAt))
             throw new KycException(ValidationErrors.AuthInvalidOrExpiredResetToken);
 
-        var newPassword = PasswordHelper.HashPassword(passwordDto.Password);
+        var newPassword = await PasswordHelper.HashPasswordAsync(passwordDto.Password);
         userAccess.UpdatePassword(newPassword);
         userAccess.ClearResetPasswordToken();
 
-        using var ts = baseRepository.BeginTransaction();
+        await using var ts = await baseRepository.BeginTransactionAsync(ct);
 
         userAccessRepository.Update(userAccess);
 
-        InsertLog(
+        await InsertLogAsync(
             userAccess.Code,
             FlowIdentity.ChangePassword,
-            ip
+            ip,
+            ct
         );
 
-        ts.Commit();
+        await ts.CommitAsync(ct);
     }
 
-    public void ForgotPassword(ForgotPasswordDto forgotPasswordDto)
+    public async Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto, CancellationToken ct = default)
     {
         forgotPasswordDto.Validate();
 
-        var userAccess = userAccessRepository.GetByUsername(PasswordHelper.GetSuffix(forgotPasswordDto.Email));
+        var userAccess = await userAccessRepository.GetByUsernameAsync(PasswordHelper.GetSuffix(forgotPasswordDto.Email), ct);
 
         if (userAccess is null)
             return;
@@ -107,6 +112,6 @@ public class AuthenticateService(
             DateTime.UtcNow.AddMinutes(ssoOptions.Value.ResetPasswordTokenExpiration));
 
         userAccessRepository.Update(userAccess);
-        userAccessRepository.SaveChanges();
+        await userAccessRepository.SaveChangesAsync(ct);
     }
 }

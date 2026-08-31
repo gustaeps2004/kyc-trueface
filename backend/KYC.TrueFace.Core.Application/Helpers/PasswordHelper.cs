@@ -37,6 +37,12 @@ public static class PasswordHelper
         return CryptographicOperations.FixedTimeEquals(computedHash, parsed.Hash);
     }
 
+    public static Task<string> HashPasswordAsync(string password)
+        => Task.Run(() => HashPassword(password));
+
+    public static Task<bool> IsValidPasswordAsync(string password, string storedHash)
+        => Task.Run(() => IsValidPassword(password, storedHash));
+
     public static string GenerateStrongRandom()
     {
         const string upperData = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

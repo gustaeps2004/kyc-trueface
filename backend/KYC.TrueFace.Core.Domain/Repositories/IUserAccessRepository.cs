@@ -4,5 +4,5 @@ namespace KYC.TrueFace.Core.Domain.Repositories;
 
 public interface IUserAccessRepository : IBaseRepository
 {
-    UserAccess? GetByUsername(string username);
+    Task<UserAccess?> GetByUsernameAsync(string username, CancellationToken ct = default);
 }

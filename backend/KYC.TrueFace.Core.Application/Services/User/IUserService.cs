@@ -5,16 +5,19 @@ namespace KYC.TrueFace.Core.Application.Services.User;
 
 public interface IUserService
 {
-    void Create(
+    Task CreateAsync(
         CreateUserDto userDto,
-        Guid codePartner);
-
-    IEnumerable<UserResponse> ListByPartner(
         Guid codePartner,
-        string filter);
+        CancellationToken ct = default);
 
-    void Update(
+    Task<IEnumerable<UserResponse>> ListByPartnerAsync(
+        Guid codePartner,
+        string filter,
+        CancellationToken ct = default);
+
+    Task UpdateAsync(
         UpdateUserDto userDto,
         Guid code,
-        Guid codePartner);
+        Guid codePartner,
+        CancellationToken ct = default);
 }

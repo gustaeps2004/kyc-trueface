@@ -4,7 +4,7 @@ namespace KYC.TrueFace.Core.Domain.Repositories;
 
 public interface IUserRepository : IBaseRepository
 {
-    User? GetByCode(Guid code);
-    bool IsExist(string idNumber, string email);
-    IEnumerable<User> ListByPartner(Guid codePartner);
+    Task<User?> GetByCodeAsync(Guid code, CancellationToken ct = default);
+    Task<bool> IsExistAsync(string idNumber, string email, CancellationToken ct = default);
+    Task<IEnumerable<User>> ListByPartnerAsync(Guid codePartner, CancellationToken ct = default);
 }

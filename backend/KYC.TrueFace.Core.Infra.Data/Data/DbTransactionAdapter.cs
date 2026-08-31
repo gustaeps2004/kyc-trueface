@@ -5,6 +5,6 @@ namespace KYC.TrueFace.Core.Infra.Data.Data;
 
 internal sealed class DbTransactionAdapter(IDbContextTransaction transaction) : ITransaction
 {
-    public void Commit() => transaction.Commit();
-    public void Dispose() => transaction.Dispose();
+    public Task CommitAsync(CancellationToken ct = default) => transaction.CommitAsync(ct);
+    public ValueTask DisposeAsync() => transaction.DisposeAsync();
 }

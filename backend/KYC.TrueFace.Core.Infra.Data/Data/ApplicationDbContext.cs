@@ -35,12 +35,24 @@ public class ApplicationDbContext(
                 .WithMany()
                 .HasForeignKey(x => x.CodePartner)
                 .IsRequired();
+
+            options
+                .HasIndex(x => x.Email)
+                .IsUnique();
+
+            options
+                .HasIndex(x => x.IdNumber)
+                .IsUnique();
         });
 
         modelBuilder.Entity<UserAccess>(options =>
         {
             options
                 .HasKey(x => x.Code);
+
+            options
+                .HasIndex(x => x.Username)
+                .IsUnique();
         });
 
         modelBuilder.Entity<UserAccessLog>(options =>

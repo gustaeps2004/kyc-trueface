@@ -13,9 +13,9 @@ public class BaseRepository(ApplicationDbContext context) : IBaseRepository
     public void Update<T>(T entity) where T : class
         => DbContext.Update(entity);
 
-    public void SaveChanges()
-        => DbContext.SaveChanges();
+    public Task SaveChangesAsync(CancellationToken ct = default)
+        => DbContext.SaveChangesAsync(ct);
 
-    public ITransaction BeginTransaction()
-        => new DbTransactionAdapter(DbContext.Database.BeginTransaction());
+    public async Task<ITransaction> BeginTransactionAsync(CancellationToken ct = default)
+        => new DbTransactionAdapter(await DbContext.Database.BeginTransactionAsync(ct));
 }

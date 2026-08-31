@@ -18,28 +18,28 @@ public class UsersController(
     IUserService userService) : BaseController
 {
     [HttpGet]
-    public ActionResult<IEnumerable<UserResponse>> ListByPartner([FromQuery] string? filter)
-        => Ok(userService.ListByPartner(GetPartnerCode(), filter ?? string.Empty));
+    public async Task<ActionResult<IEnumerable<UserResponse>>> ListByPartner([FromQuery] string? filter, CancellationToken ct)
+        => Ok(await userService.ListByPartnerAsync(GetPartnerCode(), filter ?? string.Empty, ct));
 
     [Authorize(Roles = Roles.AdministratorOrMaster)]
     [HttpPost]
-    public IActionResult Insert(CreateUserRequest request)
+    public async Task<IActionResult> Insert(CreateUserRequest request, CancellationToken ct)
     {
         if (request.Permission == Permission.Master && !User.IsInRole(Roles.Master))
             return Forbid();
 
-        userService.Create(request.ToDto(), GetPartnerCode());
+        await userService.CreateAsync(request.ToDto(), GetPartnerCode(), ct);
         return Created();
     }
 
     [Authorize(Roles = Roles.AdministratorOrMaster)]
     [HttpPut("{code:Guid}")]
-    public IActionResult Update(UpdateUserRequest request, [FromRoute] Guid code)
+    public async Task<IActionResult> Update(UpdateUserRequest request, [FromRoute] Guid code, CancellationToken ct)
     {
         if (request.Permission == Permission.Master && !User.IsInRole(Roles.Master))
             return Forbid();
 
-        userService.Update(request.ToDto(), code, GetPartnerCode());
+        await userService.UpdateAsync(request.ToDto(), code, GetPartnerCode(), ct);
         return NoContent();
     }
 }

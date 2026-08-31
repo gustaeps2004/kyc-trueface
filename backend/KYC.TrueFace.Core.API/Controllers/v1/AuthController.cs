@@ -16,22 +16,22 @@ public class AuthController(
 {
     [AllowAnonymous]
     [HttpPost]
-    public ActionResult<AuthenticateLoginResponse> Login(LoginRequest request)
-        => Ok(authenticateService.Login(request.ToDto(), GetIp()));
+    public async Task<ActionResult<AuthenticateLoginResponse>> Login(LoginRequest request, CancellationToken ct)
+        => Ok(await authenticateService.LoginAsync(request.ToDto(), GetIp(), ct));
 
     [AllowAnonymous]
     [HttpPost("reset-password")]
-    public IActionResult ResetPassword(ResetPasswordRequest request)
+    public async Task<IActionResult> ResetPassword(ResetPasswordRequest request, CancellationToken ct)
     {
-        authenticateService.ResetPassword(request.ToDto(), GetIp());
+        await authenticateService.ResetPasswordAsync(request.ToDto(), GetIp(), ct);
         return NoContent();
     }
 
     [AllowAnonymous]
     [HttpPost("forgot-password")]
-    public IActionResult ForgotPassword(ForgotPasswordRequest request)
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest request, CancellationToken ct)
     {
-        authenticateService.ForgotPassword(request.ToDto());
+        await authenticateService.ForgotPasswordAsync(request.ToDto(), ct);
         return NoContent();
     }
 }

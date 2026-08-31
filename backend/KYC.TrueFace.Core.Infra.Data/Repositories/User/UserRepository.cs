@@ -1,26 +1,28 @@
 using KYC.TrueFace.Core.Domain.Repositories;
 using KYC.TrueFace.Core.Infra.Data.Data;
 using KYC.TrueFace.Core.Infra.Data.Repositories.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace KYC.TrueFace.Core.Infra.Data.Repositories.User;
 
 public class UserRepository(ApplicationDbContext context) : BaseRepository(context), IUserRepository
 {
-    public bool IsExist(string idNumber, string email)
+    public Task<bool> IsExistAsync(string idNumber, string email, CancellationToken ct = default)
         => DbContext
             .Users
-            .Any(x =>
+            .AnyAsync(x =>
                     x.IdNumber.Equals(idNumber) ||
-                    x.Email.Equals(email)
-            );
+                    x.Email.Equals(email),
+                ct);
 
-    public IEnumerable<Domain.Entities.User> ListByPartner(Guid codePartner)
+    public async Task<IEnumerable<Domain.Entities.User>> ListByPartnerAsync(Guid codePartner, CancellationToken ct = default)
+        => await DbContext
+            .Users
+            .Where(x => x.CodePartner.Equals(codePartner))
+            .ToListAsync(ct);
+
+    public Task<Domain.Entities.User?> GetByCodeAsync(Guid code, CancellationToken ct = default)
         => DbContext
             .Users
-            .Where(x => x.CodePartner.Equals(codePartner));
-
-    public Domain.Entities.User? GetByCode(Guid code)
-        => DbContext
-            .Users
-            .SingleOrDefault(x => x.Code.Equals(code));
+            .SingleOrDefaultAsync(x => x.Code.Equals(code), ct);
 }

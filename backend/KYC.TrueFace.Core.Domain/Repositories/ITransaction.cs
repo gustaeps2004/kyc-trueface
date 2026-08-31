@@ -1,6 +1,6 @@
 namespace KYC.TrueFace.Core.Domain.Repositories;
 
-public interface ITransaction : IDisposable
+public interface ITransaction : IAsyncDisposable
 {
-    void Commit();
+    Task CommitAsync(CancellationToken ct = default);
 }
