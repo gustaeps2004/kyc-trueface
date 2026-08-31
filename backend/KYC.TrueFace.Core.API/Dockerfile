@@ -13,6 +13,10 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["KYC.TrueFace.Core.API/KYC.TrueFace.Core.API.csproj", "KYC.TrueFace.Core.API/"]
+COPY ["KYC.TrueFace.Core.Infra.Ioc/KYC.TrueFace.Core.Infra.Ioc.csproj", "KYC.TrueFace.Core.Infra.Ioc/"]
+COPY ["KYC.TrueFace.Core.Application/KYC.TrueFace.Core.Application.csproj", "KYC.TrueFace.Core.Application/"]
+COPY ["KYC.TrueFace.Core.Domain/KYC.TrueFace.Core.Domain.csproj", "KYC.TrueFace.Core.Domain/"]
+COPY ["KYC.TrueFace.Core.Infra.Data/KYC.TrueFace.Core.Infra.Data.csproj", "KYC.TrueFace.Core.Infra.Data/"]
 RUN dotnet restore "./KYC.TrueFace.Core.API/KYC.TrueFace.Core.API.csproj"
 COPY . .
 WORKDIR "/src/KYC.TrueFace.Core.API"
