@@ -10,6 +10,13 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+const menuItems = [
+  { labelKey: "sidebar.dashboard", icon: <LayoutDashboard size={18} />, to: "/home" },
+  { labelKey: "sidebar.users", icon: <Users size={18} />, to: "/users" },
+  { labelKey: "sidebar.onboarding", icon: <Fingerprint size={18} />, to: "/onboarding" },
+  { labelKey: "sidebar.history", icon: <History size={18} />, to: "/history/onboarding" },
+];
+
 export default function Sidebar({ isOpen, onClose }) {
   const { t } = useTranslation();
   const [collapsed, setCollapsed] = useState(() => {
@@ -27,13 +34,6 @@ export default function Sidebar({ isOpen, onClose }) {
     setCollapsed(!collapsed)
     localStorage.setItem("sidebar", !collapsed ? "closed" : "open")
   }
-
-  const menuItems = [
-    { labelKey: "sidebar.dashboard", icon: <LayoutDashboard size={18} />, to: "/home" },
-    { labelKey: "sidebar.users", icon: <Users size={18} />, to: "/users" },
-    { labelKey: "sidebar.onboarding", icon: <Fingerprint size={18} />, to: "/onboarding" },
-    { labelKey: "sidebar.history", icon: <History size={18} />, to: "/history/onboarding" },
-  ];
 
   return (
     <aside

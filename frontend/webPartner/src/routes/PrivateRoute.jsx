@@ -1,35 +1,28 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import { GetTokenData } from '../utils/getTokenData';
 
 const PrivateRoute = ({ allowedRoles }) => {
-  const token = localStorage.getItem('token');
+  const decoded = GetTokenData();
 
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-
-  try {
-    const decoded = jwtDecode(token);
-    const userRole = decoded.role;
-    const isExpired = decoded.exp < Date.now() / 1000;
-
-    if (isExpired) {
-      localStorage.removeItem('token');
-      return <Navigate to="/login" replace />;
-    }
-
-    if (allowedRoles && !allowedRoles.includes(userRole)) {
-      localStorage.removeItem('token');
-      return <Navigate to="/login" replace />;
-    }
-
-    return <Outlet />;
-
-  } catch (error) {
+  if (!decoded) {
     localStorage.removeItem('token');
     return <Navigate to="/login" replace />;
   }
+
+  const isExpired = decoded.exp < Date.now() / 1000;
+
+  if (isExpired) {
+    localStorage.removeItem('token');
+    return <Navigate to="/login" replace />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(decoded.role)) {
+    localStorage.removeItem('token');
+    return <Navigate to="/login" replace />;
+  }
+
+  return <Outlet />;
 };
 
 export default PrivateRoute;

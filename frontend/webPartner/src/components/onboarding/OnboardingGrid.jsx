@@ -62,9 +62,9 @@ export function OnboardingGrid(props) {
           </tr>
         </thead>
         <tbody>
-          {props.onboardings.map((onboarding, index) => (
+          {props.onboardings.map((onboarding) => (
             <tr
-              key={index}
+              key={onboarding.code}
               className="
                 border-b
                 border-divider/15

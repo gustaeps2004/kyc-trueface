@@ -89,6 +89,7 @@ export function Modal(props) {
                 title={props.titleRedButton}
                 handlerAction={props.handlerRedAction}
                 variant="danger"
+                disabled={props.disabled}
               />
             : null
           }
@@ -99,6 +100,7 @@ export function Modal(props) {
                 title={props.titleGreenButton}
                 handlerAction={props.handlerGreenAction}
                 variant={props.greenVariant || "success"}
+                disabled={props.disabled}
               />
             : null
           }

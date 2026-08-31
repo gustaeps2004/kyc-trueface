@@ -12,6 +12,7 @@ export function Button(props) {
       <button
         type="submit"
         onClick={props.handlerAction}
+        disabled={props.disabled}
         className={`
           ${variants[variant]}
           flex

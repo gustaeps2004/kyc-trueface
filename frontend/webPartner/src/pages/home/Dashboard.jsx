@@ -7,80 +7,74 @@ import {
   ThumbsUp,
   ThumbsDown,
 } from "lucide-react";
-import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import { GetTokenData } from "@/utils/getTokenData";
 
+const cards = [
+  {
+    titleKey: "dashboard.consultedLastWeek",
+    value: 34,
+    variant: "accent",
+    icon: <Search size={18} />,
+  },
+  {
+    titleKey: "dashboard.reprovedLastWeek",
+    value: 15,
+    variant: "danger",
+    icon: <XCircle size={18} />,
+  },
+  {
+    titleKey: "dashboard.approvedLastWeek",
+    value: 19,
+    variant: "success",
+    icon: <CheckCircle2 size={18} />,
+  },
+  {
+    titleKey: "dashboard.pendingManual",
+    value: 10,
+    variant: "warning",
+    icon: <Clock size={18} />,
+  },
+  {
+    titleKey: "dashboard.approvedManuallyLastMonth",
+    value: 15,
+    variant: "success",
+    icon: <ThumbsUp size={18} />,
+  },
+  {
+    titleKey: "dashboard.reprovedManuallyLastMonth",
+    value: 3,
+    variant: "danger",
+    icon: <ThumbsDown size={18} />,
+  },
+];
+
+const variantStyles = {
+  accent: {
+    border: "border-l-accent",
+    value: "text-accent-light",
+    icon: "text-accent-light bg-accent/10",
+  },
+  success: {
+    border: "border-l-success",
+    value: "text-success-light",
+    icon: "text-success-light bg-success/10",
+  },
+  danger: {
+    border: "border-l-danger",
+    value: "text-danger-light",
+    icon: "text-danger-light bg-danger/10",
+  },
+  warning: {
+    border: "border-l-warning",
+    value: "text-warning-light",
+    icon: "text-warning-light bg-warning/10",
+  },
+};
+
 export function Dashboard() {
-  const [loggedName, setloggedName] = useState("")
   const { t } = useTranslation();
-
-  useEffect(() => {
-    const tokenData = GetTokenData()
-    setloggedName(tokenData?.user_name?.split(' ')[0])
-  }, []);
-
-  const cards = [
-    {
-      titleKey: "dashboard.consultedLastWeek",
-      value: 34,
-      variant: "accent",
-      icon: <Search size={18} />,
-    },
-    {
-      titleKey: "dashboard.reprovedLastWeek",
-      value: 15,
-      variant: "danger",
-      icon: <XCircle size={18} />,
-    },
-    {
-      titleKey: "dashboard.approvedLastWeek",
-      value: 19,
-      variant: "success",
-      icon: <CheckCircle2 size={18} />,
-    },
-    {
-      titleKey: "dashboard.pendingManual",
-      value: 10,
-      variant: "warning",
-      icon: <Clock size={18} />,
-    },
-    {
-      titleKey: "dashboard.approvedManuallyLastMonth",
-      value: 15,
-      variant: "success",
-      icon: <ThumbsUp size={18} />,
-    },
-    {
-      titleKey: "dashboard.reprovedManuallyLastMonth",
-      value: 3,
-      variant: "danger",
-      icon: <ThumbsDown size={18} />,
-    },
-  ];
-
-  const variantStyles = {
-    accent: {
-      border: "border-l-accent",
-      value: "text-accent-light",
-      icon: "text-accent-light bg-accent/10",
-    },
-    success: {
-      border: "border-l-success",
-      value: "text-success-light",
-      icon: "text-success-light bg-success/10",
-    },
-    danger: {
-      border: "border-l-danger",
-      value: "text-danger-light",
-      icon: "text-danger-light bg-danger/10",
-    },
-    warning: {
-      border: "border-l-warning",
-      value: "text-warning-light",
-      icon: "text-warning-light bg-warning/10",
-    },
-  };
+  const loggedName = GetTokenData()?.user_name?.split(' ')[0];
 
   return (
     <Layout name={t('dashboard.welcome', { name: loggedName })}>

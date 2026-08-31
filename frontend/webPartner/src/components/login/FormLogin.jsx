@@ -3,20 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/Button";
 import { loginService } from "@/api/services/loginService";
 import { useApi } from "@/hooks/useApi";
+import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 
 export function FormLogin() {
   const { execute, isLoading } = useApi();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   const handlePostLogin = async (e) => {
     if (e && e.preventDefault)
       e.preventDefault();
 
     const request = {
-      email: document.getElementById("email").value,
-      password: document.getElementById("password").value
+      email,
+      password
     };
 
     await execute(
@@ -37,10 +40,10 @@ export function FormLogin() {
   return(
     <div className="flex flex-col gap-4">
       <form className="space-y-3">
-        <Input type="email" name="email">
+        <Input type="email" name="email" value={email} onChange={setEmail}>
           {t('login.email')}
         </Input>
-        <Input type="password" name="password">
+        <Input type="password" name="password" value={password} onChange={setPassword}>
           {t('login.password')}
         </Input>
 

@@ -1,7 +1,8 @@
 export function ModalButton({
   title,
   handlerAction,
-  variant = "success"
+  variant = "success",
+  disabled = false
 }) {
   const variants = {
     success: "bg-success hover:brightness-110 text-white",
@@ -13,6 +14,7 @@ export function ModalButton({
     <button
       type="submit"
       onClick={handlerAction}
+      disabled={disabled}
       className={`
         ${variants[variant]}
         flex
@@ -32,6 +34,10 @@ export function ModalButton({
         focus:ring-white/30
         hover:-translate-y-0.5
         active:translate-y-0
+        disabled:cursor-not-allowed
+        disabled:opacity-50
+        disabled:grayscale
+        disabled:hover:translate-y-0
       `}
     >
       {title}

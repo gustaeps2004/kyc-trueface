@@ -23,15 +23,19 @@ export function User() {
   const { t } = useTranslation();
 
   useEffect(() => {
+    const controller = new AbortController()
     const timer = setTimeout(() => {
-      handlerListUsers(filterValue)
+      handlerListUsers(filterValue, controller.signal)
     }, 400)
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(timer)
+      controller.abort()
+    }
   }, [filterValue]);
 
-  const handlerListUsers = async (filter) => {
+  const handlerListUsers = async (filter, signal) => {
     await execute(
-      () => userService.listByPartner(filter),
+      () => userService.listByPartner(filter, signal),
       {
         onSuccess: (response) => {
           setUsers(response.data.map(u => ({

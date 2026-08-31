@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { Input } from '@/components/ui/Input'
 import { Button } from "@/components/ui/Button"
+import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { loginService } from "@/api/services/loginService";
 import { useApi } from "@/hooks/useApi";
@@ -9,6 +10,7 @@ export function FormForgotPassword({ handlerConfirmClick }) {
   const navigate = useNavigate()
   const { t } = useTranslation();
   const { execute, isLoading } = useApi();
+  const [email, setEmail] = useState("")
 
   const handlerRedirectToLogin = () => {
     navigate('/login')
@@ -18,9 +20,7 @@ export function FormForgotPassword({ handlerConfirmClick }) {
     if (e && e.preventDefault)
       e.preventDefault();
 
-    const request = {
-      email: document.getElementById("email").value
-    };
+    const request = { email };
 
     await execute(
       () => loginService.postForgotPassword(request),
@@ -33,7 +33,7 @@ export function FormForgotPassword({ handlerConfirmClick }) {
   return(
     <div className="flex flex-col gap-4">
       <form className="space-y-3">
-        <Input type="email" name="email">
+        <Input type="email" name="email" value={email} onChange={setEmail}>
           {t('login.email')}
         </Input>
 

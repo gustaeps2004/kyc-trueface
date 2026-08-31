@@ -8,13 +8,10 @@ import {
 
 export function ModalImages(props) {
   const [rotate, setRotate] = useState(90)
-  const [linkImage, setLinkImage] = useState()
-  const [imageName, setImageName] = useState()
+  const [linkImage, setLinkImage] = useState(() => props.onboardingData[0].linkImage)
+  const [imageName, setImageName] = useState(() => props.onboardingData[0].nameImage)
 
   useEffect(() => {
-    setLinkImage(props.onboardingData[0].linkImage)
-    setImageName(props.onboardingData[0].nameImage)
-
     const handleEsc = (e) => {
       if (e.key === "Escape") props.closeModal();
     };

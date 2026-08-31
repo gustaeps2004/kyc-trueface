@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import axios from 'axios';
 import { useNotification } from '../context/NotificationContext';
 import { useTranslation } from 'react-i18next';
 
@@ -29,6 +30,9 @@ export function useApi() {
       onSuccess?.(response);
       return response;
     } catch (error) {
+      if (axios.isCancel(error)) {
+        return null;
+      }
 
       const msg =
         errorMessage ??

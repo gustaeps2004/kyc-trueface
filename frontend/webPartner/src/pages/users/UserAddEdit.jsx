@@ -84,6 +84,7 @@ export function UserAddEdit(props) {
       titleGreenButton={props.isEdit ? t('users.save') : t('users.create')}
       handlerGreenAction={(e) => handlerPersist(e)}
       greenVariant="brand"
+      disabled={isLoading}
     >
       <Input type="name" name="name" value={name} onChange={setName}>
         {t('users.modal.name')}
