@@ -16,12 +16,12 @@ public class AuthController(
 {
     [AllowAnonymous]
     [HttpPost]
-    public async Task<ActionResult<AuthenticateLoginResponse>> Login(LoginRequest request, CancellationToken ct)
+    public async Task<ActionResult<AuthenticateLoginResponse>> LoginAsync(LoginRequest request, CancellationToken ct)
         => Ok(await authenticateService.LoginAsync(request.ToDto(), GetIp(), ct));
 
     [AllowAnonymous]
     [HttpPost("reset-password")]
-    public async Task<IActionResult> ResetPassword(ResetPasswordRequest request, CancellationToken ct)
+    public async Task<IActionResult> ResetPasswordAsync(ResetPasswordRequest request, CancellationToken ct)
     {
         await authenticateService.ResetPasswordAsync(request.ToDto(), GetIp(), ct);
         return NoContent();
@@ -29,7 +29,7 @@ public class AuthController(
 
     [AllowAnonymous]
     [HttpPost("forgot-password")]
-    public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest request, CancellationToken ct)
+    public async Task<IActionResult> ForgotPasswordAsync(ForgotPasswordRequest request, CancellationToken ct)
     {
         await authenticateService.ForgotPasswordAsync(request.ToDto(), ct);
         return NoContent();

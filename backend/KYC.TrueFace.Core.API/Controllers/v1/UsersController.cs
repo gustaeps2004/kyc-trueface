@@ -18,12 +18,12 @@ public class UsersController(
     IUserService userService) : BaseController
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<UserResponse>>> ListByPartner([FromQuery] string? filter, CancellationToken ct)
+    public async Task<ActionResult<IEnumerable<UserResponse>>> ListByPartnerAsync([FromQuery] string? filter, CancellationToken ct)
         => Ok(await userService.ListByPartnerAsync(GetPartnerCode(), filter ?? string.Empty, ct));
 
     [Authorize(Roles = Roles.AdministratorOrMaster)]
     [HttpPost]
-    public async Task<IActionResult> Insert(CreateUserRequest request, CancellationToken ct)
+    public async Task<IActionResult> InsertAsync(CreateUserRequest request, CancellationToken ct)
     {
         if (request.Permission == Permission.Master && !User.IsInRole(Roles.Master))
             return Forbid();
@@ -34,7 +34,7 @@ public class UsersController(
 
     [Authorize(Roles = Roles.AdministratorOrMaster)]
     [HttpPut("{code:Guid}")]
-    public async Task<IActionResult> Update(UpdateUserRequest request, [FromRoute] Guid code, CancellationToken ct)
+    public async Task<IActionResult> UpdateAsync(UpdateUserRequest request, [FromRoute] Guid code, CancellationToken ct)
     {
         if (request.Permission == Permission.Master && !User.IsInRole(Roles.Master))
             return Forbid();
