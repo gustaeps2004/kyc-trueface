@@ -17,6 +17,7 @@ builder.Services.ConfigureCors(builder.Configuration);
 builder.Services.ConfigureDependencyInjection();
 builder.Services.ConfigureVersioning();
 builder.Services.TokenjwtConfiguration(builder.Configuration);
+builder.Services.ConfigureEmail(builder.Configuration);
 
 builder.Services.AddAuthorization();
 

@@ -18,5 +18,9 @@ public static class ValidationErrors
     public const string UserSituationInvalid = "users.validation.situation";
     public const string UserBirthDatenvalid = "users.validation.birthDate";
 
+    public const string EmailRecipientNullOrEmpty = "email.validation.recipientEmpty";
+    public const string EmailSubjectNullOrEmpty = "email.validation.subjectEmpty";
+    public const string EmailBodyNullOrEmpty = "email.validation.bodyEmpty";
+
     public const string GenericError = "notifications.errorDefault";
 }
