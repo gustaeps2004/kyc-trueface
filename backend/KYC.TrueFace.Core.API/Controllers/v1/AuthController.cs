@@ -19,7 +19,7 @@ public class AuthController(
     public async Task<ActionResult<AuthenticateLoginResponse>> LoginAsync(LoginRequest request, CancellationToken ct)
         => Ok(await authenticateService.LoginAsync(request.ToDto(), GetIp(), ct));
 
-    [AllowAnonymous]
+    [Authorize]
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPasswordAsync(ResetPasswordRequest request, CancellationToken ct)
     {
