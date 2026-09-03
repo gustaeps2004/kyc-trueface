@@ -1,7 +1,10 @@
-﻿using KYC.TrueFace.Core.Application.Helpers;
+﻿using System.Text.Json;
+using KYC.TrueFace.Core.Application.Helpers;
 using KYC.TrueFace.Core.Application.Messaging.DTOs;
 using KYC.TrueFace.Core.Application.Messaging.Response;
 using KYC.TrueFace.Core.Application.Security;
+using KYC.TrueFace.Core.Application.Services.Email;
+using KYC.TrueFace.Core.Application.Services.Email.Templates;
 using KYC.TrueFace.Core.Application.Services.Token;
 using KYC.TrueFace.Core.Domain.Constants;
 using KYC.TrueFace.Core.Domain.Entities;
@@ -16,9 +19,10 @@ namespace KYC.TrueFace.Core.Application.Services.Auth;
 public class AuthenticateService(
     ITokenService tokenService,
     IBaseRepository baseRepository,
-    IOptions<SsoOptions> ssoOptions,
     IOptions<LoginSecurityOptions> loginSecurityOptions,
+    IOptions<AppOptions> appOptions,
     IPasswordHasher passwordHasher,
+    IEmailService emailService,
     IUserAccessRepository userAccessRepository) : IAuthenticateService
 {
     public async Task<AuthenticateLoginResponse> LoginAsync(
@@ -97,6 +101,7 @@ public class AuthenticateService(
 
     public async Task ResetPasswordAsync(
         ResetPasswordDto passwordDto,
+        string requesterUsername,
         string ip,
         CancellationToken ct = default)
     {
@@ -105,7 +110,7 @@ public class AuthenticateService(
         var userAccess = await userAccessRepository.GetByUsernameAsync(PasswordHelper.GetSuffix(passwordDto.Email), ct)
                             ?? throw new KycException(ValidationErrors.AuthIncorrectUserOrPassword);
 
-        if (!PasswordHelper.IsValidToken(passwordDto.Token, userAccess.ResetPasswordTokenHash, userAccess.ResetPasswordTokenExpiresAt))
+        if (!string.Equals(userAccess.Username, requesterUsername, StringComparison.Ordinal))
             throw new KycException(ValidationErrors.AuthInvalidOrExpiredResetToken);
 
         var newPassword = await passwordHasher.HashAsync(passwordDto.Password, ct);
@@ -135,13 +140,33 @@ public class AuthenticateService(
         if (userAccess is null)
             return;
 
-        var token = PasswordHelper.GenerateSecureToken();
+        var token = tokenService.GenerateToken(userAccess.Username, Roles.ResetPassword, additionalClaims: null);
 
-        userAccess.SetResetPasswordToken(
-            PasswordHelper.HashToken(token),
-            DateTime.UtcNow.AddMinutes(ssoOptions.Value.ResetPasswordTokenExpiration));
+        var link = $"{appOptions.Value.FrontendUrl.TrimEnd('/')}/register-password" +
+                   $"?e={Uri.EscapeDataString(forgotPasswordDto.Email)}&token={Uri.EscapeDataString(token)}";
 
-        userAccessRepository.Update(userAccess);
-        await userAccessRepository.SaveChangesAsync(ct);
+        await emailService.SendAsync(
+            new SendEmailDto(
+                forgotPasswordDto.Email,
+                AccessEmailTemplate.PasswordResetSubject,
+                AccessEmailTemplate.PasswordReset(GetDisplayName(userAccess.Claim), link)
+            ),
+            ct
+        );
+    }
+
+    private static string GetDisplayName(string claimJson)
+    {
+        try
+        {
+            var claims = JsonSerializer.Deserialize<Dictionary<string, string>>(claimJson);
+            return claims is not null && claims.TryGetValue(IdentityClaims.UserName, out var name)
+                ? name
+                : string.Empty;
+        }
+        catch (JsonException)
+        {
+            return string.Empty;
+        }
     }
 }

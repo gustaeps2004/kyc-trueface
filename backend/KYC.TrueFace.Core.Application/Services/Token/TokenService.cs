@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
+using KYC.TrueFace.Core.Domain.Constants;
 using KYC.TrueFace.Core.Domain.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -39,7 +40,7 @@ public class TokenService(
             issuer: sso.Issuer,
             audience: sso.Audience,
             claims: claims,
-            expires: DateTime.Now.AddHours(1),
+            expires: DateTime.Now.AddHours(TokenDefaults.LifetimeHours),
             signingCredentials: creds
         );
 

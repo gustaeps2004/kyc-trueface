@@ -12,6 +12,7 @@ public interface IAuthenticateService
     );
     Task ResetPasswordAsync(
         ResetPasswordDto passwordDto,
+        string requesterUsername,
         string ip,
         CancellationToken ct = default
     );

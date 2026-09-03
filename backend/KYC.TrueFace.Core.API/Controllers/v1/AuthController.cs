@@ -3,6 +3,7 @@ using KYC.TrueFace.Core.API.Controllers.Base;
 using KYC.TrueFace.Core.Application.Messaging.Request;
 using KYC.TrueFace.Core.Application.Messaging.Response;
 using KYC.TrueFace.Core.Application.Services.Auth;
+using KYC.TrueFace.Core.Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
@@ -21,11 +22,11 @@ public class AuthController(
     public async Task<ActionResult<AuthenticateLoginResponse>> LoginAsync(LoginRequest request, CancellationToken ct)
         => Ok(await authenticateService.LoginAsync(request.ToDto(), GetIp(), ct));
 
-    [Authorize]
+    [Authorize(Roles = Roles.ResetPassword)]
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPasswordAsync(ResetPasswordRequest request, CancellationToken ct)
     {
-        await authenticateService.ResetPasswordAsync(request.ToDto(), GetIp(), ct);
+        await authenticateService.ResetPasswordAsync(request.ToDto(), GetUsername(), GetIp(), ct);
         return NoContent();
     }
 

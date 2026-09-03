@@ -1,17 +1,25 @@
 ﻿using KYC.TrueFace.Core.Application.Helpers;
 using KYC.TrueFace.Core.Application.Messaging.DTOs;
 using KYC.TrueFace.Core.Application.Messaging.Response;
+using KYC.TrueFace.Core.Application.Services.Email;
+using KYC.TrueFace.Core.Application.Services.Email.Templates;
+using KYC.TrueFace.Core.Application.Services.Token;
 using KYC.TrueFace.Core.Application.Services.UserAccess;
 using KYC.TrueFace.Core.Domain.Constants;
 using KYC.TrueFace.Core.Domain.Exceptions;
 using KYC.TrueFace.Core.Domain.Extensions;
+using KYC.TrueFace.Core.Domain.Options;
 using KYC.TrueFace.Core.Domain.Repositories;
+using Microsoft.Extensions.Options;
 
 namespace KYC.TrueFace.Core.Application.Services.User;
 
 public class UserService(
     IUserRepository userRepository,
-    IUserAccessService userAccessService) : IUserService
+    IUserAccessService userAccessService,
+    ITokenService tokenService,
+    IEmailService emailService,
+    IOptions<AppOptions> appOptions) : IUserService
 {
     public async Task CreateAsync(
         CreateUserDto userDto,
@@ -23,13 +31,15 @@ public class UserService(
 
         userDto.Validate();
 
+        var username = PasswordHelper.GetSuffix(userDto.Email);
+
         await using var ts = await userRepository.BeginTransactionAsync(ct);
 
         var user = Insert(userDto, codePartner);
 
         await userAccessService.CreateAsync(
             new CreateUserAccessDto(
-                PasswordHelper.GetSuffix(userDto.Email),
+                username,
                 PasswordHelper.GenerateStrongRandom(),
                 [userDto.Permission.GetDescription().ToUpper()],
                 GetClaims(
@@ -40,10 +50,31 @@ public class UserService(
             )
         );
 
-        //send email to first access
-
         await userRepository.SaveChangesAsync(ct);
         await ts.CommitAsync(ct);
+
+        await SendFirstAccessEmailAsync(userDto.Name, userDto.Email, username, ct);
+    }
+
+    private async Task SendFirstAccessEmailAsync(
+        string name,
+        string email,
+        string username,
+        CancellationToken ct)
+    {
+        var token = tokenService.GenerateToken(username, Roles.ResetPassword, additionalClaims: null);
+
+        var link = $"{appOptions.Value.FrontendUrl.TrimEnd('/')}/register-password" +
+                   $"?e={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}";
+
+        await emailService.SendAsync(
+            new SendEmailDto(
+                email,
+                AccessEmailTemplate.FirstAccessSubject,
+                AccessEmailTemplate.FirstAccess(name, link)
+            ),
+            ct
+        );
     }
 
     private Domain.Entities.User Insert(

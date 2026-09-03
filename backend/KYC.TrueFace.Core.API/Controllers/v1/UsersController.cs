@@ -17,6 +17,7 @@ namespace KYC.TrueFace.Core.API.Controllers.v1;
 public class UsersController(
     IUserService userService) : BaseController
 {
+    [Authorize(Roles = Roles.AllAccess)]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserResponse>>> ListByPartnerAsync([FromQuery] string? filter, CancellationToken ct)
         => Ok(await userService.ListByPartnerAsync(GetPartnerCode(), filter ?? string.Empty, ct));
@@ -28,7 +29,7 @@ public class UsersController(
         if (request.Permission == Permission.Master && !User.IsInRole(Roles.Master))
             return Forbid();
 
-        await userService.CreateAsync(request.ToDto(), GetPartnerCode(), ct);
+        await userService.CreateAsync(request.ToDto(), Guid.Parse("19ae15ad-5280-40d2-95ff-5692475e748d"), ct);
         return Created();
     }
 
