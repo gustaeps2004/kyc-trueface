@@ -1,6 +1,7 @@
 ﻿using KYC.TrueFace.Core.Application.Helpers;
 using KYC.TrueFace.Core.Application.Messaging.DTOs;
 using KYC.TrueFace.Core.Application.Messaging.Response;
+using KYC.TrueFace.Core.Application.Security;
 using KYC.TrueFace.Core.Application.Services.Token;
 using KYC.TrueFace.Core.Domain.Constants;
 using KYC.TrueFace.Core.Domain.Entities;
@@ -16,6 +17,8 @@ public class AuthenticateService(
     ITokenService tokenService,
     IBaseRepository baseRepository,
     IOptions<SsoOptions> ssoOptions,
+    IOptions<LoginSecurityOptions> loginSecurityOptions,
+    IPasswordHasher passwordHasher,
     IUserAccessRepository userAccessRepository) : IAuthenticateService
 {
     public async Task<AuthenticateLoginResponse> LoginAsync(
@@ -28,7 +31,13 @@ public class AuthenticateService(
         var userAccess = await userAccessRepository.GetByUsernameAsync(PasswordHelper.GetSuffix(loginDto.Email), ct)
                             ?? throw new KycException(ValidationErrors.AuthIncorrectUserOrPassword);
 
-        var isValid = await PasswordHelper.IsValidPasswordAsync(loginDto.Password, userAccess.Password);
+        if (userAccess.IsLockedOut(DateTime.UtcNow))
+        {
+            await InsertLogAsync(userAccess.Code, FlowIdentity.Login, ip, ct);
+            throw new KycException(ValidationErrors.AuthAccountLocked);
+        }
+
+        var verification = await passwordHasher.VerifyAsync(loginDto.Password, userAccess.Password, ct);
 
         await InsertLogAsync(
             userAccess.Code,
@@ -37,8 +46,29 @@ public class AuthenticateService(
             ct
         );
 
-        if (!isValid)
+        var lockout = loginSecurityOptions.Value;
+
+        if (verification == PasswordVerificationResult.Failed)
+        {
+            userAccess.RegisterFailedLogin(lockout.MaxFailedAttempts, TimeSpan.FromMinutes(lockout.LockoutMinutes));
+            userAccessRepository.Update(userAccess);
+            await userAccessRepository.SaveChangesAsync(ct);
+
             throw new KycException(ValidationErrors.AuthIncorrectUserOrPassword);
+        }
+
+        var rehashNeeded = verification == PasswordVerificationResult.SuccessRehashNeeded;
+
+        if (rehashNeeded || userAccess.AccessFailedCount != 0 || userAccess.LockoutEndsAt is not null)
+        {
+            userAccess.RegisterSuccessfulLogin();
+
+            if (rehashNeeded)
+                userAccess.UpdatePassword(await passwordHasher.HashAsync(loginDto.Password, ct));
+
+            userAccessRepository.Update(userAccess);
+            await userAccessRepository.SaveChangesAsync(ct);
+        }
 
         var token = tokenService.GenerateToken(
                         userAccess.Username,
@@ -78,7 +108,7 @@ public class AuthenticateService(
         if (!PasswordHelper.IsValidToken(passwordDto.Token, userAccess.ResetPasswordTokenHash, userAccess.ResetPasswordTokenExpiresAt))
             throw new KycException(ValidationErrors.AuthInvalidOrExpiredResetToken);
 
-        var newPassword = await PasswordHelper.HashPasswordAsync(passwordDto.Password);
+        var newPassword = await passwordHasher.HashAsync(passwordDto.Password, ct);
         userAccess.UpdatePassword(newPassword);
         userAccess.ClearResetPasswordToken();
 

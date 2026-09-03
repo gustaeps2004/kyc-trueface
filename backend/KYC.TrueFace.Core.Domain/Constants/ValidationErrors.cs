@@ -6,6 +6,7 @@ public static class ValidationErrors
     public const string AuthPasswordWeak = "login.validation.passwordWeak";
     public const string AuthIncorrectPasswordAndConfirmPassword = "login.validation.resetPassword";
     public const string AuthInvalidOrExpiredResetToken = "login.validation.invalidOrExpiredResetToken";
+    public const string AuthAccountLocked = "login.validation.accountLocked";
     public const string UserExisted = "users.validation.existed";
     public const string UserNotExisted = "users.validation.notExisted";
     public const string UserPasswordCannotBeNullOrEmpty = "users.validation.password";

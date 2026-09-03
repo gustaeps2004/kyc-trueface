@@ -1,5 +1,3 @@
-﻿using Konscious.Security.Cryptography;
-using Microsoft.AspNet.Identity;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,42 +5,6 @@ namespace KYC.TrueFace.Core.Application.Helpers;
 
 public static class PasswordHelper
 {
-    private const int SaltSize = 16; // 128 bits
-    private const int HashSize = 32; // 256 bits
-
-    private const int Iterations = 3;
-    private const int MemorySize = 65536; // 64 MB
-    private const int Parallelism = 2;
-
-    public static string HashPassword(string password)
-    {
-        byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);
-
-        byte[] hash = Hash(password, salt, Iterations, MemorySize, Parallelism);
-
-        return FormatHash(hash, salt, Iterations, MemorySize, Parallelism);
-    }
-
-    public static bool IsValidPassword(string password, string storedHash)
-    {
-        var parsed = ParseHash(storedHash);
-
-        byte[] computedHash = Hash(
-            password,
-            parsed.Salt,
-            parsed.Iterations,
-            parsed.MemorySize,
-            parsed.Parallelism);
-
-        return CryptographicOperations.FixedTimeEquals(computedHash, parsed.Hash);
-    }
-
-    public static Task<string> HashPasswordAsync(string password)
-        => Task.Run(() => HashPassword(password));
-
-    public static Task<bool> IsValidPasswordAsync(string password, string storedHash)
-        => Task.Run(() => IsValidPassword(password, storedHash));
-
     public static string GenerateStrongRandom()
     {
         const string upperData = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -61,7 +23,7 @@ public static class PasswordHelper
             password.Append(allChars[RandomNumberGenerator.GetInt32(allChars.Length)]);
 
         return new string(
-            [.. 
+            [..
                 password
                 .ToString()
                 .ToCharArray()
@@ -87,46 +49,5 @@ public static class PasswordHelper
         return CryptographicOperations.FixedTimeEquals(
             Encoding.UTF8.GetBytes(storedTokenHash),
             Encoding.UTF8.GetBytes(HashToken(token)));
-    }
-
-    private static byte[] Hash(
-        string password, 
-        byte[] salt, 
-        int iterations, 
-        int memorySize, 
-        int parallelism)
-    {
-        var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password))
-        {
-            Salt = salt,
-            Iterations = iterations,
-            MemorySize = memorySize,
-            DegreeOfParallelism = parallelism
-        };
-
-        return argon2.GetBytes(HashSize);
-    }
-
-    private static string FormatHash(byte[] hash, byte[] salt, int iterations, int memorySize, int parallelism)
-    {
-        return $"$argon2id$v=1$m={memorySize},t={iterations},p={parallelism}$" +
-               $"{Convert.ToBase64String(salt)}$" +
-               $"{Convert.ToBase64String(hash)}";
-    }
-
-    private static (byte[] Salt, byte[] Hash, int Iterations, int MemorySize, int Parallelism) ParseHash(string hash)
-    {
-        var parts = hash.Split('$', StringSplitOptions.RemoveEmptyEntries);
-
-        var paramPart = parts[2].Split(',');
-
-        int memory = int.Parse(paramPart[0].Split('=')[1]);
-        int iterations = int.Parse(paramPart[1].Split('=')[1]);
-        int parallelism = int.Parse(paramPart[2].Split('=')[1]);
-
-        byte[] salt = Convert.FromBase64String(parts[3]);
-        byte[] hashBytes = Convert.FromBase64String(parts[4]);
-
-        return (salt, hashBytes, iterations, memory, parallelism);
     }
 }
