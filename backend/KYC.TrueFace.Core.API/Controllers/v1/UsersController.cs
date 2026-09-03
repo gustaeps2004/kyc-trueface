@@ -29,7 +29,7 @@ public class UsersController(
         if (request.Permission == Permission.Master && !User.IsInRole(Roles.Master))
             return Forbid();
 
-        await userService.CreateAsync(request.ToDto(), Guid.Parse("19ae15ad-5280-40d2-95ff-5692475e748d"), ct);
+        await userService.CreateAsync(request.ToDto(), GetPartnerCode(), ct);
         return Created();
     }
 
