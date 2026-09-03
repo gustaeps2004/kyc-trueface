@@ -4,5 +4,6 @@ const BASE_PATH = '/v1/auth';
 
 export const loginService = {
   postLogin: (request) => apiClient.post(BASE_PATH, request),
-  postForgotPassword: (request) => apiClient.post(`${BASE_PATH}/forgot-password`, request)
+  postForgotPassword: (request) => apiClient.post(`${BASE_PATH}/forgot-password`, request),
+  postResetPassword: (request) => apiClient.post(`${BASE_PATH}/reset-password`, request)
 };

@@ -18,10 +18,13 @@
     "resetLinkDescription": "Enviaremos um link de redefinição",
     "registerPasswordTitle": "Cadastrar senha",
     "registerPasswordSubtitle": "Crie sua senha para continuar",
+    "registering": "Cadastrando...",
+    "registerPasswordSuccess": "Senha cadastrada com sucesso. Faça login para continuar.",
     "validation": {
       "incorrectLogin": "Usuário ou senha inválidos.",
       "passwordWeak": "Senha muito fraca.",
-      "resetPassword": "A senha deve ser igual a senha de confirmação."
+      "resetPassword": "A senha deve ser igual a senha de confirmação.",
+      "invalidOrExpiredResetToken": "Link inválido ou expirado. Solicite um novo."
     }
   },
   "topbar": {

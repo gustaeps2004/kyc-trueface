@@ -18,10 +18,13 @@
     "resetLinkDescription": "We will send you a reset link",
     "registerPasswordTitle": "Register password",
     "registerPasswordSubtitle": "Create your password to continue",
+    "registering": "Registering...",
+    "registerPasswordSuccess": "Password set successfully. Sign in to continue.",
     "validation": {
       "incorrectLogin": "Incorect user or password.",
       "passwordWeak": "Password is too weak.",
-      "resetPassword": "Password should be equals than confirm password."
+      "resetPassword": "Password should be equals than confirm password.",
+      "invalidOrExpiredResetToken": "Invalid or expired link. Please request a new one."
     }
   },
   "topbar": {
