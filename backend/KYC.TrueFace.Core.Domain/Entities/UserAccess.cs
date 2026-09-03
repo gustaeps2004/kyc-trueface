@@ -12,6 +12,8 @@ public class UserAccess : EntityBase
     public string Claim { get; set; } = null!;
     public string? ResetPasswordTokenHash { get; set; }
     public DateTime? ResetPasswordTokenExpiresAt { get; set; }
+    public int AccessFailedCount { get; set; }
+    public DateTime? LockoutEndsAt { get; set; }
 
     public UserAccess() {  }
     public UserAccess(
@@ -31,6 +33,26 @@ public class UserAccess : EntityBase
 
     public void UpdatePassword(string password)
         => Password = password;
+
+    public bool IsLockedOut(DateTime utcNow)
+        => LockoutEndsAt is not null && LockoutEndsAt > utcNow;
+
+    public void RegisterFailedLogin(int maxFailedAttempts, TimeSpan lockoutDuration)
+    {
+        AccessFailedCount++;
+
+        if (maxFailedAttempts > 0 && AccessFailedCount >= maxFailedAttempts)
+        {
+            LockoutEndsAt = DateTime.UtcNow.Add(lockoutDuration);
+            AccessFailedCount = 0;
+        }
+    }
+
+    public void RegisterSuccessfulLogin()
+    {
+        AccessFailedCount = 0;
+        LockoutEndsAt = null;
+    }
 
     public void SetResetPasswordToken(string tokenHash, DateTime expiresAt)
     {

@@ -8,7 +8,7 @@ public class PartnerCredentials : EntityBase
     public Guid CodePartner { get; set; }
     public string ClientId { get; set; } = null!;
 
-    // Must always be a hash (e.g. via PasswordHelper.HashPassword), never the raw secret - see UserAccess.Password for the same convention.
+    // Must always be a hash (e.g. via IPasswordHasher.Hash), never the raw secret - see UserAccess.Password for the same convention.
     public string ClientSecret { get; set; } = null!;
     public string GrantType { get; set; } = null!;
     public Situation Situation { get; set; }
