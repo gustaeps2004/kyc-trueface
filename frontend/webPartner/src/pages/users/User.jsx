@@ -8,6 +8,7 @@ import { UserSituation } from "@/utils/arrays";
 import { SituationBadge } from "@/components/ui/SituationBadge";
 import { userService } from "@/api/services/userService";
 import { useApi } from "@/hooks/useApi";
+import { CanWrite } from "@/utils/permissions";
 import {
   IdNumberFormat,
   DateFormat
@@ -21,6 +22,7 @@ export function User() {
   const [filterValue, setFilterValue] = useState("")
   const { execute, isLoading } = useApi();
   const { t } = useTranslation();
+  const canWrite = CanWrite();
 
   useEffect(() => {
     const controller = new AbortController()
@@ -48,6 +50,8 @@ export function User() {
   }
 
   const handlerOpenModal = (isEdit, user) => {
+    if (!canWrite) return
+
     setIsEdit(isEdit)
     setOpenModal(true)
 
@@ -73,7 +77,7 @@ export function User() {
       <Layout name={t('users.pageTitle')}>
         <Content
           placeholderFilter={t('users.searchPlaceholder')}
-          isShowAdd={true}
+          isShowAdd={canWrite}
           isShowFilter={true}
           openModal={() => handlerOpenModal(false, null)}
           filterValue={filterValue}
@@ -136,25 +140,27 @@ export function User() {
                       {DateFormat(user.inclusionDate)}
                     </td>
                     <td className="px-6 py-4">
-                      <button
-                        onClick={() => handlerOpenModal(true, user)}
-                        aria-label={t('users.edit')}
-                        className="
-                          inline-flex
-                          items-center
-                          justify-center
-                          text-fg-subtle
-                          hover:text-brand-soft
-                          hover:bg-brand/10
-                          rounded-md
-                          p-1.5
-                          transition-all
-                          duration-150
-                          cursor-pointer
-                        "
-                      >
-                        <UserRoundPen size={18} />
-                      </button>
+                      {canWrite && (
+                        <button
+                          onClick={() => handlerOpenModal(true, user)}
+                          aria-label={t('users.edit')}
+                          className="
+                            inline-flex
+                            items-center
+                            justify-center
+                            text-fg-subtle
+                            hover:text-brand-soft
+                            hover:bg-brand/10
+                            rounded-md
+                            p-1.5
+                            transition-all
+                            duration-150
+                            cursor-pointer
+                          "
+                        >
+                          <UserRoundPen size={18} />
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))

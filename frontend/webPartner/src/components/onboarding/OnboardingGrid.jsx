@@ -5,6 +5,7 @@ import { OnboardingAnalysed } from '../../pages/history/OnboardingAnalysed';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Situation } from '@/utils/arrays';
+import { CanWrite } from '@/utils/permissions';
 import { SituationBadge } from '../ui/SituationBadge';
 import {
   IdNumberFormat,
@@ -16,6 +17,8 @@ export function OnboardingGrid(props) {
   const [openModalAnalyse, setOpenModalAnalyse] = useState(false)
   const [onboardingData, setOnboardingData] = useState(null)
   const { t } = useTranslation();
+
+  const canAnalyse = props.isHistory || CanWrite();
 
   const handlerOpenModalImagens = () => {
     const response = [
@@ -34,6 +37,8 @@ export function OnboardingGrid(props) {
   }
 
   const handlerOpenAnalysis = (onboarding) => {
+    if (!canAnalyse) return
+
     setOnboardingData(onboarding)
     setOpenModalAnalyse(true)
   }
@@ -112,25 +117,27 @@ export function OnboardingGrid(props) {
                 </button>
               </td>
               <td className="px-6 py-4">
-                <button
-                  onClick={() => handlerOpenAnalysis(onboarding)}
-                  aria-label={t('onboarding.analysis')}
-                  className="
-                    inline-flex
-                    items-center
-                    justify-center
-                    text-fg-subtle
-                    hover:text-brand-soft
-                    hover:bg-brand/10
-                    rounded-md
-                    p-1.5
-                    transition-all
-                    duration-150
-                    cursor-pointer
-                  "
-                >
-                  <SquareCheck size={18} />
-                </button>
+                {canAnalyse && (
+                  <button
+                    onClick={() => handlerOpenAnalysis(onboarding)}
+                    aria-label={t('onboarding.analysis')}
+                    className="
+                      inline-flex
+                      items-center
+                      justify-center
+                      text-fg-subtle
+                      hover:text-brand-soft
+                      hover:bg-brand/10
+                      rounded-md
+                      p-1.5
+                      transition-all
+                      duration-150
+                      cursor-pointer
+                    "
+                  >
+                    <SquareCheck size={18} />
+                  </button>
+                )}
               </td>
             </tr>
           ))}

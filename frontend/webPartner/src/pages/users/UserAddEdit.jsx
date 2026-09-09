@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Permission, UserSituation } from "@/utils/arrays";
 import { userService } from "@/api/services/userService";
 import { useApi } from "@/hooks/useApi";
+import { CanWrite } from "@/utils/permissions";
 import {
   IdNumberFormat,
   DateFormat,
@@ -36,6 +37,8 @@ export function UserAddEdit(props) {
     setIdNumber(IdNumberFormat(props.userEdit.idNumber))
     setBithDate(DateFormat(props.userEdit.birthDate))
   }, []);
+
+  if (!CanWrite()) return null;
 
   const handlerCleanFields = () => {
     setCode("")

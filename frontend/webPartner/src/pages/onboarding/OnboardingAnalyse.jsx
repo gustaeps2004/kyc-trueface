@@ -1,9 +1,12 @@
 import { Modal } from "../../components/modal/Modal"
 import { AlertTriangle } from "lucide-react"
 import { useTranslation } from 'react-i18next';
+import { CanWrite } from "@/utils/permissions";
 
 export function OnboardingAnalyse(props) {
   const { t } = useTranslation();
+
+  if (!CanWrite()) return null;
 
   return(
     <Modal

@@ -1,24 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { GetTokenData } from '../utils/getTokenData';
+import { useNotification } from '../context/NotificationContext';
 
 const PrivateRoute = ({ allowedRoles }) => {
+  const { notify } = useNotification();
+  const { t } = useTranslation();
   const decoded = GetTokenData();
 
-  if (!decoded) {
-    localStorage.removeItem('token');
-    return <Navigate to="/login" replace />;
-  }
+  const isExpired = !!decoded && decoded.exp < Date.now() / 1000;
+  const isForbidden =
+    !!decoded && !isExpired && allowedRoles && !allowedRoles.includes(decoded.role);
 
-  const isExpired = decoded.exp < Date.now() / 1000;
+  let denialReason = null;
+  if (!decoded || isExpired) denialReason = 'session';
+  else if (isForbidden) denialReason = 'forbidden';
 
-  if (isExpired) {
-    localStorage.removeItem('token');
-    return <Navigate to="/login" replace />;
-  }
+  useEffect(() => {
+    if (!denialReason) return;
 
-  if (allowedRoles && !allowedRoles.includes(decoded.role)) {
     localStorage.removeItem('token');
+    notify({
+      message: t(
+        denialReason === 'forbidden'
+          ? 'notifications.accessDenied'
+          : 'notifications.authRequired'
+      ),
+      type: denialReason === 'forbidden' ? 'error' : 'warning',
+    });
+  }, [denialReason, notify, t]);
+
+  if (denialReason) {
     return <Navigate to="/login" replace />;
   }
 

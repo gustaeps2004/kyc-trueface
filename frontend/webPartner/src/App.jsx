@@ -2,6 +2,7 @@ import { Routes, Route, Navigate  } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { useTranslation } from 'react-i18next';
 import PrivateRoute from "./routes/PrivateRoute";
+import { AllRoles } from "./utils/permissions";
 
 const Login = lazy(() => import("./pages/login/Login").then(m => ({ default: m.Login })));
 const ForgotPassword = lazy(() => import("./pages/login/ForgotPassword").then(m => ({ default: m.ForgotPassword })));
@@ -12,8 +13,6 @@ const Onboarding = lazy(() => import("./pages/onboarding/Onboarding").then(m => 
 const OnboardingHistory = lazy(() => import("./pages/history/Onboarding").then(m => ({ default: m.OnboardingHistory })));
 
 export default function App() {
-  const allUsers = ['COMMUN', 'ADMINISTRATOR', 'MASTER']
-  const admins = ['ADMINISTRATOR', 'MASTER']
   const { t } = useTranslation();
 
   return (
@@ -28,13 +27,10 @@ export default function App() {
         <Route path="/forgot-password"    element={<ForgotPassword />} />
         <Route path="/register-password"  element={<RegisterPassword />} />
 
-        <Route element={<PrivateRoute allowedRoles={allUsers} />}>
+        <Route element={<PrivateRoute allowedRoles={AllRoles} />}>
           <Route path="/home"               element={<Dashboard />} />
           <Route path="/onboarding"         element={<Onboarding />} />
           <Route path="/history/onboarding" element={<OnboardingHistory />} />
-        </Route>
-
-        <Route element={<PrivateRoute allowedRoles={admins} />}>
           <Route path="/users"              element={<User />} />
         </Route>
       </Routes>

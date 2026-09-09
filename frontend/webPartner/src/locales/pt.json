@@ -126,7 +126,9 @@
   "notifications": {
     "successDefault": "Operação realizada com sucesso.",
     "errorDefault": "Ocorreu um erro inesperado. Tente novamente mais tarde.",
-    "loading": "Carregando..."
+    "loading": "Carregando...",
+    "accessDenied": "Você não tem permissão para acessar esta página.",
+    "authRequired": "Faça login para continuar."
   },
   "permission": {
     "common": "Comum",

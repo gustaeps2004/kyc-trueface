@@ -126,7 +126,9 @@
   "notifications": {
     "successDefault": "Operation completed successfully.",
     "errorDefault": "An unexpected error occurred. Please try again later.",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "accessDenied": "You don't have permission to access this page.",
+    "authRequired": "Please sign in to continue."
   },
   "permission": {
     "common": "Common",
