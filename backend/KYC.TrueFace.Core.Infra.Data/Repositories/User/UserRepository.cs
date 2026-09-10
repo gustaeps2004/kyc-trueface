@@ -1,3 +1,4 @@
+using KYC.TrueFace.Core.Domain.Enums;
 using KYC.TrueFace.Core.Domain.Repositories;
 using KYC.TrueFace.Core.Infra.Data.Data;
 using KYC.TrueFace.Core.Infra.Data.Repositories.Base;
@@ -25,4 +26,30 @@ public class UserRepository(ApplicationDbContext context) : BaseRepository(conte
         => DbContext
             .Users
             .SingleOrDefaultAsync(x => x.Code.Equals(code), ct);
+
+    public async Task<IReadOnlyList<Domain.Entities.User>> ListForReportAsync(
+        Guid codePartner,
+        Situation? situation,
+        DateTime? startDtUtc,
+        DateTime? endDtUtcExclusive,
+        CancellationToken ct = default)
+    {
+        var query = DbContext
+                        .Users
+                        .AsNoTracking()
+                        .Where(x => x.CodePartner.Equals(codePartner));
+
+        if (situation is not null)
+            query = query.Where(x => x.Situation == situation.Value);
+
+        if (startDtUtc is not null)
+            query = query.Where(x => x.InclusionDt >= startDtUtc.Value);
+
+        if (endDtUtcExclusive is not null)
+            query = query.Where(x => x.InclusionDt < endDtUtcExclusive.Value);
+
+        return await query
+                        .OrderBy(x => x.Name)
+                        .ToListAsync(ct);
+    }
 }
