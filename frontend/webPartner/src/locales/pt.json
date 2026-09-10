@@ -74,6 +74,22 @@
       "enabled": "Ativo",
       "disabled": "Inativo"
     },
+    "report": {
+      "button": "Relatório de usuários",
+      "title": "Relatório de usuários",
+      "generate": "Gerar",
+      "filter": "CPF, nome ou e-mail",
+      "situation": "Situação",
+      "situationAll": "Todas",
+      "startDate": "Data início",
+      "endDate": "Data fim",
+      "requested": "O relatório será enviado para o seu e-mail em instantes.",
+      "validation": {
+        "period": "A data início não pode ser maior que a data fim.",
+        "filterExceed": "O filtro não pode exceder 150 caracteres.",
+        "dateIncomplete": "Informe a data completa no formato dd/mm/aaaa."
+      }
+    },
     "validation": {
       "existed": "Usuário já existe.",
       "notExisted": "Usuário não localizado.",
@@ -137,5 +153,14 @@
   "situation": {
     "approved": "Aprovado",
     "denied": "Negado"
+  },
+  "email": {
+    "validation": {
+      "recipientEmpty": "O destinatário do e-mail deve ser preenchido.",
+      "subjectEmpty": "O assunto do e-mail deve ser preenchido.",
+      "bodyEmpty": "O corpo do e-mail deve ser preenchido.",
+      "attachmentNameEmpty": "O nome do anexo deve ser preenchido.",
+      "attachmentEmpty": "O anexo do e-mail está vazio."
+    }
   }
 }

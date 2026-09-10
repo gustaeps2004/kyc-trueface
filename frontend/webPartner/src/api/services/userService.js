@@ -5,5 +5,6 @@ const BASE_PATH = '/v1/user';
 export const userService = {
   listByPartner: (filter, signal) => apiClient.get(`${BASE_PATH}?filter=${filter}`, { signal }),
   insert: (request) => apiClient.post(BASE_PATH, request),
-  update: (request) => apiClient.put(`${BASE_PATH}/${request.code}`, request)
+  update: (request) => apiClient.put(`${BASE_PATH}/${request.code}`, request),
+  requestReport: (request) => apiClient.post(`${BASE_PATH}/report`, request)
 };

@@ -1,6 +1,7 @@
 import Layout from "@/components/layout/Layout";
 import { Content } from "@/components/layout/Content";
 import { UserAddEdit } from "./UserAddEdit";
+import { UserReport } from "./UserReport";
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import { UserRoundPen } from 'lucide-react';
@@ -16,6 +17,7 @@ import {
 
 export function User() {
   const [openModal, setOpenModal] = useState(false)
+  const [openReportModal, setOpenReportModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [userEdit, setUserEdit] = useState(null)
   const [users, setUsers] = useState([])
@@ -63,6 +65,12 @@ export function User() {
     setUserEdit(null)
   }
 
+  const handlerOpenReportModal = () => {
+    if (!canWrite) return
+
+    setOpenReportModal(true)
+  }
+
   const columns = [
     t('users.gridColumns.idNumber'),
     t('users.gridColumns.name'),
@@ -80,6 +88,9 @@ export function User() {
           isShowAdd={canWrite}
           isShowFilter={true}
           openModal={() => handlerOpenModal(false, null)}
+          isShowReport={canWrite}
+          openReportModal={() => handlerOpenReportModal()}
+          reportLabel={t('users.report.button')}
           filterValue={filterValue}
           onFilter={setFilterValue}
         >
@@ -175,6 +186,12 @@ export function User() {
       {
         openModal
         ? <UserAddEdit closeModal={handlerCloseModal} userEdit={userEdit} isEdit={isEdit} onSuccess={() => handlerListUsers(filterValue)}/>
+        : null
+      }
+
+      {
+        openReportModal
+        ? <UserReport closeModal={() => setOpenReportModal(false)} filterValue={filterValue} />
         : null
       }
     </div>

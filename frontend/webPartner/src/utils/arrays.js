@@ -12,3 +12,8 @@ export const UserSituation = [
   { value: 1, labelKey: "users.situation.enabled" },
   { value: 2, labelKey: "users.situation.disabled" },
 ]
+
+export const UserSituationFilter = [
+  { value: 0, labelKey: "users.report.situationAll" },
+  ...UserSituation
+]

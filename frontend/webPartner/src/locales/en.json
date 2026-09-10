@@ -74,6 +74,22 @@
       "enabled": "Enabled",
       "disabled": "Disabled"
     },
+    "report": {
+      "button": "Users report",
+      "title": "Users report",
+      "generate": "Generate",
+      "filter": "Id number, name or e-mail",
+      "situation": "Situation",
+      "situationAll": "All",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "requested": "The report will be sent to your e-mail shortly.",
+      "validation": {
+        "period": "The start date cannot be later than the end date.",
+        "filterExceed": "The filter cannot exceed 150 characters.",
+        "dateIncomplete": "Enter the full date in dd/mm/yyyy format."
+      }
+    },
     "validation": {
       "existed": "User is already existed.",
       "notExisted": "User not found.",
@@ -137,5 +153,14 @@
   "situation": {
     "approved": "Approved",
     "denied": "Denied"
+  },
+  "email": {
+    "validation": {
+      "recipientEmpty": "The e-mail recipient cannot be null or empty.",
+      "subjectEmpty": "The e-mail subject cannot be null or empty.",
+      "bodyEmpty": "The e-mail body cannot be null or empty.",
+      "attachmentNameEmpty": "The attachment name cannot be null or empty.",
+      "attachmentEmpty": "The e-mail attachment is empty."
+    }
   }
 }

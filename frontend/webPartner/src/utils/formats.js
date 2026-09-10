@@ -26,3 +26,11 @@ export function ConvertDate(date) {
 
   return new Date(year, month - 1, day);
 }
+
+export function ConvertDateToIso(date) {
+  if (!date || date.length !== 10) return null;
+
+  const [day, month, year] = date.split('/');
+
+  return `${year}-${month}-${day}`;
+}

@@ -1,4 +1,4 @@
-import { CirclePlus } from 'lucide-react';
+import { CirclePlus, FileSpreadsheet } from 'lucide-react';
 import { InputFilter } from '@/components/ui/InputFilter';
 
 export function Content(props) {
@@ -21,7 +21,7 @@ export function Content(props) {
         gap-2
         mb-2
       ">
-        <div>
+        <div className="flex items-center gap-2">
           {
             props.isShowAdd
             ? <button
@@ -42,7 +42,31 @@ export function Content(props) {
               >
                 <CirclePlus size={28} />
               </button>
-            : <div></div>
+            : null
+          }
+
+          {
+            props.isShowReport
+            ? <button
+                onClick={props.openReportModal}
+                aria-label={props.reportLabel}
+                title={props.reportLabel}
+                className="
+                  flex
+                  items-center
+                  justify-center
+                  text-brand
+                  hover:bg-brand/15
+                  rounded-full
+                  p-1.5
+                  transition-all
+                  duration-150
+                  cursor-pointer
+                "
+              >
+                <FileSpreadsheet size={24} />
+              </button>
+            : null
           }
         </div>
         <div className="flex justify-end w-full sm:w-auto sm:max-w-xs md:max-w-sm lg:max-w-md">
