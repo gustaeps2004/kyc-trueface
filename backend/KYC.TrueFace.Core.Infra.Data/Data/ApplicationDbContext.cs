@@ -13,6 +13,7 @@ public class ApplicationDbContext(
     public DbSet<PartnerCredentials> PartnersCredentials { get; set; }
     public DbSet<OnboardingResult> OnboardingsResults { get; set; }
     public DbSet<Onboarding> Onboardings { get; set; }
+    public DbSet<UserReport> UsersReports { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -101,6 +102,22 @@ public class ApplicationDbContext(
                 .WithMany()
                 .HasForeignKey(x => x.CodeOnboarding)
                 .IsRequired();
+        });
+
+        modelBuilder.Entity<UserReport>(options =>
+        {
+            options
+                .HasKey(x => x.Code);
+
+            options
+                .HasOne(x => x.User)
+                .WithMany()
+                .HasForeignKey(x => x.CodeUser)
+                .IsRequired();
+
+            // Matches the background worker's claim predicate.
+            options
+                .HasIndex(x => new { x.Situation, x.InclusionDt });
         });
     }
 }
