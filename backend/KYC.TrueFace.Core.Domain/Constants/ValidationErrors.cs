@@ -19,9 +19,14 @@ public static class ValidationErrors
     public const string UserSituationInvalid = "users.validation.situation";
     public const string UserBirthDatenvalid = "users.validation.birthDate";
 
+    public const string UserReportInvalidPeriod = "users.report.validation.period";
+    public const string UserReportFilterExceed = "users.report.validation.filterExceed";
+
     public const string EmailRecipientNullOrEmpty = "email.validation.recipientEmpty";
     public const string EmailSubjectNullOrEmpty = "email.validation.subjectEmpty";
     public const string EmailBodyNullOrEmpty = "email.validation.bodyEmpty";
+    public const string EmailAttachmentNameNullOrEmpty = "email.validation.attachmentNameEmpty";
+    public const string EmailAttachmentEmpty = "email.validation.attachmentEmpty";
 
     public const string GenericError = "notifications.errorDefault";
 }

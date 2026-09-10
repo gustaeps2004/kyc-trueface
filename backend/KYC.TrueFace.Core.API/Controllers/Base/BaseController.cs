@@ -13,6 +13,14 @@ public class BaseController : ControllerBase
         return Guid.Parse(strCodePartner);
     }
 
+    protected Guid GetUserCode()
+    {
+        var strCodeUser = User.Claims.FirstOrDefault(c => c.Type == IdentityClaims.UserCode)?.Value
+                            ?? throw new KycException(ValidationErrors.AuthIncorrectUserOrPassword);
+
+        return Guid.Parse(strCodeUser);
+    }
+
     protected string GetUsername()
         => User.FindFirst("sub")?.Value
            ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value

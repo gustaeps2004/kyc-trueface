@@ -26,7 +26,15 @@ public class EmailService(
         message.From.Add(new MailboxAddress(smtp.FromName, smtp.FromEmail));
         message.To.Add(MailboxAddress.Parse(emailDto.To));
         message.Subject = emailDto.Subject;
-        message.Body = new BodyBuilder { HtmlBody = emailDto.HtmlBody }.ToMessageBody();
+        var bodyBuilder = new BodyBuilder { HtmlBody = emailDto.HtmlBody };
+
+        if (emailDto.Attachment is not null)
+            bodyBuilder.Attachments.Add(
+                emailDto.Attachment.FileName,
+                emailDto.Attachment.Content,
+                ContentType.Parse(emailDto.Attachment.ContentType));
+
+        message.Body = bodyBuilder.ToMessageBody();
 
         using var client = new SmtpClient();
 

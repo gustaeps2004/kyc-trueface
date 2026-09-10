@@ -131,11 +131,7 @@ public class UserService(
                         });
 
         if (!string.IsNullOrEmpty(filter))
-            response = response.Where(u =>
-                            u.Name.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
-                            u.IdNumber.Contains(filter.JustNumbers()) ||
-                            u.Email.Contains(filter, StringComparison.InvariantCultureIgnoreCase)
-                        );
+            response = response.Where(u => UserFilter.MatchesText(u.Name, u.IdNumber, u.Email, filter));
 
         return response;
     }

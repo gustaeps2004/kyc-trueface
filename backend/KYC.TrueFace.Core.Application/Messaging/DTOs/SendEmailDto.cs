@@ -6,11 +6,13 @@ namespace KYC.TrueFace.Core.Application.Messaging.DTOs;
 public class SendEmailDto(
     string to,
     string subject,
-    string htmlBody)
+    string htmlBody,
+    EmailAttachmentDto? attachment = null)
 {
     public string To { get; set; } = to;
     public string Subject { get; set; } = subject;
     public string HtmlBody { get; set; } = htmlBody;
+    public EmailAttachmentDto? Attachment { get; set; } = attachment;
 
     public void Validate()
     {
@@ -22,5 +24,7 @@ public class SendEmailDto(
 
         if (string.IsNullOrWhiteSpace(HtmlBody))
             throw new KycException(ValidationErrors.EmailBodyNullOrEmpty);
+
+        Attachment?.Validate();
     }
 }

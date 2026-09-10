@@ -1,5 +1,6 @@
 using System.Threading.RateLimiting;
 using KYC.TrueFace.Core.API;
+using KYC.TrueFace.Core.API.BackgroundServices;
 using KYC.TrueFace.Core.API.Middlewares;
 using KYC.TrueFace.Core.Domain.Options;
 using KYC.TrueFace.Core.Infra.Data.Data;
@@ -26,6 +27,7 @@ builder.Services.TokenjwtConfiguration(builder.Configuration);
 builder.Services.ConfigureEmail(builder.Configuration);
 builder.Services.ConfigurePasswordHashing(builder.Configuration);
 builder.Services.ConfigureLoginSecurity(builder.Configuration);
+builder.Services.ConfigureUserReport(builder.Configuration);
 
 var loginSecurity = builder.Configuration
     .GetSection(LoginSecurityOptions.SectionName)
@@ -49,6 +51,8 @@ builder.Services.AddRateLimiter(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
+
+builder.Services.AddHostedService<UserReportWorker>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

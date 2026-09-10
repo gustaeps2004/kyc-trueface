@@ -1,4 +1,5 @@
 using KYC.TrueFace.Core.Application.Services.Auth;
+using KYC.TrueFace.Core.Application.Services.Report;
 using KYC.TrueFace.Core.Application.Services.Token;
 using KYC.TrueFace.Core.Application.Services.User;
 using KYC.TrueFace.Core.Application.Services.UserAccess;
@@ -6,6 +7,7 @@ using KYC.TrueFace.Core.Domain.Repositories;
 using KYC.TrueFace.Core.Infra.Data.Repositories.Base;
 using KYC.TrueFace.Core.Infra.Data.Repositories.User;
 using KYC.TrueFace.Core.Infra.Data.Repositories.UsersAccess;
+using KYC.TrueFace.Core.Infra.Data.Repositories.UsersReports;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KYC.TrueFace.Core.Infra.Ioc.Configs;
@@ -24,6 +26,9 @@ public static class DependencyInjectionConfig
         services.AddTransient<ITokenService, TokenService>();
         services.AddTransient<IUserAccessService, UserAccessService>();
         services.AddTransient<IAuthenticateService, AuthenticateService>();
+        services.AddTransient<IUserReportService, UserReportService>();
+        services.AddTransient<IUserReportProcessorService, UserReportProcessorService>();
+        services.AddTransient<IUserReportExcelGenerator, UserReportExcelGenerator>();
     }
 
     private static void ConfigureRepositories(this IServiceCollection services)
@@ -31,5 +36,6 @@ public static class DependencyInjectionConfig
         services.AddTransient<IBaseRepository, BaseRepository>();
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IUserAccessRepository, UserAccessRepository>();
+        services.AddTransient<IUserReportRepository, UserReportRepository>();
     }
 }

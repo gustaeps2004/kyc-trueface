@@ -14,7 +14,6 @@ public class UserReportRepository(ApplicationDbContext context) : BaseRepository
         DateTime staleBeforeUtc,
         CancellationToken ct = default)
     {
-        // Rows left in Processing by a killed process are re-claimed after the stale window.
         var claimed = await DbContext
                         .UsersReports
                         .Where(x =>

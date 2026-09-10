@@ -115,7 +115,6 @@ public class ApplicationDbContext(
                 .HasForeignKey(x => x.CodeUser)
                 .IsRequired();
 
-            // Matches the background worker's claim predicate.
             options
                 .HasIndex(x => new { x.Situation, x.InclusionDt });
         });
