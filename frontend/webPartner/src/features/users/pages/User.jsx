@@ -145,6 +145,7 @@ export function User() {
             getRowId={(user) => user.code}
             isLoading={isLoading}
             emptyMessage={t('users.noResults')}
+            enablePagination={true}
           />
 
         </Content>

@@ -1,4 +1,9 @@
 {
+  "dataTable": {
+    "pageInfo": "Page {{current}} of {{total}}",
+    "previousPage": "Previous page",
+    "nextPage": "Next page"
+  },
   "login": {
     "email": "E-mail",
     "password": "Password",

@@ -5,7 +5,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { IconButton } from '@/shared/ui/IconButton';
 
 export function DataTable({
   columns,
@@ -15,6 +17,7 @@ export function DataTable({
   emptyMessage,
   enableSorting = false,
   enablePagination = false,
+  pageSize = 10,
 }) {
   const { t } = useTranslation();
 
@@ -26,6 +29,7 @@ export function DataTable({
     getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
     getPaginationRowModel: enablePagination ? getPaginationRowModel() : undefined,
     enableSorting,
+    initialState: { pagination: { pageSize } },
   });
 
   const rows = table.getRowModel().rows;
@@ -139,6 +143,37 @@ export function DataTable({
           );
         })}
       </div>
+
+      {enablePagination && table.getPageCount() > 1 && (
+        <div className="flex items-center justify-between mt-4 px-1">
+          <p className="text-xs text-fg-subtle">
+            {t('dataTable.pageInfo', {
+              current: table.getState().pagination.pageIndex + 1,
+              total: table.getPageCount(),
+            })}
+          </p>
+
+          <div className="flex items-center gap-1">
+            <IconButton
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+              label={t('dataTable.previousPage')}
+              className="rounded-md text-fg-subtle hover:text-fg hover:bg-raised disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+            >
+              <ChevronLeft size={18} />
+            </IconButton>
+
+            <IconButton
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+              label={t('dataTable.nextPage')}
+              className="rounded-md text-fg-subtle hover:text-fg hover:bg-raised disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+            >
+              <ChevronRight size={18} />
+            </IconButton>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
