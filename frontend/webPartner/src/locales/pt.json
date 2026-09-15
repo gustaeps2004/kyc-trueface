@@ -50,6 +50,7 @@
   "users": {
     "pageTitle": "Usuários",
     "searchPlaceholder": "ID, nome ou e-mail",
+    "noResults": "Nenhum usuário encontrado.",
     "editUser": "Editar usuário",
     "createUser": "Criar usuário",
     "save": "Salvar",

@@ -1,8 +1,9 @@
 import Layout from "@/shared/layout/Layout";
 import { Content } from "@/shared/layout/Content";
+import { DataTable } from "@/shared/ui/DataTable";
 import { UserAddEdit } from "../components/UserAddEdit";
 import { UserReport } from "../components/UserReport";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from 'react-i18next';
 import { UserRoundPen } from 'lucide-react';
 import { UserSituation } from "@/shared/utils/arrays";
@@ -71,14 +72,68 @@ export function User() {
     setOpenReportModal(true)
   }
 
-  const columns = [
-    t('users.gridColumns.idNumber'),
-    t('users.gridColumns.name'),
-    t('users.gridColumns.email'),
-    t('users.gridColumns.situation'),
-    t('users.gridColumns.inclusionDate'),
-    t('users.gridColumns.edit')
-  ]
+  const columns = useMemo(() => [
+    {
+      accessorKey: 'idNumber',
+      header: t('users.gridColumns.idNumber'),
+      cell: ({ getValue }) => (
+        <span className="font-mono text-fg-muted">{IdNumberFormat(getValue())}</span>
+      ),
+    },
+    {
+      accessorKey: 'name',
+      header: t('users.gridColumns.name'),
+      cell: ({ getValue }) => (
+        <span className="text-fg font-medium">{getValue()}</span>
+      ),
+    },
+    {
+      accessorKey: 'email',
+      header: t('users.gridColumns.email'),
+      cell: ({ getValue }) => (
+        <span className="text-fg-muted">{getValue()}</span>
+      ),
+    },
+    {
+      accessorKey: 'situation',
+      header: t('users.gridColumns.situation'),
+      cell: ({ getValue }) => (
+        <SituationBadge array={UserSituation} situationValue={getValue()} isUser={true} />
+      ),
+    },
+    {
+      accessorKey: 'inclusionDate',
+      header: t('users.gridColumns.inclusionDate'),
+      cell: ({ getValue }) => (
+        <span className="text-fg-muted">{DateFormat(getValue())}</span>
+      ),
+    },
+    canWrite && {
+      id: 'edit',
+      header: t('users.gridColumns.edit'),
+      cell: ({ row }) => (
+        <button
+          onClick={() => handlerOpenModal(true, row.original)}
+          aria-label={t('users.edit')}
+          className="
+            inline-flex
+            items-center
+            justify-center
+            text-fg-subtle
+            hover:text-brand-soft
+            hover:bg-brand/10
+            rounded-md
+            p-1.5
+            transition-all
+            duration-150
+            cursor-pointer
+          "
+        >
+          <UserRoundPen size={18} />
+        </button>
+      ),
+    },
+  ].filter(Boolean), [canWrite, t])
 
   return(
     <div>
@@ -95,90 +150,13 @@ export function User() {
           onFilter={setFilterValue}
         >
 
-          <div className="relative overflow-x-auto mt-6 rounded-lg">
-            <table className="w-full text-sm text-center text-fg-muted">
-              <thead>
-                <tr className="bg-surface border-b border-divider/30">
-                  {columns.map((column, index) => (
-                    <th
-                      key={index}
-                      className="
-                        px-6
-                        py-3
-                        text-xs
-                        font-medium
-                        text-fg-subtle
-                        uppercase
-                        tracking-wide
-                      "
-                    >
-                      {column}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {isLoading ? (
-                  <tr>
-                    <td colSpan={columns.length} className="py-8 text-center text-fg-subtle">
-                      {t('notifications.loading')}
-                    </td>
-                  </tr>
-                ) : (
-                  users.map((user) => (
-                  <tr
-                    key={user.code}
-                    className="
-                      border-b
-                      border-divider/15
-                      transition-colors
-                      duration-150
-                      hover:bg-surface/50"
-                  >
-                    <td className="px-6 py-4 font-mono text-fg-muted">
-                      {IdNumberFormat(user.idNumber)}
-                    </td>
-                    <td className="px-6 py-4 text-fg font-medium">
-                      {user.name}
-                    </td>
-                    <td className="px-6 py-4 text-fg-muted">
-                      {user.email}
-                    </td>
-                    <td className="px-6 py-4 text-fg-muted">
-                      <SituationBadge array={UserSituation} situationValue={user.situation} isUser={true} />
-                    </td>
-                    <td className="px-6 py-4 text-fg-muted">
-                      {DateFormat(user.inclusionDate)}
-                    </td>
-                    <td className="px-6 py-4">
-                      {canWrite && (
-                        <button
-                          onClick={() => handlerOpenModal(true, user)}
-                          aria-label={t('users.edit')}
-                          className="
-                            inline-flex
-                            items-center
-                            justify-center
-                            text-fg-subtle
-                            hover:text-brand-soft
-                            hover:bg-brand/10
-                            rounded-md
-                            p-1.5
-                            transition-all
-                            duration-150
-                            cursor-pointer
-                          "
-                        >
-                          <UserRoundPen size={18} />
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))
-                )}
-              </tbody>
-            </table>
-          </div>
+          <DataTable
+            columns={columns}
+            data={users}
+            getRowId={(user) => user.code}
+            isLoading={isLoading}
+            emptyMessage={t('users.noResults')}
+          />
 
         </Content>
       </Layout>
