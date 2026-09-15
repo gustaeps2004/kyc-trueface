@@ -60,7 +60,7 @@ export default function Sidebar({ isOpen, onClose }) {
       <div className="h-16 flex items-center px-5 gap-3 border-b border-divider/30">
         <IconButton
           onClick={handlerSidebar}
-          label="Toggle sidebar"
+          label={t('sidebar.toggleCollapse')}
           className="hidden lg:flex rounded-md text-fg-subtle hover:text-fg hover:bg-raised"
         >
           <Menu size={20} />
@@ -86,6 +86,9 @@ export default function Sidebar({ isOpen, onClose }) {
               px-3 py-2.5 rounded-lg
               text-sm font-medium
               transition-all duration-150
+              focus:outline-none
+              focus:ring-2
+              focus:ring-brand/40
               ${isActive
                 ? "bg-raised text-fg [&_svg]:text-accent-light"
                 : "text-fg-subtle hover:bg-raised/60 hover:text-fg"}`

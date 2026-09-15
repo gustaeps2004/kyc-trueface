@@ -36,7 +36,7 @@ export default function Topbar({ name, onToggleSidebar }) {
       <div className="flex items-center gap-3">
         <IconButton
           onClick={onToggleSidebar}
-          label="Open menu"
+          label={t('topbar.openMenu')}
           className="flex lg:hidden rounded-md text-fg-subtle hover:text-fg hover:bg-raised"
         >
           <Menu size={20} />
