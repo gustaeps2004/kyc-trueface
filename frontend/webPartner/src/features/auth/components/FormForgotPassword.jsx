@@ -1,0 +1,68 @@
+import { useNavigate } from 'react-router-dom'
+import { Input } from '@/shared/ui/Input'
+import { Button } from "@/shared/ui/Button"
+import { useState } from "react";
+import { useTranslation } from 'react-i18next';
+import { loginService } from "../api/loginService";
+import { useApi } from "@/shared/hooks/useApi";
+
+export function FormForgotPassword({ handlerConfirmClick }) {
+  const navigate = useNavigate()
+  const { t } = useTranslation();
+  const { execute, isLoading } = useApi();
+  const [email, setEmail] = useState("")
+
+  const handlerRedirectToLogin = () => {
+    navigate('/login')
+  }
+
+  const handlerConfirm = async (e) => {
+    if (e && e.preventDefault)
+      e.preventDefault();
+
+    const request = { email };
+
+    await execute(
+      () => loginService.postForgotPassword(request),
+      {
+        onSuccess: () => handlerConfirmClick(),
+      }
+    );
+  }
+
+  return(
+    <div className="flex flex-col gap-4">
+      <form className="space-y-3">
+        <Input type="email" name="email" value={email} onChange={setEmail}>
+          {t('login.email')}
+        </Input>
+
+        <div className="pt-1">
+          <Button
+            handlerAction={handlerConfirm}
+            title={t('login.confirm')}
+            disabled={isLoading}
+          />
+        </div>
+      </form>
+
+      <div className="flex justify-end">
+        <a
+          href="#"
+          onClick={handlerRedirectToLogin}
+          className="
+            text-sm
+            font-medium
+            text-brand-soft
+            hover:text-brand
+            cursor-pointer
+            transition-colors
+            duration-150
+          "
+        >
+          {t('login.backToLogin')}
+        </a>
+      </div>
+    </div>
+  )
+}
