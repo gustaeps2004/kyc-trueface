@@ -5,6 +5,7 @@ import {
   Download,
   X,
 } from 'lucide-react';
+import { IconButton } from "@/shared/ui/IconButton";
 
 export function ModalImages(props) {
   const [rotate, setRotate] = useState(90)
@@ -79,38 +80,33 @@ export function ModalImages(props) {
       bg-black/60
       backdrop-blur-sm
       z-50
-      p-4
+      p-0
+      sm:p-4
     ">
       <div className="
         relative
         bg-surface
-        border
+        border-0
+        sm:border
         border-divider/40
         p-6
-        rounded-2xl
+        rounded-none
+        sm:rounded-2xl
         shadow-2xl
-        w-120
+        w-full
+        h-full
+        sm:h-auto
+        sm:w-120
+        flex
+        flex-col
       ">
-        <button
+        <IconButton
           onClick={props.closeModal}
-          aria-label="Close modal"
-          className="
-            absolute
-            right-4
-            top-4
-            text-fg-subtle
-            hover:text-fg
-            hover:bg-raised
-            rounded-full
-            p-1.5
-            transition-all
-            duration-150
-            cursor-pointer
-            z-10
-          "
+          label="Close modal"
+          className="absolute right-4 top-4 z-10 rounded-full text-fg-subtle hover:text-fg hover:bg-raised"
         >
           <X size={18} />
-        </button>
+        </IconButton>
 
         <div className="mb-4">
           <p className="text-xs text-fg-subtle uppercase tracking-wide mb-1">
@@ -124,7 +120,9 @@ export function ModalImages(props) {
             flex
             flex-col
             space-y-3
-            h-110
+            flex-1
+            sm:flex-none
+            sm:h-110
             overflow-hidden
             rounded-lg
             bg-base
@@ -152,27 +150,14 @@ export function ModalImages(props) {
           p-1.5
         ">
           {listIcon.map((iconObj, index) => (
-            <button
+            <IconButton
               key={index}
               onClick={() => iconObj.actionAtr()}
-              aria-label={iconObj.label}
-              className="
-                flex
-                items-center
-                justify-center
-                w-9
-                h-9
-                rounded-full
-                text-fg-subtle
-                hover:text-fg
-                hover:bg-raised
-                transition-all
-                duration-150
-                cursor-pointer
-              "
+              label={iconObj.label}
+              className="rounded-full text-fg-subtle hover:text-fg hover:bg-raised"
             >
               {iconObj.icon}
-            </button>
+            </IconButton>
           ))}
         </div>
       </div>

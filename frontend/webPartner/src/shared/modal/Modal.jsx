@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
 import { ModalButton } from "./ModalButton";
+import { IconButton } from "@/shared/ui/IconButton";
 
 export function Modal(props) {
   useEffect(() => {
@@ -23,37 +24,33 @@ export function Modal(props) {
       bg-black/60
       backdrop-blur-sm
       z-50
-      p-4
+      p-0
+      sm:p-4
     ">
       <div className="
         relative
         bg-surface
-        border
+        border-0
+        sm:border
         border-divider/40
         p-6
-        rounded-2xl
+        rounded-none
+        sm:rounded-2xl
         shadow-2xl
-        w-110
+        w-full
+        h-full
+        sm:h-auto
+        sm:w-110
+        flex
+        flex-col
       ">
-        <button
+        <IconButton
           onClick={props.closeModal}
-          aria-label="Close modal"
-          className="
-            absolute
-            right-4
-            top-4
-            text-fg-subtle
-            hover:text-fg
-            hover:bg-raised
-            rounded-full
-            p-1.5
-            transition-all
-            duration-150
-            cursor-pointer
-          "
+          label="Close modal"
+          className="absolute right-4 top-4 rounded-full text-fg-subtle hover:text-fg hover:bg-raised"
         >
           <X size={18} />
-        </button>
+        </IconButton>
 
         <div className="flex justify-center mb-5">
           <h2 className="text-xl font-medium text-fg">
@@ -65,7 +62,9 @@ export function Modal(props) {
           flex
           flex-col
           space-y-3
-          h-100
+          flex-1
+          sm:flex-none
+          sm:max-h-[70vh]
           overflow-y-auto
           scrollbar
           pr-1
