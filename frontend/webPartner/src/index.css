@@ -29,8 +29,6 @@
   --color-fg-faint: #64748B;
 }
 
-/* Dark is the default palette above; this mirrors it explicitly so both
-   themes are symmetric named selectors instead of one being "the default". */
 [data-theme="dark"] {
   --color-base: #0F172A;
   --color-surface: #1E293B;
