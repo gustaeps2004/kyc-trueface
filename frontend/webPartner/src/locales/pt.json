@@ -30,13 +30,15 @@
   "topbar": {
     "logout": "Sair",
     "switchLanguage": "Alterar idioma",
-    "switchTheme": "Alterar tema"
+    "switchTheme": "Alterar tema",
+    "openMenu": "Abrir menu"
   },
   "sidebar": {
     "dashboard": "Dashboard",
     "users": "Usuários",
     "onboarding": "Onboarding",
-    "history": "Histórico"
+    "history": "Histórico",
+    "toggleCollapse": "Recolher menu lateral"
   },
   "dashboard": {
     "welcome": "Bem-vindo, {{name}}",
@@ -50,6 +52,7 @@
   "users": {
     "pageTitle": "Usuários",
     "searchPlaceholder": "ID, nome ou e-mail",
+    "noResults": "Nenhum usuário encontrado.",
     "editUser": "Editar usuário",
     "createUser": "Criar usuário",
     "save": "Salvar",
@@ -117,7 +120,8 @@
     "deny": "Reprovar",
     "approve": "Aprovar",
     "actionUndone": "Esta ação não pode ser desfeita.",
-    "observation": "Observação"
+    "observation": "Observação",
+    "noResults": "Nenhum onboarding pendente encontrado."
   },
   "history": {
     "pageTitle": "Histórico",
@@ -129,7 +133,8 @@
     "viewImages": "Ver imagens",
     "analysis": "Análise",
     "analysed": "Analisado",
-    "observation": "Observação"
+    "observation": "Observação",
+    "noResults": "Nenhum onboarding encontrado."
   },
   "select": {
     "placeholder": "Selecionar",
