@@ -120,6 +120,7 @@ export function OnboardingGrid(props) {
         data={props.onboardings}
         getRowId={(onboarding) => onboarding.code}
         emptyMessage={t(`${namespace}.noResults`)}
+        enablePagination={true}
       />
 
       {
