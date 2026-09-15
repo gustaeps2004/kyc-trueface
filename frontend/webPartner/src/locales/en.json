@@ -135,10 +135,6 @@
     "search": "Search...",
     "noResults": "No results"
   },
-  "mobile": {
-    "restrictedAccess": "Restricted Access",
-    "notAvailable": "This application is not available for mobile devices. Please access it via a computer."
-  },
   "notifications": {
     "successDefault": "Operation completed successfully.",
     "errorDefault": "An unexpected error occurred. Please try again later.",
