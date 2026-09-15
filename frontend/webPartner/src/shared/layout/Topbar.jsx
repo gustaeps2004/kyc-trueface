@@ -1,11 +1,13 @@
-import { LogOut, Menu } from "lucide-react";
+import { LogOut, Menu, Moon, Sun } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Logout } from "@/shared/utils/logout";
+import { useTheme } from "@/shared/context/ThemeContext";
 
 export default function Topbar({ name, onToggleSidebar }) {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const { theme, toggleTheme } = useTheme();
 
   const handleRedirect = () => {
     Logout()
@@ -84,6 +86,31 @@ export default function Topbar({ name, onToggleSidebar }) {
           "
         >
           {i18n.language === 'en' ? '🇺🇸' : '🇧🇷'}
+        </button>
+
+        <button
+          title={t('topbar.switchTheme')}
+          onClick={toggleTheme}
+          aria-label={t('topbar.switchTheme')}
+          className="
+            flex
+            items-center
+            justify-center
+            w-9
+            h-9
+            rounded-md
+            text-fg-subtle
+            hover:text-fg
+            hover:bg-raised
+            transition-all
+            duration-150
+            cursor-pointer
+            focus:outline-none
+            focus:ring-2
+            focus:ring-brand/40
+          "
+        >
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
         </button>
 
         <button

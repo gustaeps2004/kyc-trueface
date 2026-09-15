@@ -29,7 +29,8 @@
   },
   "topbar": {
     "logout": "Log out",
-    "switchLanguage": "Switch language"
+    "switchLanguage": "Switch language",
+    "switchTheme": "Switch theme"
   },
   "sidebar": {
     "dashboard": "Dashboard",

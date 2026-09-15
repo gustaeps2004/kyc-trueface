@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme {
-  --color-base: #0F172A;             
-  --color-surface: #1E293B;          
-  --color-raised: #334155;           
-  --color-divider: #475569;          
+  --color-base: #0F172A;
+  --color-surface: #1E293B;
+  --color-raised: #334155;
+  --color-divider: #475569;
 
-  --color-brand: #6366F1;            
+  --color-brand: #6366F1;
   --color-brand-hover: #4F46E5;
-  --color-brand-soft: #A5B4FC;      
+  --color-brand-soft: #A5B4FC;
 
-  --color-accent: #06B6D4;           
+  --color-accent: #06B6D4;
   --color-accent-light: #22D3EE;
 
   --color-success: #10B981;
@@ -21,10 +23,66 @@
   --color-warning-light: #FBBF24;
   --color-info: #3B82F6;
 
-  --color-fg: #F8FAFC;               
-  --color-fg-muted: #CBD5E1;        
-  --color-fg-subtle: #94A3B8;        
-  --color-fg-faint: #64748B;         
+  --color-fg: #F8FAFC;
+  --color-fg-muted: #CBD5E1;
+  --color-fg-subtle: #94A3B8;
+  --color-fg-faint: #64748B;
+}
+
+/* Dark is the default palette above; this mirrors it explicitly so both
+   themes are symmetric named selectors instead of one being "the default". */
+[data-theme="dark"] {
+  --color-base: #0F172A;
+  --color-surface: #1E293B;
+  --color-raised: #334155;
+  --color-divider: #475569;
+
+  --color-brand: #6366F1;
+  --color-brand-hover: #4F46E5;
+  --color-brand-soft: #A5B4FC;
+
+  --color-accent: #06B6D4;
+  --color-accent-light: #22D3EE;
+
+  --color-success: #10B981;
+  --color-success-light: #34D399;
+  --color-danger: #EF4444;
+  --color-danger-light: #F87171;
+  --color-warning: #F59E0B;
+  --color-warning-light: #FBBF24;
+  --color-info: #3B82F6;
+
+  --color-fg: #F8FAFC;
+  --color-fg-muted: #CBD5E1;
+  --color-fg-subtle: #94A3B8;
+  --color-fg-faint: #64748B;
+}
+
+[data-theme="light"] {
+  --color-base: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-raised: #F1F5F9;
+  --color-divider: #E2E8F0;
+
+  --color-brand: #4F46E5;
+  --color-brand-hover: #4338CA;
+  --color-brand-soft: #4338CA;
+
+  --color-accent: #0E7490;
+  --color-accent-light: #0891B2;
+
+  --color-success: #059669;
+  --color-success-light: #047857;
+  --color-danger: #DC2626;
+  --color-danger-light: #B91C1C;
+  --color-warning: #D97706;
+  --color-warning-light: #B45309;
+  --color-info: #2563EB;
+
+  --color-fg: #0F172A;
+  --color-fg-muted: #334155;
+  --color-fg-subtle: #64748B;
+  --color-fg-faint: #94A3B8;
 }
 
 @layer utilities {

@@ -29,7 +29,8 @@
   },
   "topbar": {
     "logout": "Sair",
-    "switchLanguage": "Alterar idioma"
+    "switchLanguage": "Alterar idioma",
+    "switchTheme": "Alterar tema"
   },
   "sidebar": {
     "dashboard": "Dashboard",
