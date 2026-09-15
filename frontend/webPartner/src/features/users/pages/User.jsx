@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { UserRoundPen } from 'lucide-react';
 import { UserSituation } from "@/shared/utils/arrays";
 import { SituationBadge } from "@/shared/ui/SituationBadge";
+import { IconButton } from "@/shared/ui/IconButton";
 import { userService } from "../api/userService";
 import { useApi } from "@/shared/hooks/useApi";
 import { CanWrite } from "@/shared/utils/permissions";
@@ -112,25 +113,13 @@ export function User() {
       id: 'edit',
       header: t('users.gridColumns.edit'),
       cell: ({ row }) => (
-        <button
+        <IconButton
           onClick={() => handlerOpenModal(true, row.original)}
-          aria-label={t('users.edit')}
-          className="
-            inline-flex
-            items-center
-            justify-center
-            text-fg-subtle
-            hover:text-brand-soft
-            hover:bg-brand/10
-            rounded-md
-            p-1.5
-            transition-all
-            duration-150
-            cursor-pointer
-          "
+          label={t('users.edit')}
+          className="rounded-md text-fg-subtle hover:text-brand-soft hover:bg-brand/10"
         >
           <UserRoundPen size={18} />
-        </button>
+        </IconButton>
       ),
     },
   ].filter(Boolean), [canWrite, t])
