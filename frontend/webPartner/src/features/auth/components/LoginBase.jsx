@@ -1,6 +1,7 @@
 import { ShieldCheck, Moon, Sun } from "lucide-react"
 import { useTranslation } from 'react-i18next';
 import { useTheme } from "@/shared/context/ThemeContext";
+import { IconButton } from "@/shared/ui/IconButton";
 
 export function LoginBase(props) {
   const { t, i18n } = useTranslation();
@@ -21,57 +22,21 @@ export function LoginBase(props) {
       items-stretch
     ">
       <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
-        <button
-          title={t('topbar.switchTheme')}
+        <IconButton
           onClick={toggleTheme}
-          aria-label={t('topbar.switchTheme')}
-          className="
-            flex
-            items-center
-            justify-center
-            w-9
-            h-9
-            rounded-md
-            text-fg-subtle
-            hover:text-fg
-            hover:bg-raised
-            transition-all
-            duration-150
-            cursor-pointer
-            focus:outline-none
-            focus:ring-2
-            focus:ring-brand/40
-          "
+          label={t('topbar.switchTheme')}
+          className="rounded-md text-fg-subtle hover:text-fg hover:bg-raised"
         >
           {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-        </button>
+        </IconButton>
 
-        <button
-          title={t('topbar.switchLanguage')}
+        <IconButton
           onClick={toggleLanguage}
-          aria-label={t('topbar.switchLanguage')}
-          className="
-            flex
-            items-center
-            justify-center
-            w-9
-            h-9
-            rounded-md
-            text-fg-subtle
-            hover:text-fg
-            hover:bg-raised
-            transition-all
-            duration-150
-            cursor-pointer
-            focus:outline-none
-            focus:ring-2
-            focus:ring-brand/40
-            text-lg
-            leading-none
-          "
+          label={t('topbar.switchLanguage')}
+          className="rounded-md text-fg-subtle hover:text-fg hover:bg-raised text-lg leading-none"
         >
           {i18n.language === 'en' ? '🇺🇸' : '🇧🇷'}
-        </button>
+        </IconButton>
       </div>
       <div className="
         hidden

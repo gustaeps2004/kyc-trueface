@@ -115,6 +115,8 @@ export function Select({
                 border-divider/40
                 focus:outline-none
                 focus:border-brand
+                focus:ring-2
+                focus:ring-brand/30
                 text-sm
               "
             />

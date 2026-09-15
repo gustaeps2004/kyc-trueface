@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Logout } from "@/shared/utils/logout";
 import { useTheme } from "@/shared/context/ThemeContext";
+import { IconButton } from "@/shared/ui/IconButton";
 
 export default function Topbar({ name, onToggleSidebar }) {
   const navigate = useNavigate();
@@ -33,27 +34,13 @@ export default function Topbar({ name, onToggleSidebar }) {
       lg:px-8
     ">
       <div className="flex items-center gap-3">
-        <button
+        <IconButton
           onClick={onToggleSidebar}
-          aria-label="Open menu"
-          className="
-            flex
-            lg:hidden
-            items-center
-            justify-center
-            w-9
-            h-9
-            rounded-md
-            text-fg-subtle
-            hover:text-fg
-            hover:bg-raised
-            transition-all
-            duration-150
-            cursor-pointer
-          "
+          label={t('topbar.openMenu')}
+          className="flex lg:hidden rounded-md text-fg-subtle hover:text-fg hover:bg-raised"
         >
           <Menu size={20} />
-        </button>
+        </IconButton>
 
         <h1 className="text-lg lg:text-xl text-fg font-medium truncate">
           {name}
@@ -61,82 +48,29 @@ export default function Topbar({ name, onToggleSidebar }) {
       </div>
 
       <div className="flex items-center gap-2">
-        <button
-          title={t('topbar.switchLanguage')}
+        <IconButton
           onClick={toggleLanguage}
-          aria-label={t('topbar.switchLanguage')}
-          className="
-            flex
-            items-center
-            justify-center
-            w-9
-            h-9
-            rounded-md
-            text-fg-subtle
-            hover:text-fg
-            hover:bg-raised
-            transition-all
-            duration-150
-            cursor-pointer
-            focus:outline-none
-            focus:ring-2
-            focus:ring-brand/40
-            text-lg
-            leading-none
-          "
+          label={t('topbar.switchLanguage')}
+          className="rounded-md text-fg-subtle hover:text-fg hover:bg-raised text-lg leading-none"
         >
           {i18n.language === 'en' ? '🇺🇸' : '🇧🇷'}
-        </button>
+        </IconButton>
 
-        <button
-          title={t('topbar.switchTheme')}
+        <IconButton
           onClick={toggleTheme}
-          aria-label={t('topbar.switchTheme')}
-          className="
-            flex
-            items-center
-            justify-center
-            w-9
-            h-9
-            rounded-md
-            text-fg-subtle
-            hover:text-fg
-            hover:bg-raised
-            transition-all
-            duration-150
-            cursor-pointer
-            focus:outline-none
-            focus:ring-2
-            focus:ring-brand/40
-          "
+          label={t('topbar.switchTheme')}
+          className="rounded-md text-fg-subtle hover:text-fg hover:bg-raised"
         >
           {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-        </button>
+        </IconButton>
 
-        <button
-          title={t('topbar.logout')}
+        <IconButton
           onClick={handleRedirect}
-          aria-label={t('topbar.logout')}
-          className="
-            flex
-            items-center
-            justify-center
-            w-9
-            h-9
-            rounded-md
-            text-fg-subtle
-            hover:text-fg
-            hover:bg-raised
-            transition-all
-            duration-150
-            cursor-pointer
-            focus:outline-none
-            focus:ring-2
-            focus:ring-brand/40
-          "
+          label={t('topbar.logout')}
+          className="rounded-md text-fg-subtle hover:text-fg hover:bg-raised"
         >
           <LogOut size={18} />
-        </button>
+        </IconButton>
       </div>
     </div>
   )

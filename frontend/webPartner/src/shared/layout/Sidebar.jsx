@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import { IconButton } from "@/shared/ui/IconButton";
 import {
   LayoutDashboard,
   Users,
@@ -57,26 +58,13 @@ export default function Sidebar({ isOpen, onClose }) {
       `}
     >
       <div className="h-16 flex items-center px-5 gap-3 border-b border-divider/30">
-        <button
+        <IconButton
           onClick={handlerSidebar}
-          aria-label="Toggle sidebar"
-          className="
-            hidden
-            lg:flex
-            items-center
-            justify-center
-            text-fg-subtle
-            hover:text-fg
-            hover:bg-raised
-            rounded-md
-            p-1.5
-            transition-all
-            duration-150
-            cursor-pointer
-          "
+          label={t('sidebar.toggleCollapse')}
+          className="hidden lg:flex rounded-md text-fg-subtle hover:text-fg hover:bg-raised"
         >
           <Menu size={20} />
-        </button>
+        </IconButton>
 
         <div className={`flex items-center gap-2 ${collapsed ? "lg:hidden" : ""}`}>
           <ShieldCheck size={18} className="text-brand" />
@@ -98,6 +86,9 @@ export default function Sidebar({ isOpen, onClose }) {
               px-3 py-2.5 rounded-lg
               text-sm font-medium
               transition-all duration-150
+              focus:outline-none
+              focus:ring-2
+              focus:ring-brand/40
               ${isActive
                 ? "bg-raised text-fg [&_svg]:text-accent-light"
                 : "text-fg-subtle hover:bg-raised/60 hover:text-fg"}`

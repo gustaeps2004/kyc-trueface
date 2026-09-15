@@ -3,6 +3,7 @@ import { ModalImages } from './ModalImages';
 import { OnboardingAnalyse } from './OnboardingAnalyse';
 import { OnboardingAnalysed } from './OnboardingAnalysed';
 import { DataTable } from '@/shared/ui/DataTable';
+import { IconButton } from '@/shared/ui/IconButton';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Situation } from '@/shared/utils/arrays';
@@ -13,17 +14,7 @@ import {
   DateFormat
 } from "@/shared/utils/formats";
 
-const actionButtonClass = `
-  inline-flex
-  items-center
-  justify-center
-  text-fg-subtle
-  rounded-md
-  p-1.5
-  transition-all
-  duration-150
-  cursor-pointer
-`;
+const actionButtonClass = "rounded-md text-fg-subtle";
 
 export function OnboardingGrid(props) {
   const [openModalImages, setOpenModalImages] = useState(false)
@@ -98,26 +89,26 @@ export function OnboardingGrid(props) {
       id: 'viewImages',
       header: t(`${namespace}.viewImages`),
       cell: ({ row }) => (
-        <button
+        <IconButton
           onClick={() => handlerOpenModalImagens(row.original)}
-          aria-label={t('onboarding.viewImages')}
+          label={t('onboarding.viewImages')}
           className={`${actionButtonClass} hover:text-accent-light hover:bg-accent/10`}
         >
           <Eye size={18} />
-        </button>
+        </IconButton>
       ),
     },
     canAnalyse && {
       id: 'analyse',
       header: t(`${namespace}.analysis`),
       cell: ({ row }) => (
-        <button
+        <IconButton
           onClick={() => handlerOpenAnalysis(row.original)}
-          aria-label={t('onboarding.analysis')}
+          label={t('onboarding.analysis')}
           className={`${actionButtonClass} hover:text-brand-soft hover:bg-brand/10`}
         >
           <SquareCheck size={18} />
-        </button>
+        </IconButton>
       ),
     },
   ].filter(Boolean), [props.isHistory, canAnalyse, namespace, t])

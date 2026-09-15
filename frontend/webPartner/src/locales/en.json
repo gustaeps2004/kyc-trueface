@@ -30,13 +30,15 @@
   "topbar": {
     "logout": "Log out",
     "switchLanguage": "Switch language",
-    "switchTheme": "Switch theme"
+    "switchTheme": "Switch theme",
+    "openMenu": "Open menu"
   },
   "sidebar": {
     "dashboard": "Dashboard",
     "users": "Users",
     "onboarding": "Onboarding",
-    "history": "History"
+    "history": "History",
+    "toggleCollapse": "Toggle sidebar"
   },
   "dashboard": {
     "welcome": "Welcome, {{name}}",
