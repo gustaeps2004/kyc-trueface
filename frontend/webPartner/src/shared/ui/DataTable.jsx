@@ -48,7 +48,6 @@ export function DataTable({
 
   return (
     <div>
-      {/* Desktop/tablet table, md and up. */}
       <div className="hidden md:block relative overflow-x-auto mt-6 rounded-lg">
         <table className="w-full text-sm text-center text-fg-muted">
           <thead>
@@ -98,12 +97,6 @@ export function DataTable({
         </table>
       </div>
 
-      {/* Stacked cards below md, where a horizontally-scrolled table would
-          be hard to read and act on. Reuses the same column defs as the
-          table above so the two views can't drift apart: data columns
-          (accessorKey) render as label/value pairs, action columns (id
-          only, no accessorKey) render together in a button row at the
-          bottom of the card. */}
       <div className="md:hidden mt-6 space-y-3">
         {rows.map((row) => {
           const dataCells = [];
