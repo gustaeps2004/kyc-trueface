@@ -6,15 +6,6 @@ import { useTranslation } from 'react-i18next';
 export function OnboardingHistory() {
   const { t } = useTranslation();
 
-  const columns = [
-    t('history.idNumber'),
-    t('history.name'),
-    t('history.situation'),
-    t('history.date'),
-    t('history.viewImages'),
-    t('history.analysis'),
-  ]
-
   const onboardings = [
     {
       code: "3d3b1f50-01df-4248-8eff-2ef575d6bbc5",
@@ -41,7 +32,6 @@ export function OnboardingHistory() {
         isShowFilter={true}
       >
         <OnboardingGrid
-          columns={columns}
           onboardings={onboardings}
           isHistory={true}
         />

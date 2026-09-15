@@ -1,8 +1,11 @@
-import { ShieldCheck } from "lucide-react"
+import { ShieldCheck, Moon, Sun } from "lucide-react"
 import { useTranslation } from 'react-i18next';
+import { useTheme } from "@/shared/context/ThemeContext";
+import { IconButton } from "@/shared/ui/IconButton";
 
 export function LoginBase(props) {
   const { t, i18n } = useTranslation();
+  const { theme, toggleTheme } = useTheme();
 
   const toggleLanguage = () => {
     const next = i18n.language === 'en' ? 'pt' : 'en';
@@ -18,36 +21,23 @@ export function LoginBase(props) {
       flex
       items-stretch
     ">
-      <button
-        title={t('topbar.switchLanguage')}
-        onClick={toggleLanguage}
-        aria-label={t('topbar.switchLanguage')}
-        className="
-          absolute
-          top-4
-          right-4
-          z-10
-          flex
-          items-center
-          justify-center
-          w-9
-          h-9
-          rounded-md
-          text-fg-subtle
-          hover:text-fg
-          hover:bg-raised
-          transition-all
-          duration-150
-          cursor-pointer
-          focus:outline-none
-          focus:ring-2
-          focus:ring-brand/40
-          text-lg
-          leading-none
-        "
-      >
-        {i18n.language === 'en' ? '🇺🇸' : '🇧🇷'}
-      </button>
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+        <IconButton
+          onClick={toggleTheme}
+          label={t('topbar.switchTheme')}
+          className="rounded-md text-fg-subtle hover:text-fg hover:bg-raised"
+        >
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+        </IconButton>
+
+        <IconButton
+          onClick={toggleLanguage}
+          label={t('topbar.switchLanguage')}
+          className="rounded-md text-fg-subtle hover:text-fg hover:bg-raised text-lg leading-none"
+        >
+          {i18n.language === 'en' ? '🇺🇸' : '🇧🇷'}
+        </IconButton>
+      </div>
       <div className="
         hidden
         lg:flex

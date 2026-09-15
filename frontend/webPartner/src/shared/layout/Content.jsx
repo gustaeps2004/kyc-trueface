@@ -1,5 +1,6 @@
 import { CirclePlus, FileSpreadsheet } from 'lucide-react';
 import { InputFilter } from '@/shared/ui/InputFilter';
+import { IconButton } from '@/shared/ui/IconButton';
 
 export function Content(props) {
   return(
@@ -24,48 +25,25 @@ export function Content(props) {
         <div className="flex items-center gap-2">
           {
             props.isShowAdd
-            ? <button
+            ? <IconButton
                 onClick={props.openModal}
-                aria-label="Add new"
-                className="
-                  flex
-                  items-center
-                  justify-center
-                  text-brand
-                  hover:bg-brand/15
-                  rounded-full
-                  p-1
-                  transition-all
-                  duration-150
-                  cursor-pointer
-                "
+                label="Add new"
+                className="rounded-full text-brand hover:bg-brand/15"
               >
                 <CirclePlus size={28} />
-              </button>
+              </IconButton>
             : null
           }
 
           {
             props.isShowReport
-            ? <button
+            ? <IconButton
                 onClick={props.openReportModal}
-                aria-label={props.reportLabel}
-                title={props.reportLabel}
-                className="
-                  flex
-                  items-center
-                  justify-center
-                  text-brand
-                  hover:bg-brand/15
-                  rounded-full
-                  p-1.5
-                  transition-all
-                  duration-150
-                  cursor-pointer
-                "
+                label={props.reportLabel}
+                className="rounded-full text-brand hover:bg-brand/15"
               >
                 <FileSpreadsheet size={24} />
-              </button>
+              </IconButton>
             : null
           }
         </div>
