@@ -2,7 +2,8 @@ import { Eye, SquareCheck } from 'lucide-react';
 import { ModalImages } from './ModalImages';
 import { OnboardingAnalyse } from './OnboardingAnalyse';
 import { OnboardingAnalysed } from './OnboardingAnalysed';
-import { useState } from 'react';
+import { DataTable } from '@/shared/ui/DataTable';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Situation } from '@/shared/utils/arrays';
 import { CanWrite } from '@/shared/utils/permissions';
@@ -12,6 +13,18 @@ import {
   DateFormat
 } from "@/shared/utils/formats";
 
+const actionButtonClass = `
+  inline-flex
+  items-center
+  justify-center
+  text-fg-subtle
+  rounded-md
+  p-1.5
+  transition-all
+  duration-150
+  cursor-pointer
+`;
+
 export function OnboardingGrid(props) {
   const [openModalImages, setOpenModalImages] = useState(false)
   const [openModalAnalyse, setOpenModalAnalyse] = useState(false)
@@ -19,6 +32,7 @@ export function OnboardingGrid(props) {
   const { t } = useTranslation();
 
   const canAnalyse = props.isHistory || CanWrite();
+  const namespace = props.isHistory ? 'history' : 'onboarding';
 
   const handlerOpenModalImagens = () => {
     const response = [
@@ -43,106 +57,79 @@ export function OnboardingGrid(props) {
     setOpenModalAnalyse(true)
   }
 
+  const columns = useMemo(() => [
+    {
+      accessorKey: 'idNumber',
+      header: t(`${namespace}.idNumber`),
+      cell: ({ getValue }) => (
+        <span className="font-mono text-fg-muted">{IdNumberFormat(getValue())}</span>
+      ),
+    },
+    {
+      accessorKey: 'name',
+      header: t(`${namespace}.name`),
+      cell: ({ getValue }) => (
+        <span className="text-fg font-medium">{getValue()}</span>
+      ),
+    },
+    props.isHistory
+      ? {
+          accessorKey: 'situation',
+          header: t('history.situation'),
+          cell: ({ getValue }) => (
+            <SituationBadge situationValue={getValue()} array={Situation} />
+          ),
+        }
+      : {
+          accessorKey: 'reason',
+          header: t('onboarding.reason'),
+          cell: ({ getValue }) => (
+            <span className="text-warning-light">{getValue()}</span>
+          ),
+        },
+    props.isHistory && {
+      accessorKey: 'inclusionDate',
+      header: t('history.date'),
+      cell: ({ getValue }) => (
+        <span className="text-fg-muted">{DateFormat(getValue())}</span>
+      ),
+    },
+    {
+      id: 'viewImages',
+      header: t(`${namespace}.viewImages`),
+      cell: ({ row }) => (
+        <button
+          onClick={() => handlerOpenModalImagens(row.original)}
+          aria-label={t('onboarding.viewImages')}
+          className={`${actionButtonClass} hover:text-accent-light hover:bg-accent/10`}
+        >
+          <Eye size={18} />
+        </button>
+      ),
+    },
+    canAnalyse && {
+      id: 'analyse',
+      header: t(`${namespace}.analysis`),
+      cell: ({ row }) => (
+        <button
+          onClick={() => handlerOpenAnalysis(row.original)}
+          aria-label={t('onboarding.analysis')}
+          className={`${actionButtonClass} hover:text-brand-soft hover:bg-brand/10`}
+        >
+          <SquareCheck size={18} />
+        </button>
+      ),
+    },
+  ].filter(Boolean), [props.isHistory, canAnalyse, namespace, t])
+
   return(
-    <div className="relative overflow-x-auto mt-6 rounded-lg">
-      <table className="w-full text-sm text-center text-fg-muted">
-        <thead>
-          <tr className="bg-surface border-b border-divider/30">
-            {props.columns.map((column, index) => (
-              <th
-                key={index}
-                className="
-                  px-6
-                  py-3
-                  text-xs
-                  font-medium
-                  text-fg-subtle
-                  uppercase
-                  tracking-wide
-                "
-              >
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {props.onboardings.map((onboarding) => (
-            <tr
-              key={onboarding.code}
-              className="
-                border-b
-                border-divider/15
-                transition-colors
-                duration-150
-                hover:bg-surface/50
-              "
-            >
-              <td className="px-6 py-4 font-mono text-fg-muted">
-                {IdNumberFormat(onboarding.idNumber)}
-              </td>
-              <td className="px-6 py-4 text-fg font-medium">
-                {onboarding.name}
-              </td>
-              <td className="px-6 py-4">
-                {!props.isHistory
-                  ? <span className="text-warning-light">{onboarding.reason}</span>
-                  : <SituationBadge situationValue={onboarding.situation} array={Situation} />
-                }
-              </td>
-              {props.isHistory && (
-                <td className="px-6 py-4 text-fg-muted">
-                  {DateFormat(onboarding.inclusionDate)}
-                </td>
-              )}
-              <td className="px-6 py-4">
-                <button
-                  onClick={() => handlerOpenModalImagens(onboarding)}
-                  aria-label={t('onboarding.viewImages')}
-                  className="
-                    inline-flex
-                    items-center
-                    justify-center
-                    text-fg-subtle
-                    hover:text-accent-light
-                    hover:bg-accent/10
-                    rounded-md
-                    p-1.5
-                    transition-all
-                    duration-150
-                    cursor-pointer
-                  "
-                >
-                  <Eye size={18} />
-                </button>
-              </td>
-              <td className="px-6 py-4">
-                {canAnalyse && (
-                  <button
-                    onClick={() => handlerOpenAnalysis(onboarding)}
-                    aria-label={t('onboarding.analysis')}
-                    className="
-                      inline-flex
-                      items-center
-                      justify-center
-                      text-fg-subtle
-                      hover:text-brand-soft
-                      hover:bg-brand/10
-                      rounded-md
-                      p-1.5
-                      transition-all
-                      duration-150
-                      cursor-pointer
-                    "
-                  >
-                    <SquareCheck size={18} />
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div>
+      <DataTable
+        columns={columns}
+        data={props.onboardings}
+        getRowId={(onboarding) => onboarding.code}
+        emptyMessage={t(`${namespace}.noResults`)}
+      />
 
       {
         openModalImages

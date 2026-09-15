@@ -118,7 +118,8 @@
     "deny": "Reprovar",
     "approve": "Aprovar",
     "actionUndone": "Esta ação não pode ser desfeita.",
-    "observation": "Observação"
+    "observation": "Observação",
+    "noResults": "Nenhum onboarding pendente encontrado."
   },
   "history": {
     "pageTitle": "Histórico",
@@ -130,7 +131,8 @@
     "viewImages": "Ver imagens",
     "analysis": "Análise",
     "analysed": "Analisado",
-    "observation": "Observação"
+    "observation": "Observação",
+    "noResults": "Nenhum onboarding encontrado."
   },
   "select": {
     "placeholder": "Selecionar",

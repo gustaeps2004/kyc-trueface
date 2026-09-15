@@ -118,7 +118,8 @@
     "deny": "Deny",
     "approve": "Approve",
     "actionUndone": "This action cannot be undone.",
-    "observation": "Observation"
+    "observation": "Observation",
+    "noResults": "No pending onboardings found."
   },
   "history": {
     "pageTitle": "History",
@@ -130,7 +131,8 @@
     "viewImages": "View images",
     "analysis": "Analysis",
     "analysed": "Analysed",
-    "observation": "Observation"
+    "observation": "Observation",
+    "noResults": "No onboardings found."
   },
   "select": {
     "placeholder": "Select",
