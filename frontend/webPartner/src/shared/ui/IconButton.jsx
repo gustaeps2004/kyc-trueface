@@ -17,6 +17,7 @@ export function IconButton({ label, onClick, className = "", children, type = "b
         focus:outline-none
         focus:ring-2
         focus:ring-brand/40
+        motion-safe:active:scale-90
         ${className}
       `}
       {...rest}

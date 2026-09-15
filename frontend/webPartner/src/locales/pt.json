@@ -30,13 +30,15 @@
   "topbar": {
     "logout": "Sair",
     "switchLanguage": "Alterar idioma",
-    "switchTheme": "Alterar tema"
+    "switchTheme": "Alterar tema",
+    "openMenu": "Abrir menu"
   },
   "sidebar": {
     "dashboard": "Dashboard",
     "users": "Usuários",
     "onboarding": "Onboarding",
-    "history": "Histórico"
+    "history": "Histórico",
+    "toggleCollapse": "Recolher menu lateral"
   },
   "dashboard": {
     "welcome": "Bem-vindo, {{name}}",
