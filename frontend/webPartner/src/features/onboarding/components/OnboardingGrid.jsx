@@ -114,7 +114,7 @@ export function OnboardingGrid(props) {
   ].filter(Boolean), [props.isHistory, canAnalyse, namespace, t])
 
   return(
-    <div>
+    <div className="h-full">
       <DataTable
         columns={columns}
         data={props.onboardings}

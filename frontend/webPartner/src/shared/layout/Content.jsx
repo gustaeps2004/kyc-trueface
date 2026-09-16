@@ -11,8 +11,11 @@ export function Content(props) {
       h-full
       rounded-xl
       p-4
+      flex
+      flex-col
     ">
       <div className="
+        shrink-0
         flex
         flex-col
         sm:flex-row
@@ -51,7 +54,9 @@ export function Content(props) {
           { props.isShowFilter ? <InputFilter placeholder={props.placeholderFilter} value={props.filterValue} onChange={props.onFilter} /> : null}
         </div>
       </div>
-      {props.children}
+      <div className="flex-1 min-h-0">
+        {props.children}
+      </div>
     </div>
   )
 }
