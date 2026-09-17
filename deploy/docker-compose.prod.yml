@@ -34,8 +34,24 @@ services:
       Sso__Issuer: ${SSO_ISSUER:-KYC.TrueFace.Core.API}
       Sso__Audience: ${SSO_AUDIENCE:-KYC.TrueFace.Web.WebPartner}
       Sso__Key: ${SSO_KEY}
+    expose:
+      - "8080"
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: kyc-caddy
+    restart: unless-stopped
+    depends_on:
+      - api
     ports:
-      - "8080:8080"
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
 
 volumes:
   pgdata:
+  caddy_data:
+  caddy_config:

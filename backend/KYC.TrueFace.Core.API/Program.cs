@@ -5,6 +5,7 @@ using KYC.TrueFace.Core.API.Middlewares;
 using KYC.TrueFace.Core.Domain.Options;
 using KYC.TrueFace.Core.Infra.Data.Data;
 using KYC.TrueFace.Core.Infra.Ioc.Configs;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -71,6 +72,14 @@ if (app.Environment.IsDevelopment())
 }
 
 var appOptions = app.Services.GetRequiredService<IOptions<AppOptions>>().Value;
+
+var forwardedHeadersOptions = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+};
+forwardedHeadersOptions.KnownNetworks.Clear();
+forwardedHeadersOptions.KnownProxies.Clear();
+app.UseForwardedHeaders(forwardedHeadersOptions);
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

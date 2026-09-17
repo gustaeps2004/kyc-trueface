@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - 'backend/**'
-      - 'deploy/docker-compose.prod.yml'
+      - 'deploy/**'
       - '.github/workflows/deploy-backend.yml'
   workflow_dispatch: {}
 
@@ -51,14 +51,14 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Copiar docker-compose para a VPS
+      - name: Copiar arquivos de deploy para a VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
           port: ${{ secrets.VPS_PORT }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          source: 'deploy/docker-compose.prod.yml'
+          source: 'deploy/docker-compose.prod.yml,deploy/Caddyfile'
           target: '/opt/kyc-trueface'
           strip_components: 1
 
