@@ -7,6 +7,7 @@ on:
       - 'backend/**'
       - 'deploy/docker-compose.prod.yml'
       - '.github/workflows/deploy-backend.yml'
+  workflow_dispatch: {}
 
 env:
   IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/kyc-trueface-api
