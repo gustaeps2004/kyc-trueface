@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KYC.TrueFace.Core.API.Controllers.v1;
 
 [ApiController]
-//[Authorize]
+[Authorize]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/onboarding")]
 public class OnboardingsController(
@@ -20,7 +20,7 @@ public class OnboardingsController(
     /// <summary>
     /// Uploads the document and the selfie and queues the pair for face comparison.
     /// </summary>
-    //[Authorize(Roles = Roles.AdministratorOrMaster)]
+    [Authorize(Roles = Roles.AdministratorOrMaster)]
     [HttpPost]
     [Consumes("multipart/form-data")]
     public async Task<ActionResult<OnboardingResponse>> UploadAsync(
@@ -33,14 +33,14 @@ public class OnboardingsController(
     }
 
     /// <summary>Onboardings the automatic validation could not settle, waiting for a human.</summary>
-    //[Authorize(Roles = Roles.AllAccess)]
+    [Authorize(Roles = Roles.AllAccess)]
     [HttpGet("manual-review")]
     public async Task<ActionResult<IEnumerable<OnboardingListItemResponse>>> ListPendingManualReviewAsync(
         CancellationToken ct)
         => Ok(await onboardingService.ListPendingManualReviewAsync(GetPartnerCode(), ct));
 
     /// <summary>Onboardings already approved or denied. Optionally narrowed to one of them.</summary>
-    //[Authorize(Roles = Roles.AllAccess)]
+    [Authorize(Roles = Roles.AllAccess)]
     [HttpGet("reviewed")]
     public async Task<ActionResult<IEnumerable<OnboardingListItemResponse>>> ListReviewedAsync(
         [FromQuery] OnboardingSituation? situation,
@@ -48,7 +48,7 @@ public class OnboardingsController(
         => Ok(await onboardingService.ListReviewedAsync(GetPartnerCode(), situation, ct));
 
     /// <summary>Serves one of the uploaded images, so a reviewer can inspect it.</summary>
-    //[Authorize(Roles = Roles.AllAccess)]
+    [Authorize(Roles = Roles.AllAccess)]
     [HttpGet("{code:Guid}/image/{kind}")]
     public async Task<IActionResult> GetImageAsync(
         [FromRoute] Guid code,
@@ -61,7 +61,7 @@ public class OnboardingsController(
     }
 
     /// <summary>Approves or denies a record sitting in manual review.</summary>
-    //[Authorize(Roles = Roles.AdministratorOrMaster)]
+    [Authorize(Roles = Roles.AdministratorOrMaster)]
     [HttpPost("{code:Guid}/review")]
     public async Task<IActionResult> ReviewAsync(
         [FromRoute] Guid code,

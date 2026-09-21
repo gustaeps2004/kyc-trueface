@@ -1,12 +1,44 @@
+import { useState } from "react";
 import { Modal } from "@/shared/modal/Modal"
 import { AlertTriangle } from "lucide-react"
 import { useTranslation } from 'react-i18next';
 import { CanWrite } from "@/shared/utils/permissions";
+import { useApi } from "@/shared/hooks/useApi";
+import { useNotification } from "@/shared/context/NotificationContext";
+import { IdNumberFormat } from "@/shared/utils/formats";
+import { onboardingService } from "../api/onboardingService";
+
+const OBSERVATION_MAX_LENGTH = 500;
 
 export function OnboardingAnalyse(props) {
+  const { execute, isLoading } = useApi();
+  const { notify } = useNotification();
   const { t } = useTranslation();
+  const [observation, setObservation] = useState("");
 
   if (!CanWrite()) return null;
+
+  const handlerReview = async (approved) => {
+    if (!observation.trim()) {
+      notify({ message: t('onboarding.validation.observationEmpty'), type: 'warning' });
+      return
+    }
+
+    await execute(
+      () => onboardingService.review(props.onboardingData.code, {
+        approved,
+        observation: observation.trim(),
+      }),
+      {
+        onSuccess: () => {
+          props.onSuccess?.();
+          props.closeModal();
+        },
+        showSuccessPopup: true,
+        successMessage: t(approved ? 'onboarding.approved' : 'onboarding.denied')
+      }
+    );
+  }
 
   return(
     <Modal
@@ -14,10 +46,11 @@ export function OnboardingAnalyse(props) {
       closeModal={props.closeModal}
       showRedButton={true}
       titleRedButton={t('onboarding.deny')}
-      handlerRedAction={() => console.log("REPROVADO")}
+      handlerRedAction={() => handlerReview(false)}
       showGreenButton={true}
       titleGreenButton={t('onboarding.approve')}
-      handlerGreenAction={() => console.log("APROVADO")}
+      handlerGreenAction={() => handlerReview(true)}
+      disabled={isLoading}
     >
       <div className="
         flex
@@ -37,9 +70,30 @@ export function OnboardingAnalyse(props) {
         </p>
       </div>
 
+      <div className="
+        rounded-lg
+        border
+        border-divider/40
+        bg-base
+        px-4
+        py-3
+        space-y-1
+      ">
+        <p className="text-sm text-fg font-medium">{props.onboardingData.name}</p>
+        <p className="font-mono text-xs text-fg-muted">
+          {IdNumberFormat(props.onboardingData.idNumber)}
+        </p>
+        <p className="text-xs text-warning-light pt-1">
+          {props.onboardingData.situationMessage}
+        </p>
+      </div>
+
       <div className="h-full mt-3">
         <textarea
-          rows="10"
+          rows="8"
+          value={observation}
+          maxLength={OBSERVATION_MAX_LENGTH}
+          onChange={(e) => setObservation(e.target.value)}
           placeholder={t('onboarding.observation')}
           className="
             w-full

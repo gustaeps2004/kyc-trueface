@@ -50,8 +50,12 @@ export function Content(props) {
             : null
           }
         </div>
-        <div className="flex justify-end w-full sm:w-auto sm:max-w-xs md:max-w-sm lg:max-w-md">
-          { props.isShowFilter ? <InputFilter placeholder={props.placeholderFilter} value={props.filterValue} onChange={props.onFilter} /> : null}
+        <div className="flex items-center gap-2 w-full sm:w-auto sm:justify-end">
+          { props.filterExtra ? <div className="w-40 shrink-0">{props.filterExtra}</div> : null }
+
+          <div className="flex justify-end flex-1 sm:flex-none sm:w-xs md:w-sm lg:w-md">
+            { props.isShowFilter ? <InputFilter placeholder={props.placeholderFilter} value={props.filterValue} onChange={props.onFilter} /> : null}
+          </div>
         </div>
       </div>
       <div className="flex-1 min-h-0">

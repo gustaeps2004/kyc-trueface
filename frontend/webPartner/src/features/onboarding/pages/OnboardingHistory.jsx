@@ -1,39 +1,59 @@
 import Layout from "@/shared/layout/Layout";
 import { Content } from "@/shared/layout/Content";
 import { OnboardingGrid } from "../components/OnboardingGrid";
+import { Select } from "@/shared/ui/Select";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from 'react-i18next';
+import { useApi } from "@/shared/hooks/useApi";
+import { OnboardingSituationFilter } from "@/shared/utils/arrays";
+import { onboardingService } from "../api/onboardingService";
+import { matchesText } from "../utils/filter";
 
 export function OnboardingHistory() {
+  const [onboardings, setOnboardings] = useState([])
+  const [filterValue, setFilterValue] = useState("")
+  const [situation, setSituation] = useState(0)
+  const { execute, isLoading } = useApi();
   const { t } = useTranslation();
 
-  const onboardings = [
-    {
-      code: "3d3b1f50-01df-4248-8eff-2ef575d6bbc5",
-      idNumber: "11122233344",
-      inclusionDate: "2026-04-02",
-      name: "Gustavo Do Espirito Santo",
-      situation: 2,
-      observation: "Low resolution on self"
-    },
-    {
-      code: "3d3b1f50-01df-4248-8eff-2ef575d6bbc2",
-      idNumber: "55566677788",
-      inclusionDate: "2026-05-02",
-      name: "Gustavo Do Espirito Santo",
-      situation: 1,
-      observation: "Approved"
-    }
-  ]
+  const handlerList = useCallback(async (signal) => {
+    await execute(
+      () => onboardingService.listReviewed(situation || null, signal),
+      { onSuccess: (response) => setOnboardings(response.data) }
+    );
+  }, [execute, situation]);
+
+  useEffect(() => {
+    const controller = new AbortController()
+    handlerList(controller.signal)
+    return () => controller.abort()
+  }, [handlerList]);
+
+  const filtered = useMemo(
+    () => onboardings.filter(o => matchesText(o, filterValue)),
+    [onboardings, filterValue]
+  );
 
   return(
     <Layout name={t('history.pageTitle')}>
       <Content
         placeholderFilter={t('history.searchPlaceholder')}
         isShowFilter={true}
+        filterValue={filterValue}
+        onFilter={setFilterValue}
+        filterExtra={
+          <Select
+            placeholder={t('history.situationAll')}
+            options={OnboardingSituationFilter}
+            value={situation}
+            onChange={setSituation}
+          />
+        }
       >
         <OnboardingGrid
-          onboardings={onboardings}
+          onboardings={filtered}
           isHistory={true}
+          isLoading={isLoading}
         />
       </Content>
     </Layout>

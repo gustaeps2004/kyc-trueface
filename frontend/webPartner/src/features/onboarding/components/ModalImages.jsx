@@ -5,12 +5,19 @@ import {
   Download,
   X,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { IconButton } from "@/shared/ui/IconButton";
+import { useApi } from "@/shared/hooks/useApi";
+import { onboardingService } from "../api/onboardingService";
+
+const KINDS = ['document', 'selfie'];
 
 export function ModalImages(props) {
-  const [rotate, setRotate] = useState(90)
-  const [linkImage, setLinkImage] = useState(() => props.onboardingData[0].linkImage)
-  const [imageName, setImageName] = useState(() => props.onboardingData[0].nameImage)
+  const { execute } = useApi();
+  const { t } = useTranslation();
+  const [images, setImages] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -20,54 +27,61 @@ export function ModalImages(props) {
     window.addEventListener("keydown", handleEsc);
 
     return () => window.removeEventListener("keydown", handleEsc);
-  }, []);
+  }, [props.closeModal]);
 
-  const downloadImage = async () => {
-    const response = await fetch(linkImage)
-    const blob = await response.blob()
+  useEffect(() => {
+    const controller = new AbortController();
+    let created = [];
 
-    const url = window.URL.createObjectURL(blob);
+    (async () => {
+      const responses = await Promise.all(
+        KINDS.map(kind =>
+          execute(() => onboardingService.getImage(props.code, kind, controller.signal))
+        )
+      );
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = imageName
+      created = responses
+        .map((response, i) => response && ({
+          kind: KINDS[i],
+          url: URL.createObjectURL(response.data),
+          fileName: `${props.code}-${KINDS[i]}`,
+        }))
+        .filter(Boolean);
 
-    document.body.appendChild(link);
+      setImages(created);
+    })();
+
+    return () => {
+      controller.abort();
+      created.forEach(image => URL.revokeObjectURL(image.url));
+    };
+  }, [props.code, execute]);
+
+  const current = images[index];
+
+  const downloadImage = () => {
+    if (!current) return;
+
+    const link = window.document.createElement('a');
+    link.href = current.url;
+    link.download = current.fileName;
+
+    window.document.body.appendChild(link);
     link.click();
-
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-  }
-
-  const rotateImage = () => {
-    setRotate(rotate + 90)
-
-    const img = document.getElementById("image-validate");
-
-    img.style.transition = "transform 0.5s";
-    img.style.transform = `rotate(${rotate}deg)`;
+    window.document.body.removeChild(link);
   }
 
   const nextImage = () => {
-    var indexImage = props
-                        .onboardingData
-                        .findIndex(x => x.nameImage == imageName)
+    if (images.length === 0) return;
 
-    if (props.onboardingData[indexImage + 1]?.nameImage != undefined) {
-      setLinkImage(props.onboardingData[indexImage + 1].linkImage)
-      setImageName(props.onboardingData[indexImage + 1].nameImage)
-
-      return
-    }
-
-    setLinkImage(props.onboardingData[0].linkImage)
-    setImageName(props.onboardingData[0].nameImage)
+    setRotation(0);
+    setIndex((index + 1) % images.length);
   }
 
   const listIcon = [
-    { icon: <RotateCw size={18} />, actionAtr: rotateImage, label: "Rotate" },
-    { icon: <Download size={18} />, actionAtr: downloadImage, label: "Download" },
-    { icon: <MoveRight size={18} />, actionAtr: nextImage, label: "Next image" },
+    { icon: <RotateCw size={18} />, actionAtr: () => setRotation(r => r + 90), label: t('onboarding.images.rotate') },
+    { icon: <Download size={18} />, actionAtr: downloadImage, label: t('onboarding.images.download') },
+    { icon: <MoveRight size={18} />, actionAtr: nextImage, label: t('onboarding.images.next') },
   ]
 
   return(
@@ -102,7 +116,7 @@ export function ModalImages(props) {
       ">
         <IconButton
           onClick={props.closeModal}
-          label="Close modal"
+          label={t('onboarding.images.close')}
           className="absolute right-4 top-4 z-10 rounded-full text-fg-subtle hover:text-fg hover:bg-raised"
         >
           <X size={18} />
@@ -110,32 +124,41 @@ export function ModalImages(props) {
 
         <div className="mb-4">
           <p className="text-xs text-fg-subtle uppercase tracking-wide mb-1">
-            Images
+            {t('onboarding.images.title')}
           </p>
+          {current ? (
+            <p className="text-sm text-fg font-medium">
+              {t(`onboarding.images.${current.kind}`)}
+              <span className="text-fg-faint font-normal"> ({index + 1}/{images.length})</span>
+            </p>
+          ) : null}
         </div>
 
-        <div
-          id="image-validate"
-          className="
-            flex
-            flex-col
-            space-y-3
-            flex-1
-            sm:flex-none
-            sm:h-110
-            overflow-hidden
-            rounded-lg
-            bg-base
-            border
-            border-divider/30
-          "
-        >
-         <img
-            id="image-container"
-            src={linkImage}
-            alt={imageName}
-            className="w-full h-full object-cover"
-          />
+        <div className="
+          flex
+          items-center
+          justify-center
+          flex-1
+          sm:flex-none
+          sm:h-110
+          overflow-hidden
+          rounded-lg
+          bg-base
+          border
+          border-divider/30
+        ">
+          {current ? (
+            <img
+              src={current.url}
+              alt={t(`onboarding.images.${current.kind}`)}
+              style={{ transform: `rotate(${rotation}deg)` }}
+              className="w-full h-full object-contain transition-transform duration-500"
+            />
+          ) : (
+            <span className="text-sm text-fg-subtle">
+              {t('notifications.loading')}
+            </span>
+          )}
         </div>
 
         <div className="
@@ -149,12 +172,13 @@ export function ModalImages(props) {
           rounded-full
           p-1.5
         ">
-          {listIcon.map((iconObj, index) => (
+          {listIcon.map((iconObj, i) => (
             <IconButton
-              key={index}
+              key={i}
               onClick={() => iconObj.actionAtr()}
               label={iconObj.label}
-              className="rounded-full text-fg-subtle hover:text-fg hover:bg-raised"
+              disabled={!current}
+              className="rounded-full text-fg-subtle hover:text-fg hover:bg-raised disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {iconObj.icon}
             </IconButton>

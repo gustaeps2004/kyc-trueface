@@ -3,9 +3,16 @@ export const Permission = [
   { value: 2, labelKey: "permission.administrator" }
 ]
 
-export const Situation = [
-  { value: 1, labelKey: "situation.approved" },
-  { value: 2, labelKey: "situation.denied" }
+// Mirrors OnboardingSituation on the backend; only the settled states are listed,
+// since Pending/Processing/ManualReview never reach a badge.
+export const OnboardingSituation = [
+  { value: 2, labelKey: "situation.approved", tone: "success" },
+  { value: 3, labelKey: "situation.denied", tone: "danger" }
+]
+
+export const OnboardingSituationFilter = [
+  { value: 0, labelKey: "history.situationAll" },
+  ...OnboardingSituation
 ]
 
 export const UserSituation = [

@@ -5,11 +5,19 @@ export function SituationBadge({ situationValue, array, isUser = false }) {
   const situation = array.find(x => x.value == situationValue);
   if (!situation) return null;
 
-  const styles = situationValue === 1
-    ? `${isUser ? "" : "bg-success/15"} text-success-light`
+  const tones = {
+    success: `${isUser ? "" : "bg-success/15"} text-success-light`,
+    danger: `${isUser ? "" : "bg-danger/15"} text-danger-light`,
+    warning: "bg-warning/15 text-warning-light",
+  };
+
+  const styles = situation.tone
+    ? tones[situation.tone]
+    : situationValue === 1
+    ? tones.success
     : situationValue === 2
-    ? `${isUser ? "" : "bg-danger/15"} text-danger-light`
-    : "bg-warning/15 text-warning-light";
+    ? tones.danger
+    : tones.warning;
 
   return (
     <span className={`

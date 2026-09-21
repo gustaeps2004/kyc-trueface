@@ -6,7 +6,7 @@ import { DataTable } from '@/shared/ui/DataTable';
 import { IconButton } from '@/shared/ui/IconButton';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Situation } from '@/shared/utils/arrays';
+import { OnboardingSituation } from '@/shared/utils/arrays';
 import { CanWrite } from '@/shared/utils/permissions';
 import { SituationBadge } from '@/shared/ui/SituationBadge';
 import {
@@ -17,7 +17,7 @@ import {
 const actionButtonClass = "rounded-md text-fg-subtle";
 
 export function OnboardingGrid(props) {
-  const [openModalImages, setOpenModalImages] = useState(false)
+  const [imagesCode, setImagesCode] = useState(null)
   const [openModalAnalyse, setOpenModalAnalyse] = useState(false)
   const [onboardingData, setOnboardingData] = useState(null)
   const { t } = useTranslation();
@@ -25,20 +25,8 @@ export function OnboardingGrid(props) {
   const canAnalyse = props.isHistory || CanWrite();
   const namespace = props.isHistory ? 'history' : 'onboarding';
 
-  const handlerOpenModalImagens = () => {
-    const response = [
-      {
-        linkImage: null,
-        nameImage: 'mamis_mito.webp'
-      },
-      {
-        linkImage: null,
-        nameImage: 'gusta.png'
-      }
-    ]
-
-    setOnboardingData(response)
-    setOpenModalImages(true)
+  const handlerOpenModalImagens = (onboarding) => {
+    setImagesCode(onboarding.code)
   }
 
   const handlerOpenAnalysis = (onboarding) => {
@@ -46,6 +34,11 @@ export function OnboardingGrid(props) {
 
     setOnboardingData(onboarding)
     setOpenModalAnalyse(true)
+  }
+
+  const handlerCloseAnalysis = () => {
+    setOpenModalAnalyse(false)
+    setOnboardingData(null)
   }
 
   const columns = useMemo(() => [
@@ -68,18 +61,18 @@ export function OnboardingGrid(props) {
           accessorKey: 'situation',
           header: t('history.situation'),
           cell: ({ getValue }) => (
-            <SituationBadge situationValue={getValue()} array={Situation} />
+            <SituationBadge situationValue={getValue()} array={OnboardingSituation} />
           ),
         }
       : {
-          accessorKey: 'reason',
+          accessorKey: 'situationMessage',
           header: t('onboarding.reason'),
           cell: ({ getValue }) => (
             <span className="text-warning-light">{getValue()}</span>
           ),
         },
     props.isHistory && {
-      accessorKey: 'inclusionDate',
+      accessorKey: 'situationDt',
       header: t('history.date'),
       cell: ({ getValue }) => (
         <span className="text-fg-muted">{DateFormat(getValue())}</span>
@@ -119,21 +112,26 @@ export function OnboardingGrid(props) {
         columns={columns}
         data={props.onboardings}
         getRowId={(onboarding) => onboarding.code}
+        isLoading={props.isLoading}
         emptyMessage={t(`${namespace}.noResults`)}
         enablePagination={true}
       />
 
       {
-        openModalImages
-        ? <ModalImages closeModal={() => setOpenModalImages(false)} onboardingData={onboardingData} />
+        imagesCode
+        ? <ModalImages closeModal={() => setImagesCode(null)} code={imagesCode} />
         : null
       }
 
       {
         openModalAnalyse && !props.isHistory
-        ? <OnboardingAnalyse closeModal={() => setOpenModalAnalyse(false) } onboardingData={onboardingData} />
+        ? <OnboardingAnalyse
+            closeModal={handlerCloseAnalysis}
+            onboardingData={onboardingData}
+            onSuccess={props.onReviewed}
+          />
         : openModalAnalyse && props.isHistory
-        ? <OnboardingAnalysed closeModal={() => setOpenModalAnalyse(false) } onboardingData={onboardingData} />
+        ? <OnboardingAnalysed closeModal={handlerCloseAnalysis} onboardingData={onboardingData} />
         : null
       }
     </div>

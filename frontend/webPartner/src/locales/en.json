@@ -124,9 +124,46 @@
     "analyse": "Analyse",
     "deny": "Deny",
     "approve": "Approve",
+    "approved": "Onboarding approved.",
+    "denied": "Onboarding denied.",
     "actionUndone": "This action cannot be undone.",
     "observation": "Observation",
-    "noResults": "No pending onboardings found."
+    "noResults": "No pending onboardings found.",
+    "upload": {
+      "title": "New onboarding",
+      "send": "Send",
+      "document": "Document photo",
+      "selfie": "Selfie",
+      "hint": "JPEG or PNG, up to 5 MB each. The faces are compared automatically within a few seconds.",
+      "queued": "Images sent. The comparison result will show up here shortly."
+    },
+    "images": {
+      "title": "Images",
+      "document": "Document",
+      "selfie": "Selfie",
+      "rotate": "Rotate",
+      "download": "Download",
+      "next": "Next image",
+      "close": "Close images"
+    },
+    "validation": {
+      "documentRequired": "Select the document photo.",
+      "selfieRequired": "Select the selfie.",
+      "imageEmpty": "The selected image is empty.",
+      "imageTooLarge": "Each image must be 5 MB or smaller.",
+      "imageContentType": "Only JPEG and PNG images are accepted.",
+      "imageNotFound": "Image not found on the server.",
+      "imageKind": "Invalid image type.",
+      "situation": "Only approved or denied records can be listed here.",
+      "storageNotConfigured": "Image storage is not configured on the server.",
+      "nameEmpty": "Name cannot be null or empty.",
+      "nameExceed": "The name cannot exceed 150 characters.",
+      "idNumber": "Invalid id number.",
+      "notExisted": "Onboarding not found.",
+      "notPendingReview": "This onboarding is not waiting for manual review.",
+      "observationEmpty": "Describe the reason for your decision.",
+      "observationExceed": "The observation cannot exceed 500 characters."
+    }
   },
   "history": {
     "pageTitle": "History",
@@ -134,11 +171,15 @@
     "idNumber": "Id number",
     "name": "Name",
     "situation": "Situation",
+    "situationAll": "All",
     "date": "Date",
+    "similarity": "Similarity",
+    "similarityManual": "Not measured",
     "viewImages": "View images",
     "analysis": "Analysis",
     "analysed": "Analysed",
-    "observation": "Observation",
+    "observation": "Reviewer observation",
+    "automaticResult": "Automatic result",
     "noResults": "No onboardings found."
   },
   "select": {
