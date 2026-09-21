@@ -69,7 +69,7 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          envs: API_IMAGE,GHCR_USER,GHCR_PAT,POSTGRES_PASSWORD,SSO_KEY,APP_FRONTEND_URL
+          envs: API_IMAGE,GHCR_USER,GHCR_PAT,POSTGRES_PASSWORD,SSO_KEY,APP_FRONTEND_URL,SMTP_HOST,SMTP_PORT,SMTP_USERNAME,SMTP_PASSWORD,SMTP_FROM_EMAIL,SMTP_FROM_NAME,SMTP_USE_SSL
           script: |
             set -euo pipefail
             mkdir -p /opt/kyc-trueface
@@ -84,6 +84,13 @@ jobs:
             SSO_ISSUER=KYC.TrueFace.Core.API
             SSO_AUDIENCE=KYC.TrueFace.Web.WebPartner
             APP_FRONTEND_URL=$APP_FRONTEND_URL
+            SMTP_HOST=$SMTP_HOST
+            SMTP_PORT=$SMTP_PORT
+            SMTP_USERNAME=$SMTP_USERNAME
+            SMTP_PASSWORD=$SMTP_PASSWORD
+            SMTP_FROM_EMAIL=$SMTP_FROM_EMAIL
+            SMTP_FROM_NAME=$SMTP_FROM_NAME
+            SMTP_USE_SSL=$SMTP_USE_SSL
             EOF
             chmod 600 .env
 
@@ -99,3 +106,10 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           SSO_KEY: ${{ secrets.SSO_KEY }}
           APP_FRONTEND_URL: ${{ secrets.APP_FRONTEND_URL }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          SMTP_FROM_EMAIL: ${{ secrets.SMTP_FROM_EMAIL }}
+          SMTP_FROM_NAME: ${{ secrets.SMTP_FROM_NAME }}
+          SMTP_USE_SSL: ${{ secrets.SMTP_USE_SSL }}

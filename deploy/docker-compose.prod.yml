@@ -34,6 +34,13 @@ services:
       Sso__Issuer: ${SSO_ISSUER:-KYC.TrueFace.Core.API}
       Sso__Audience: ${SSO_AUDIENCE:-KYC.TrueFace.Web.WebPartner}
       Sso__Key: ${SSO_KEY}
+      Smtp__Host: ${SMTP_HOST}
+      Smtp__Port: ${SMTP_PORT}
+      Smtp__Username: ${SMTP_USERNAME}
+      Smtp__Password: ${SMTP_PASSWORD}
+      Smtp__FromEmail: ${SMTP_FROM_EMAIL}
+      Smtp__FromName: ${SMTP_FROM_NAME}
+      Smtp__UseSsl: ${SMTP_USE_SSL}
     expose:
       - "8080"
 
