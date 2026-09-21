@@ -9,6 +9,7 @@ A full-stack KYC (Know Your Customer) platform for identity verification, built 
 - [Running the Backend](#running-the-backend)
 - [Running the Frontend](#running-the-frontend)
 - [Running with Docker](#running-with-docker)
+- [Production Deployment (Backend)](#production-deployment-backend)
 - [Database Migrations](#database-migrations)
 - [API Documentation](#api-documentation)
 
@@ -217,6 +218,72 @@ The API will be available at `http://localhost:8080`.
 
 ---
 
+## Production Deployment (Backend)
+
+The backend deploys automatically to a VPS via [.github/workflows/deploy-backend.yml](.github/workflows/deploy-backend.yml) on every push to `main` that touches `backend/**`. The workflow:
+
+1. Builds the API Docker image and pushes it to GitHub Container Registry (`ghcr.io/<owner>/kyc-trueface-api`), tagged with `latest` and the commit SHA.
+2. Copies [deploy/docker-compose.prod.yml](deploy/docker-compose.prod.yml) to the VPS.
+3. SSHes into the VPS, writes a `.env` file from GitHub secrets, pulls the new image and runs `docker compose up -d`.
+
+Database migrations are applied automatically on API startup (see `Program.cs`), so no manual migration step is needed after a deploy. The Postgres container only binds to `127.0.0.1` on the VPS (not reachable from the internet); use an SSH tunnel if you ever need to inspect it manually (see [Inspecting production migrations manually](#inspecting-production-migrations-manually) below).
+
+### One-time VPS setup
+
+Run once on the VPS (as root — e.g. via the provider's browser terminal):
+
+```bash
+# Install Docker Engine + Compose plugin
+curl -fsSL https://get.docker.com | sh
+
+# Create a dedicated, non-root deploy user
+adduser --disabled-password --gecos "" deploy
+usermod -aG docker deploy
+mkdir -p /opt/kyc-trueface
+chown deploy:deploy /opt/kyc-trueface
+
+# Generate an SSH key pair for GitHub Actions and authorize it for "deploy"
+mkdir -p /home/deploy/.ssh
+ssh-keygen -t ed25519 -f /home/deploy/.ssh/gh_actions -N "" -C "github-actions"
+cat /home/deploy/.ssh/gh_actions.pub >> /home/deploy/.ssh/authorized_keys
+chown -R deploy:deploy /home/deploy/.ssh
+chmod 700 /home/deploy/.ssh
+chmod 600 /home/deploy/.ssh/authorized_keys /home/deploy/.ssh/gh_actions
+
+cat /home/deploy/.ssh/gh_actions   # copy this into the VPS_SSH_KEY secret below, then remove it from disk
+```
+
+### GitHub repository secrets
+
+Configure these under **Settings → Secrets and variables → Actions** in the GitHub repo:
+
+| Secret | Description |
+|---|---|
+| `VPS_HOST` | VPS public IP address |
+| `VPS_PORT` | SSH port (usually `22`) |
+| `VPS_USER` | `deploy` |
+| `VPS_SSH_KEY` | Private key generated above (`gh_actions`) |
+| `GHCR_PAT` | GitHub PAT (classic) with `read:packages` scope, used by the VPS to pull the image from GHCR |
+| `POSTGRES_PASSWORD` | Password for the production Postgres container |
+| `SSO_KEY` | Random 32+ character JWT signing secret |
+| `APP_FRONTEND_URL` | Production frontend URL (used for CORS) |
+
+> To add more settings later (`Smtp__*`, `PasswordHashing__Pepper`, etc.), extend the `.env` heredoc in the workflow's deploy step and the corresponding service in `deploy/docker-compose.prod.yml`.
+
+### Custom domain + HTTPS
+
+The API is fronted by [Caddy](https://caddyserver.com/) (see [deploy/Caddyfile](deploy/Caddyfile) and the `caddy` service in [deploy/docker-compose.prod.yml](deploy/docker-compose.prod.yml)), which automatically obtains and renews a Let's Encrypt certificate for `api.kyc-trueface.com.br` and reverse-proxies to the `api` container. The API container no longer publishes port 8080 to the internet — Caddy (ports 80/443) is the only public entry point.
+
+To point a subdomain at the VPS:
+
+1. In the DNS zone for `kyc-trueface.com.br` (registro.br, or wherever its nameservers are managed), add an **A record**: `api` → `<VPS_HOST>`.
+2. On the VPS, make sure ports 80 and 443 are reachable (if `ufw` is active: `ufw allow 80/tcp && ufw allow 443/tcp`).
+3. DNS must already be resolving before the first deploy — Caddy requests the certificate on startup and needs to reach the domain over port 80 (ACME HTTP-01 challenge).
+4. Push (or re-run the `Deploy Backend` workflow) — it recreates the `caddy` container with the current `Caddyfile`.
+5. Update `VITE_URL_API_BASE` in the Vercel project's environment variables to `https://api.kyc-trueface.com.br/api`, then redeploy the frontend (Vercel env vars are baked in at build time).
+
+---
+
 ## Database Migrations
 
 Migrations are managed by Entity Framework Core. Run all commands from the solution root.
@@ -231,6 +298,27 @@ dotnet ef database update \
   --project KYC.TrueFace.Core.Infra.Data/KYC.TrueFace.Core.Infra.Data.csproj \
   --startup-project KYC.TrueFace.Core.API/KYC.TrueFace.Core.API.csproj
 ```
+
+### Inspecting production migrations manually
+
+Migrations run automatically on API startup, so this is only needed to inspect the schema, run one-off queries, or apply a migration by hand if auto-migration is ever disabled. The production Postgres container only binds to `127.0.0.1:5432` on the VPS (not exposed to the internet), so it's reached by opening an SSH tunnel and connecting through it.
+
+> Use your **own** personal SSH key for this — not the `gh_actions` key from [One-time VPS setup](#one-time-vps-setup), which is dedicated to GitHub Actions and should never leave the VPS. If you don't have a key yet, generate one locally (`ssh-keygen -t ed25519`) and append its `.pub` to `/home/deploy/.ssh/authorized_keys` on the VPS.
+
+```bash
+# In one terminal: open a tunnel to the VPS's Postgres (uses your own personal key, authorized on the "deploy" user)
+ssh -N -L 5432:127.0.0.1:5432 deploy@<VPS_HOST> -i /path/to/your_own_key
+
+# In another terminal, from backend/, apply migrations through the tunnel
+cd backend
+
+dotnet ef database update \
+  --project KYC.TrueFace.Core.Infra.Data/KYC.TrueFace.Core.Infra.Data.csproj \
+  --startup-project KYC.TrueFace.Core.API/KYC.TrueFace.Core.API.csproj \
+  --connection "Host=127.0.0.1;Port=5432;Database=appdb;Username=postgres;Password=<POSTGRES_PASSWORD secret>"
+```
+
+> Not required in the normal flow — the API applies pending migrations itself on startup.
 
 ---
 
