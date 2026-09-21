@@ -29,6 +29,8 @@ builder.Services.ConfigureEmail(builder.Configuration);
 builder.Services.ConfigurePasswordHashing(builder.Configuration);
 builder.Services.ConfigureLoginSecurity(builder.Configuration);
 builder.Services.ConfigureUserReport(builder.Configuration);
+builder.Services.ConfigureOnboarding(builder.Configuration);
+builder.Services.ConfigureAws(builder.Configuration);
 
 var loginSecurity = builder.Configuration
     .GetSection(LoginSecurityOptions.SectionName)
@@ -54,6 +56,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 
 builder.Services.AddHostedService<UserReportWorker>();
+builder.Services.AddHostedService<OnboardingWorker>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -4,5 +4,7 @@ public enum OnboardingSituation
 {
     Pending = 1,
     Approved = 2,
-    Denied = 3
+    Denied = 3,
+    Processing = 4,
+    ManualReview = 5
 }

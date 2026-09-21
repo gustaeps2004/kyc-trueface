@@ -1,10 +1,13 @@
 using KYC.TrueFace.Core.Application.Services.Auth;
+using KYC.TrueFace.Core.Application.Services.FaceComparison;
+using KYC.TrueFace.Core.Application.Services.Onboarding;
 using KYC.TrueFace.Core.Application.Services.Report;
 using KYC.TrueFace.Core.Application.Services.Token;
 using KYC.TrueFace.Core.Application.Services.User;
 using KYC.TrueFace.Core.Application.Services.UserAccess;
 using KYC.TrueFace.Core.Domain.Repositories;
 using KYC.TrueFace.Core.Infra.Data.Repositories.Base;
+using KYC.TrueFace.Core.Infra.Data.Repositories.Onboardings;
 using KYC.TrueFace.Core.Infra.Data.Repositories.User;
 using KYC.TrueFace.Core.Infra.Data.Repositories.UsersAccess;
 using KYC.TrueFace.Core.Infra.Data.Repositories.UsersReports;
@@ -29,6 +32,10 @@ public static class DependencyInjectionConfig
         services.AddTransient<IUserReportService, UserReportService>();
         services.AddTransient<IUserReportProcessorService, UserReportProcessorService>();
         services.AddTransient<IUserReportExcelGenerator, UserReportExcelGenerator>();
+        services.AddTransient<IOnboardingService, OnboardingService>();
+        services.AddTransient<IOnboardingProcessorService, OnboardingProcessorService>();
+        services.AddTransient<IOnboardingImageStorage, OnboardingImageStorage>();
+        services.AddTransient<IFaceComparisonService, RekognitionFaceComparisonService>();
     }
 
     private static void ConfigureRepositories(this IServiceCollection services)
@@ -37,5 +44,6 @@ public static class DependencyInjectionConfig
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IUserAccessRepository, UserAccessRepository>();
         services.AddTransient<IUserReportRepository, UserReportRepository>();
+        services.AddTransient<IOnboardingRepository, OnboardingRepository>();
     }
 }

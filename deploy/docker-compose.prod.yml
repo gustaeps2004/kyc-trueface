@@ -41,6 +41,13 @@ services:
       Smtp__FromEmail: ${SMTP_FROM_EMAIL}
       Smtp__FromName: ${SMTP_FROM_NAME}
       Smtp__UseSsl: ${SMTP_USE_SSL}
+      Onboarding__StoragePath: /var/kyc-trueface/onboarding
+      Aws__Region: ${AWS_REGION}
+      Aws__AccessKeyId: ${AWS_ACCESS_KEY_ID}
+      Aws__SecretAccessKey: ${AWS_SECRET_ACCESS_KEY}
+      Aws__Rekognition__SimilarityThreshold: ${AWS_REKOGNITION_SIMILARITY_THRESHOLD:-90}
+    volumes:
+      - onboarding_images:/var/kyc-trueface/onboarding
     expose:
       - "8080"
 
@@ -60,5 +67,6 @@ services:
 
 volumes:
   pgdata:
+  onboarding_images:
   caddy_data:
   caddy_config:

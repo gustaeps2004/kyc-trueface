@@ -90,6 +90,9 @@ public class ApplicationDbContext(
                 .WithMany()
                 .HasForeignKey(x => x.CodePartner)
                 .IsRequired();
+
+            options
+                .HasIndex(x => new { x.Situation, x.InclusionDt });
         });
 
         modelBuilder.Entity<OnboardingResult>(options =>
@@ -99,7 +102,7 @@ public class ApplicationDbContext(
 
             options
                 .HasOne(x => x.Onboarding)
-                .WithMany()
+                .WithMany(x => x.Results)
                 .HasForeignKey(x => x.CodeOnboarding)
                 .IsRequired();
         });

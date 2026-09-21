@@ -11,6 +11,7 @@ A full-stack KYC (Know Your Customer) platform for identity verification, built 
 - [Running with Docker](#running-with-docker)
 - [Production Deployment (Backend)](#production-deployment-backend)
 - [Database Migrations](#database-migrations)
+- [Onboarding Face Validation](#onboarding-face-validation)
 - [API Documentation](#api-documentation)
 
 ---
@@ -79,6 +80,55 @@ Configuration lives in standard ASP.NET Core `appsettings.json` files inside `ba
 | `Sso:ResetPasswordTokenExpiration` | Password reset token expiration, in seconds | `3600` |
 | `App:CorsName` | CORS policy name | `DefaultCorsPolicy` |
 | `App:FrontendUrl` | Frontend URL allowed by CORS | `http://localhost:5173` |
+
+#### Face validation (AWS Rekognition)
+
+The onboarding endpoint stores both images on the VPS and a background service compares them
+with [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/APIReference/API_CompareFaces.html).
+Both sections live in `appsettings.json`:
+
+```json
+{
+  "Onboarding": {
+    "StoragePath": "/var/kyc-trueface/onboarding",
+    "PollingIntervalSeconds": 5,
+    "BatchSize": 10,
+    "StaleProcessingMinutes": 5,
+    "MaxAttempts": 3,
+    "MaxImageSizeBytes": 5242880,
+    "AllowedContentTypes": [ "image/jpeg", "image/png" ]
+  },
+  "Aws": {
+    "Region": "us-east-1",
+    "AccessKeyId": "",
+    "SecretAccessKey": "",
+    "ServiceUrl": "",
+    "Rekognition": {
+      "SimilarityThreshold": 90,
+      "TimeoutSeconds": 30,
+      "MaxErrorRetry": 2
+    }
+  }
+}
+```
+
+| Key | Description | Default |
+|---|---|---|
+| `Onboarding:StoragePath` | Folder where the uploaded images are written. Only the path *relative* to it is stored in the database | `/var/kyc-trueface/onboarding` |
+| `Onboarding:PollingIntervalSeconds` | How often the background service looks for pending records | `5` |
+| `Onboarding:BatchSize` | Maximum records claimed per tick | `10` |
+| `Onboarding:StaleProcessingMinutes` | After this long, a record stuck in `Processing` is claimed again (e.g. the API restarted mid-comparison) | `5` |
+| `Onboarding:MaxAttempts` | Attempts on transient failures before the record is sent to manual review | `3` |
+| `Onboarding:MaxImageSizeBytes` | Per-image upload limit | `5242880` (5 MB) |
+| `Onboarding:AllowedContentTypes` | Accepted upload content types | `image/jpeg`, `image/png` |
+| `Aws:Region` | Region used for Rekognition | `us-east-1` |
+| `Aws:AccessKeyId` / `Aws:SecretAccessKey` | Static credentials. **Leave both empty to use the default AWS credential chain** (environment variables, shared profile, instance role) | empty |
+| `Aws:ServiceUrl` | Endpoint override for a local stub or LocalStack. Empty means the real AWS endpoint | empty |
+| `Aws:Rekognition:SimilarityThreshold` | Minimum similarity (0-100) for the two faces to count as the same person | `90` |
+| `Aws:Rekognition:TimeoutSeconds` | HTTP timeout for the Rekognition call | `30` |
+| `Aws:Rekognition:MaxErrorRetry` | Retries performed by the AWS SDK itself | `2` |
+
+> The IAM user (or role) only needs the `rekognition:CompareFaces` permission.
 
 Any of these values can also be overridden via environment variables using ASP.NET Core's double-underscore convention (e.g. `ConnectionStrings__DefaultConnection`, `Sso__Key`) — this is the approach used when running the API container (see [Running with Docker](#running-with-docker)).
 
@@ -267,6 +317,10 @@ Configure these under **Settings → Secrets and variables → Actions** in the 
 | `POSTGRES_PASSWORD` | Password for the production Postgres container |
 | `SSO_KEY` | Random 32+ character JWT signing secret |
 | `APP_FRONTEND_URL` | Production frontend URL (used for CORS) |
+| `AWS_REGION` | AWS region for Rekognition (e.g. `us-east-1`) |
+| `AWS_ACCESS_KEY_ID` | Access key of an IAM user allowed to call `rekognition:CompareFaces` |
+| `AWS_SECRET_ACCESS_KEY` | Secret key for the IAM user above |
+| `AWS_REKOGNITION_SIMILARITY_THRESHOLD` | Optional. Minimum similarity to approve automatically (defaults to `90`) |
 
 > To add more settings later (`Smtp__*`, `PasswordHashing__Pepper`, etc.), extend the `.env` heredoc in the workflow's deploy step and the corresponding service in `deploy/docker-compose.prod.yml`.
 
@@ -319,6 +373,73 @@ dotnet ef database update \
 ```
 
 > Not required in the normal flow — the API applies pending migrations itself on startup.
+
+---
+
+## Onboarding Face Validation
+
+An onboarding is a pair of images — a photo of the identity document and a selfie — that the
+platform compares automatically. Uploading is synchronous; the comparison is not.
+
+```
+POST /api/v1/onboarding        ──▶  images written under Onboarding:StoragePath
+                                    row inserted in "Onboardings" with Situation = Pending
+                                    202 Accepted { code, situation }
+
+OnboardingWorker (every 5s)    ──▶  claims pending rows  (Situation → Processing)
+                                    CompareFaces on AWS Rekognition
+                                    ├─ similarity >= threshold  → Approved
+                                    ├─ similarity <  threshold  → Denied
+                                    └─ error / no face found    → ManualReview
+```
+
+A record sitting in `ManualReview` is settled by a person: they look at both images, write an
+observation and approve or deny it. That decision moves the record to `Approved`/`Denied` and is
+kept in `OnboardingsResults` together with the reviewer's user code.
+
+`Situation` values are `Pending = 1`, `Approved = 2`, `Denied = 3`, `Processing = 4`,
+`ManualReview = 5`. Every transition also records `SituationDt`, the observed `Similarity` and a
+human-readable `SituationMessage`.
+
+A transient failure (network, throttling) puts the record back to `Pending` and it is retried on
+the next tick, up to `Onboarding:MaxAttempts`; after that it goes to `ManualReview`. Errors that a
+retry cannot fix — no face detected, unreadable image, missing file — go straight to
+`ManualReview`. If the API stops mid-comparison, the row stays in `Processing` and is claimed
+again after `Onboarding:StaleProcessingMinutes`.
+
+### Endpoints
+
+| Method | Route | Roles | Description |
+|---|---|---|---|
+| `POST` | `/api/v1/onboarding` | `ADMINISTRATOR`, `MASTER` | `multipart/form-data` with `name`, `idNumber`, and the `document` and `selfie` files. Returns `202` with the new code and situation |
+| `GET` | `/api/v1/onboarding/manual-review` | all | Records waiting for a human decision |
+| `GET` | `/api/v1/onboarding/reviewed` | all | Records already approved or denied. Accepts `?situation=Approved` or `?situation=Denied` to narrow it |
+| `GET` | `/api/v1/onboarding/{code}/image/{kind}` | all | Serves one of the stored images. `kind` is `document` or `selfie` |
+| `POST` | `/api/v1/onboarding/{code}/review` | `ADMINISTRATOR`, `MASTER` | `{ "approved": true, "observation": "..." }`. Only valid while the record is in `ManualReview` |
+
+All of them are scoped to the partner in the caller's JWT — another partner's record answers as if
+it did not exist.
+
+```bash
+curl -X POST https://api.kyc-trueface.com.br/api/v1/onboarding   -H "Authorization: Bearer <token>"   -F "name=Joana Pereira"   -F "idNumber=529.982.247-25"   -F "document=@document.jpg;type=image/jpeg"   -F "selfie=@selfie.jpg;type=image/jpeg"
+```
+
+### Web app
+
+Two screens in `frontend/webPartner` cover the flow:
+
+| Route | Screen | What it does |
+|---|---|---|
+| `/onboarding` | Manual review queue | Lists what the automatic check could not settle, with the reason. The **+** button opens the upload form (name, CPF, document photo, selfie); the eye icon opens both images; the check icon approves or denies with an observation |
+| `/history/onboarding` | History | Lists approved and denied records, filterable by situation, and opens the outcome — similarity for automatic decisions, the reviewer's observation for manual ones |
+
+Both screens filter by name or CPF client-side. Users with the `COMMUN` role see the lists and the
+images but cannot upload or decide, matching the endpoint roles above.
+
+> In production the images live in the `onboarding_images` Docker volume mounted at
+> `/var/kyc-trueface/onboarding`, so they survive container recreation. The database stores only
+> the path relative to that root (`<partner>/<year>/<month>/<code>-document.jpg`), so the root can
+> be remounted elsewhere without a data migration.
 
 ---
 

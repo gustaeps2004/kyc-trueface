@@ -22,6 +22,23 @@ public static class ValidationErrors
     public const string UserReportInvalidPeriod = "users.report.validation.period";
     public const string UserReportFilterExceed = "users.report.validation.filterExceed";
 
+    public const string OnboardingDocumentRequired = "onboarding.validation.documentRequired";
+    public const string OnboardingSelfieRequired = "onboarding.validation.selfieRequired";
+    public const string OnboardingImageEmpty = "onboarding.validation.imageEmpty";
+    public const string OnboardingImageTooLarge = "onboarding.validation.imageTooLarge";
+    public const string OnboardingImageContentTypeInvalid = "onboarding.validation.imageContentType";
+    public const string OnboardingSituationInvalid = "onboarding.validation.situation";
+    public const string OnboardingStorageNotConfigured = "onboarding.validation.storageNotConfigured";
+    public const string OnboardingImageNotFound = "onboarding.validation.imageNotFound";
+    public const string OnboardingImageKindInvalid = "onboarding.validation.imageKind";
+    public const string OnboardingNameNullOrEmpty = "onboarding.validation.nameEmpty";
+    public const string OnboardingNameExceed = "onboarding.validation.nameExceed";
+    public const string OnboardingInvalidIdNumber = "onboarding.validation.idNumber";
+    public const string OnboardingNotExisted = "onboarding.validation.notExisted";
+    public const string OnboardingNotPendingReview = "onboarding.validation.notPendingReview";
+    public const string OnboardingObservationNullOrEmpty = "onboarding.validation.observationEmpty";
+    public const string OnboardingObservationExceed = "onboarding.validation.observationExceed";
+
     public const string EmailRecipientNullOrEmpty = "email.validation.recipientEmpty";
     public const string EmailSubjectNullOrEmpty = "email.validation.subjectEmpty";
     public const string EmailBodyNullOrEmpty = "email.validation.bodyEmpty";
