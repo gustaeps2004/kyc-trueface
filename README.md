@@ -104,7 +104,8 @@ Both sections live in `appsettings.json`:
     "SecretAccessKey": "",
     "ServiceUrl": "",
     "Rekognition": {
-      "SimilarityThreshold": 90,
+      "AutoApproveThreshold": 90,
+      "ManualReviewThreshold": 30,
       "TimeoutSeconds": 30,
       "MaxErrorRetry": 2
     }
@@ -124,7 +125,8 @@ Both sections live in `appsettings.json`:
 | `Aws:Region` | Region used for Rekognition | `us-east-1` |
 | `Aws:AccessKeyId` / `Aws:SecretAccessKey` | Static credentials. **Leave both empty to use the default AWS credential chain** (environment variables, shared profile, instance role) | empty |
 | `Aws:ServiceUrl` | Endpoint override for a local stub or LocalStack. Empty means the real AWS endpoint | empty |
-| `Aws:Rekognition:SimilarityThreshold` | Minimum similarity (0-100) for the two faces to count as the same person | `90` |
+| `Aws:Rekognition:AutoApproveThreshold` | Similarity (0-100) from which the onboarding is approved automatically | `90` |
+| `Aws:Rekognition:ManualReviewThreshold` | Similarity (0-100) below which the onboarding is denied automatically. Between this value and the auto-approve threshold the onboarding is held for manual review | `30` |
 | `Aws:Rekognition:TimeoutSeconds` | HTTP timeout for the Rekognition call | `30` |
 | `Aws:Rekognition:MaxErrorRetry` | Retries performed by the AWS SDK itself | `2` |
 
@@ -320,7 +322,8 @@ Configure these under **Settings → Secrets and variables → Actions** in the 
 | `AWS_REGION` | AWS region for Rekognition (e.g. `us-east-1`) |
 | `AWS_ACCESS_KEY_ID` | Access key of an IAM user allowed to call `rekognition:CompareFaces` |
 | `AWS_SECRET_ACCESS_KEY` | Secret key for the IAM user above |
-| `AWS_REKOGNITION_SIMILARITY_THRESHOLD` | Optional. Minimum similarity to approve automatically (defaults to `90`) |
+| `AWS_REKOGNITION_AUTO_APPROVE_THRESHOLD` | Optional. Similarity from which the onboarding is approved automatically (defaults to `90`) |
+| `AWS_REKOGNITION_MANUAL_REVIEW_THRESHOLD` | Optional. Similarity below which the onboarding is denied automatically; between the two thresholds it goes to manual review (defaults to `30`) |
 
 > To add more settings later (`Smtp__*`, `PasswordHashing__Pepper`, etc.), extend the `.env` heredoc in the workflow's deploy step and the corresponding service in `deploy/docker-compose.prod.yml`.
 

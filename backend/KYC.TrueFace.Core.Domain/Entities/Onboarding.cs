@@ -68,10 +68,14 @@ public class Onboarding : EntityBase
         SituationDt = DateTime.UtcNow;
     }
 
-    /// <summary>Automatic validation failed or was inconclusive - a human has to decide.</summary>
-    public void MarkForManualReview(string message)
+    /// <summary>
+    /// Automatic validation failed, was inconclusive or landed in the uncertainty band -
+    /// a human has to decide. <paramref name="similarity"/> is null when no score was produced.
+    /// </summary>
+    public void MarkForManualReview(string message, double? similarity = null)
     {
         Situation = OnboardingSituation.ManualReview;
+        Similarity = similarity;
         SituationMessage = Truncate(message);
         SituationDt = DateTime.UtcNow;
     }

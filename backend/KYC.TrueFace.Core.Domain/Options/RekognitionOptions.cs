@@ -2,8 +2,14 @@ namespace KYC.TrueFace.Core.Domain.Options;
 
 public class RekognitionOptions
 {
-    /// <summary>Minimum similarity (0-100) for the two faces to be considered the same person.</summary>
-    public float SimilarityThreshold { get; init; } = 90f;
+    public float AutoApproveThreshold { get; init; } = 90f;
+
+    /// <summary>
+    /// Similarity (0-100) from which the result is no longer trusted as a mismatch: between this
+    /// value and <see cref="AutoApproveThreshold"/> the onboarding is held for manual review.
+    /// Below it the onboarding is denied automatically.
+    /// </summary>
+    public float ManualReviewThreshold { get; init; } = 30f;
 
     public int TimeoutSeconds { get; init; } = 30;
 

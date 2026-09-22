@@ -17,7 +17,7 @@ public class RekognitionFaceComparisonService(
         byte[] selfieImage,
         CancellationToken ct = default)
     {
-        var threshold = awsOptions.Value.Rekognition.SimilarityThreshold;
+        var options = awsOptions.Value.Rekognition;
 
         using var sourceStream = new MemoryStream(documentImage);
         using var targetStream = new MemoryStream(selfieImage);
@@ -26,7 +26,7 @@ public class RekognitionFaceComparisonService(
         {
             SourceImage = new Image { Bytes = sourceStream },
             TargetImage = new Image { Bytes = targetStream },
-            // Ask Rekognition for every candidate and apply the threshold here, so the
+            // Ask Rekognition for every candidate and apply the thresholds here, so the
             // observed similarity is recorded even when the faces do not match.
             SimilarityThreshold = 0f,
             QualityFilter = QualityFilter.AUTO
@@ -43,19 +43,7 @@ public class RekognitionFaceComparisonService(
             if (similarity is null)
                 return Inconclusive("Rekognition found no comparable face in the selfie.");
 
-            // Invariant culture so the recorded message reads the same on any host locale.
-            var observed = similarity.Value.ToString("F2", CultureInfo.InvariantCulture);
-            var configured = threshold.ToString("F2", CultureInfo.InvariantCulture);
-
-            return similarity.Value >= threshold
-                ? new FaceComparisonResultDto(
-                        FaceComparisonOutcome.Matched,
-                        similarity,
-                        $"Faces matched with {observed}% similarity (threshold {configured}%).")
-                : new FaceComparisonResultDto(
-                        FaceComparisonOutcome.NotMatched,
-                        similarity,
-                        $"Faces did not match: {observed}% similarity, below the {configured}% threshold.");
+            return Decide(similarity.Value, options);
         }
         catch (InvalidParameterException ex)
         {
@@ -71,6 +59,34 @@ public class RekognitionFaceComparisonService(
             return Inconclusive($"Image too large for Rekognition: {ex.Message}");
         }
     }
+
+    private static FaceComparisonResultDto Decide(double similarity, RekognitionOptions options)
+    {
+        var observed = Percent(similarity);
+        var approve = Percent(options.AutoApproveThreshold);
+        var review = Percent(options.ManualReviewThreshold);
+
+        if (similarity >= options.AutoApproveThreshold)
+            return new FaceComparisonResultDto(
+                FaceComparisonOutcome.Matched,
+                similarity,
+                $"Faces matched with {observed}% similarity (auto-approve from {approve}%).");
+
+        if (similarity >= options.ManualReviewThreshold)
+            return new FaceComparisonResultDto(
+                FaceComparisonOutcome.ReviewRequired,
+                similarity,
+                $"Similarity of {observed}% is between {review}% and {approve}% - manual review required.");
+
+        return new FaceComparisonResultDto(
+            FaceComparisonOutcome.NotMatched,
+            similarity,
+            $"Faces did not match: {observed}% similarity, below the {review}% minimum.");
+    }
+
+    // Invariant culture so the recorded message reads the same on any host locale.
+    private static string Percent(double value)
+        => value.ToString("F2", CultureInfo.InvariantCulture);
 
     private static FaceComparisonResultDto Inconclusive(string message)
         => new(FaceComparisonOutcome.Inconclusive, null, message);

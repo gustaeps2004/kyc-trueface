@@ -83,6 +83,10 @@ public class OnboardingProcessorService(
                 onboarding.MarkAsDenied(result.Similarity, result.Message);
                 break;
 
+            case FaceComparisonOutcome.ReviewRequired:
+                onboarding.MarkForManualReview(result.Message, result.Similarity);
+                break;
+
             default:
                 onboarding.MarkForManualReview(result.Message);
                 break;

@@ -45,7 +45,8 @@ services:
       Aws__Region: ${AWS_REGION}
       Aws__AccessKeyId: ${AWS_ACCESS_KEY_ID}
       Aws__SecretAccessKey: ${AWS_SECRET_ACCESS_KEY}
-      Aws__Rekognition__SimilarityThreshold: ${AWS_REKOGNITION_SIMILARITY_THRESHOLD:-90}
+      Aws__Rekognition__AutoApproveThreshold: ${AWS_REKOGNITION_AUTO_APPROVE_THRESHOLD:-90}
+      Aws__Rekognition__ManualReviewThreshold: ${AWS_REKOGNITION_MANUAL_REVIEW_THRESHOLD:-30}
     volumes:
       - onboarding_images:/var/kyc-trueface/onboarding
     expose:
