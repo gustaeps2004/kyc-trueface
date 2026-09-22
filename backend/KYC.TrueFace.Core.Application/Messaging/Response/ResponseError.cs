@@ -2,8 +2,7 @@
 
 namespace KYC.TrueFace.Core.Application.Messaging.Response;
 
-public sealed record ResponseError(
-    string Message = ValidationErrors.GenericError)
+public sealed record ResponseError(string Message)
 {
-    public static ResponseError Create() => new();
+    public static ResponseError Create(string message) => new(message);
 }

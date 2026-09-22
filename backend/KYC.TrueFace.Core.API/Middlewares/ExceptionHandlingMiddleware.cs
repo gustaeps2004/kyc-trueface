@@ -22,7 +22,7 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
         catch (Exception ex)
         {
             logger.LogError(ex, "Unhandled exception on {Method} {Path}", context.Request.Method, context.Request.Path);
-            await WriteResponse(context, StatusCodes.Status500InternalServerError, ResponseError.Create());
+            await WriteResponse(context, StatusCodes.Status500InternalServerError, ResponseError.Create($"{context.Request.Method} - {context.Request.Path}"));
         }
     }
 
