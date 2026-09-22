@@ -2,10 +2,17 @@
 
 # Esta fase é usada durante a execução no VS no modo rápido (Padrão para a configuração de Depuração)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
+
+# As imagens do onboarding ficam num volume montado neste caminho. Criando o
+# diretorio aqui, com dono do usuario da aplicacao, o Docker propaga essa posse
+# ao semear um volume novo - sem isso o volume nasce root e o container (que
+# roda como $APP_UID) nao consegue gravar.
+RUN mkdir -p /var/kyc-trueface/onboarding && chown -R $APP_UID:$APP_UID /var/kyc-trueface
+
+USER $APP_UID
 
 
 # Esta fase é usada para compilar o projeto de serviço
