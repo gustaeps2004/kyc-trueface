@@ -116,6 +116,7 @@
   "onboarding": {
     "pageTitle": "Onboarding",
     "searchPlaceholder": "ID or name",
+    "refresh": "Refresh",
     "idNumber": "Id number",
     "name": "Name",
     "reason": "Reason",
@@ -168,6 +169,7 @@
   "history": {
     "pageTitle": "History",
     "searchPlaceholder": "ID or name",
+    "refresh": "Refresh",
     "idNumber": "Id number",
     "name": "Name",
     "situation": "Situation",

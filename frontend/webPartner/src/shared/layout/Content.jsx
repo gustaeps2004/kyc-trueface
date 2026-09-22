@@ -1,4 +1,4 @@
-import { CirclePlus, FileSpreadsheet } from 'lucide-react';
+import { CirclePlus, FileSpreadsheet, RotateCw } from 'lucide-react';
 import { InputFilter } from '@/shared/ui/InputFilter';
 import { IconButton } from '@/shared/ui/IconButton';
 
@@ -34,6 +34,19 @@ export function Content(props) {
                 className="rounded-full text-brand hover:bg-brand/15"
               >
                 <CirclePlus size={28} />
+              </IconButton>
+            : null
+          }
+
+          {
+            props.isShowRefresh
+            ? <IconButton
+                onClick={props.onRefresh}
+                label={props.refreshLabel}
+                disabled={props.isRefreshing}
+                className="rounded-full text-brand hover:bg-brand/15 disabled:opacity-50 disabled:cursor-default"
+              >
+                <RotateCw size={22} className={props.isRefreshing ? "motion-safe:animate-spin" : ""} />
               </IconButton>
             : null
           }

@@ -39,6 +39,10 @@ export function OnboardingHistory() {
       <Content
         placeholderFilter={t('history.searchPlaceholder')}
         isShowFilter={true}
+        isShowRefresh={true}
+        onRefresh={() => handlerList()}
+        refreshLabel={t('history.refresh')}
+        isRefreshing={isLoading}
         filterValue={filterValue}
         onFilter={setFilterValue}
         filterExtra={

@@ -116,6 +116,7 @@
   "onboarding": {
     "pageTitle": "Onboarding",
     "searchPlaceholder": "CPF ou nome",
+    "refresh": "Atualizar",
     "idNumber": "CPF",
     "name": "Nome",
     "reason": "Motivo",
@@ -168,6 +169,7 @@
   "history": {
     "pageTitle": "Histórico",
     "searchPlaceholder": "CPF ou nome",
+    "refresh": "Atualizar",
     "idNumber": "CPF",
     "name": "Nome",
     "situation": "Situação",

@@ -49,6 +49,10 @@ export function Onboarding() {
           placeholderFilter={t('onboarding.searchPlaceholder')}
           isShowFilter={true}
           isShowAdd={canWrite}
+          isShowRefresh={true}
+          onRefresh={() => handlerList()}
+          refreshLabel={t('onboarding.refresh')}
+          isRefreshing={isLoading}
           openModal={handlerOpenUploadModal}
           filterValue={filterValue}
           onFilter={setFilterValue}
