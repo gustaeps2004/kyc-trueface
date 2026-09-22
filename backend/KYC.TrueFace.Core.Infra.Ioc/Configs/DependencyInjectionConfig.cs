@@ -1,4 +1,5 @@
 using KYC.TrueFace.Core.Application.Services.Auth;
+using KYC.TrueFace.Core.Application.Services.Dashboard;
 using KYC.TrueFace.Core.Application.Services.FaceComparison;
 using KYC.TrueFace.Core.Application.Services.Onboarding;
 using KYC.TrueFace.Core.Application.Services.Report;
@@ -36,6 +37,7 @@ public static class DependencyInjectionConfig
         services.AddTransient<IOnboardingProcessorService, OnboardingProcessorService>();
         services.AddTransient<IOnboardingImageStorage, OnboardingImageStorage>();
         services.AddTransient<IFaceComparisonService, RekognitionFaceComparisonService>();
+        services.AddTransient<IDashboardService, DashboardService>();
     }
 
     private static void ConfigureRepositories(this IServiceCollection services)

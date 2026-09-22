@@ -419,6 +419,7 @@ again after `Onboarding:StaleProcessingMinutes`.
 | `GET` | `/api/v1/onboarding/reviewed` | all | Records already approved or denied. Accepts `?situation=Approved` or `?situation=Denied` to narrow it |
 | `GET` | `/api/v1/onboarding/{code}/image/{kind}` | all | Serves one of the stored images. `kind` is `document` or `selfie` |
 | `POST` | `/api/v1/onboarding/{code}/review` | `ADMINISTRATOR`, `MASTER` | `{ "approved": true, "observation": "..." }`. Only valid while the record is in `ManualReview` |
+| `GET` | `/api/v1/dashboard/summary` | all | Counters for the dashboard cards: onboardings received, denied and approved in the last 7 days, records waiting for a human decision, and the ones a reviewer approved or denied in the last 30 days |
 
 All of them are scoped to the partner in the caller's JWT — another partner's record answers as if
 it did not exist.
