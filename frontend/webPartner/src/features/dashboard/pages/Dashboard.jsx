@@ -7,43 +7,47 @@ import {
   ThumbsUp,
   ThumbsDown,
 } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
+import { useApi } from "@/shared/hooks/useApi";
 import { GetTokenData } from "@/shared/utils/getTokenData";
+import { dashboardService } from "../api/dashboardService";
 
+// summaryKey matches the field of the same name on GET /v1/dashboard/summary.
 const cards = [
   {
     titleKey: "dashboard.consultedLastWeek",
-    value: 34,
+    summaryKey: "consultedLastWeek",
     variant: "accent",
     icon: <Search size={18} />,
   },
   {
     titleKey: "dashboard.reprovedLastWeek",
-    value: 15,
+    summaryKey: "reprovedLastWeek",
     variant: "danger",
     icon: <XCircle size={18} />,
   },
   {
     titleKey: "dashboard.approvedLastWeek",
-    value: 19,
+    summaryKey: "approvedLastWeek",
     variant: "success",
     icon: <CheckCircle2 size={18} />,
   },
   {
     titleKey: "dashboard.pendingManual",
-    value: 10,
+    summaryKey: "pendingManualReview",
     variant: "warning",
     icon: <Clock size={18} />,
   },
   {
     titleKey: "dashboard.approvedManuallyLastMonth",
-    value: 15,
+    summaryKey: "approvedManuallyLastMonth",
     variant: "success",
     icon: <ThumbsUp size={18} />,
   },
   {
     titleKey: "dashboard.reprovedManuallyLastMonth",
-    value: 3,
+    summaryKey: "reprovedManuallyLastMonth",
     variant: "danger",
     icon: <ThumbsDown size={18} />,
   },
@@ -73,17 +77,33 @@ const variantStyles = {
 };
 
 export function Dashboard() {
+  const [summary, setSummary] = useState(null);
+  const { execute, isLoading } = useApi();
   const { t } = useTranslation();
   const loggedName = GetTokenData()?.user_name?.split(' ')[0];
+
+  const handlerSummary = useCallback(async (signal) => {
+    await execute(
+      () => dashboardService.getSummary(signal),
+      { onSuccess: (response) => setSummary(response.data) }
+    );
+  }, [execute]);
+
+  useEffect(() => {
+    const controller = new AbortController()
+    handlerSummary(controller.signal)
+    return () => controller.abort()
+  }, [handlerSummary]);
 
   return (
     <Layout name={t('dashboard.welcome', { name: loggedName })}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {cards.map((card, index) => {
+        {cards.map((card) => {
           const styles = variantStyles[card.variant];
+          const value = summary?.[card.summaryKey];
           return (
             <div
-              key={index}
+              key={card.summaryKey}
               className={`
                 bg-surface
                 border
@@ -106,9 +126,13 @@ export function Dashboard() {
                   {card.icon}
                 </div>
               </div>
-              <p className={`text-4xl font-medium leading-none ${styles.value}`}>
-                {card.value}
-              </p>
+              {isLoading ? (
+                <span className="block h-9 w-14 rounded bg-divider/30 animate-pulse" />
+              ) : (
+                <p className={`text-4xl font-medium leading-none ${styles.value}`}>
+                  {value ?? "-"}
+                </p>
+              )}
             </div>
           );
         })}
