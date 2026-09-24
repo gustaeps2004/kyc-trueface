@@ -29,7 +29,8 @@
       "incorrectLogin": "Incorect user or password.",
       "passwordWeak": "Password is too weak.",
       "resetPassword": "Password should be equals than confirm password.",
-      "invalidOrExpiredResetToken": "Invalid or expired link. Please request a new one."
+      "invalidOrExpiredResetToken": "Invalid or expired link. Please request a new one.",
+      "accountLocked": "Account temporarily locked due to too many failed login attempts. Please try again later."
     }
   },
   "topbar": {
