@@ -10,12 +10,35 @@ public static class OnboardingDefaults
 
     public const string FallbackImageContentType = "image/jpeg";
 
+    public const string PngContentType = "image/png";
+
+    /// <summary>Accepted for the document only (e.g. the CNH-e), kept as-is for auditing.</summary>
+    public const string PdfContentType = "application/pdf";
+
+    public const string PdfExtension = ".pdf";
+
     public const int ObservationMaxLength = 500;
 
-    public static readonly string[] AllowedImageExtensions = [".jpg", ".jpeg", ".png"];
+    /// <summary>
+    /// Extension written to disk, taken from the validated content type so a crafted file
+    /// name can never drive it.
+    /// </summary>
+    public static string ExtensionFor(string contentType)
+        => contentType.ToLowerInvariant() switch
+        {
+            PngContentType => ".png",
+            PdfContentType => PdfExtension,
+            _ => FallbackImageExtension
+        };
 
     public static string ContentTypeFor(string path)
-        => Path.GetExtension(path).Equals(".png", StringComparison.OrdinalIgnoreCase)
-            ? "image/png"
-            : FallbackImageContentType;
+        => Path.GetExtension(path).ToLowerInvariant() switch
+        {
+            ".png" => PngContentType,
+            PdfExtension => PdfContentType,
+            _ => FallbackImageContentType
+        };
+
+    public static bool IsPdf(string path)
+        => Path.GetExtension(path).Equals(PdfExtension, StringComparison.OrdinalIgnoreCase);
 }

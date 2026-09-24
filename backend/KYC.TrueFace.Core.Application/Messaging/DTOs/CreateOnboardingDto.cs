@@ -36,7 +36,7 @@ public class CreateOnboardingDto(
         if (Selfie is null)
             throw new KycException(ValidationErrors.OnboardingSelfieRequired);
 
-        Document.Validate(options);
+        Document.Validate(options, allowPdf: true);
         Selfie.Validate(options);
     }
 }

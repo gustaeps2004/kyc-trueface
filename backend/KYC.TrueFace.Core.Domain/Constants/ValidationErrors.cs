@@ -27,6 +27,8 @@ public static class ValidationErrors
     public const string OnboardingImageEmpty = "onboarding.validation.imageEmpty";
     public const string OnboardingImageTooLarge = "onboarding.validation.imageTooLarge";
     public const string OnboardingImageContentTypeInvalid = "onboarding.validation.imageContentType";
+    public const string OnboardingDocumentContentTypeInvalid = "onboarding.validation.documentContentType";
+    public const string OnboardingDocumentPdfUnreadable = "onboarding.validation.pdfUnreadable";
     public const string OnboardingSituationInvalid = "onboarding.validation.situation";
     public const string OnboardingStorageNotConfigured = "onboarding.validation.storageNotConfigured";
     public const string OnboardingImageNotFound = "onboarding.validation.imageNotFound";

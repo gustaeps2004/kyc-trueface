@@ -135,7 +135,7 @@
       "send": "Send",
       "document": "Document photo",
       "selfie": "Selfie",
-      "hint": "JPEG or PNG, up to 5 MB each. The faces are compared automatically within a few seconds.",
+      "hint": "JPEG or PNG, up to 5 MB each. The document can also be a PDF, such as the digital driver license, which is stored in full. The faces are compared automatically within a few seconds.",
       "queued": "Images sent. The comparison result will show up here shortly."
     },
     "images": {
@@ -145,7 +145,8 @@
       "rotate": "Rotate",
       "download": "Download",
       "next": "Next image",
-      "close": "Close images"
+      "close": "Close images",
+      "previewUnavailable": "The PDF could not be displayed. Use the download button to open the original file."
     },
     "validation": {
       "documentRequired": "Select the document photo.",
@@ -153,6 +154,8 @@
       "imageEmpty": "The selected image is empty.",
       "imageTooLarge": "Each image must be 5 MB or smaller.",
       "imageContentType": "Only JPEG and PNG images are accepted.",
+      "documentContentType": "The document must be a JPEG or PNG image, or a PDF.",
+      "pdfUnreadable": "Could not read the PDF. Send a valid, non password-protected PDF or a photo of the document.",
       "imageNotFound": "Image not found on the server.",
       "imageKind": "Invalid image type.",
       "situation": "Only approved or denied records can be listed here.",

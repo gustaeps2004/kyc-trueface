@@ -15,6 +15,7 @@
     "i18next": "26.2.0",
     "jwt-decode": "4.0.0",
     "lucide-react": "0.575.0",
+    "pdfjs-dist": "6.3.289",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-i18next": "17.0.8",

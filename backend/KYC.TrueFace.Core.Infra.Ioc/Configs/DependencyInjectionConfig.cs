@@ -38,6 +38,10 @@ public static class DependencyInjectionConfig
         services.AddTransient<IOnboardingImageStorage, OnboardingImageStorage>();
         services.AddTransient<IFaceComparisonService, RekognitionFaceComparisonService>();
         services.AddTransient<IDashboardService, DashboardService>();
+
+        // PDFium, behind PdfRenderer, only ships native binaries for these platforms.
+        if (OperatingSystem.IsWindows() || OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
+            services.AddSingleton<IPdfRenderer, PdfRenderer>();
     }
 
     private static void ConfigureRepositories(this IServiceCollection services)

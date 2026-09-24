@@ -9,8 +9,15 @@ import { useTranslation } from 'react-i18next';
 import { IconButton } from "@/shared/ui/IconButton";
 import { useApi } from "@/shared/hooks/useApi";
 import { onboardingService } from "../api/onboardingService";
+import { pdfToImage, PDF_TYPE } from "../utils/pdfToImage";
 
 const KINDS = ['document', 'selfie'];
+
+const EXTENSIONS = {
+  'image/jpeg': '.jpg',
+  'image/png': '.png',
+  [PDF_TYPE]: '.pdf',
+};
 
 export function ModalImages(props) {
   const { execute } = useApi();
@@ -31,7 +38,13 @@ export function ModalImages(props) {
 
   useEffect(() => {
     const controller = new AbortController();
-    let created = [];
+    const urls = [];
+
+    const track = (blob) => {
+      const url = URL.createObjectURL(blob);
+      urls.push(url);
+      return url;
+    };
 
     (async () => {
       const responses = await Promise.all(
@@ -40,20 +53,36 @@ export function ModalImages(props) {
         )
       );
 
-      created = responses
-        .map((response, i) => response && ({
-          kind: KINDS[i],
-          url: URL.createObjectURL(response.data),
-          fileName: `${props.code}-${KINDS[i]}`,
-        }))
-        .filter(Boolean);
+      const loaded = await Promise.all(
+        responses.map(async (response, i) => {
+          if (!response) return null;
 
-      setImages(created);
+          const file = response.data;
+          const isPdf = file.type === PDF_TYPE;
+          const fileUrl = track(file);
+
+          return {
+            kind: KINDS[i],
+            isPdf,
+            // A PDF document is kept as uploaded: show its first page, download the original.
+            url: isPdf ? await pdfToImage(file).then(track).catch(() => null) : fileUrl,
+            fileUrl,
+            fileName: `${props.code}-${KINDS[i]}${EXTENSIONS[file.type] ?? ''}`,
+          };
+        })
+      );
+
+      if (controller.signal.aborted) {
+        urls.forEach(url => URL.revokeObjectURL(url));
+        return;
+      }
+
+      setImages(loaded.filter(Boolean));
     })();
 
     return () => {
       controller.abort();
-      created.forEach(image => URL.revokeObjectURL(image.url));
+      urls.forEach(url => URL.revokeObjectURL(url));
     };
   }, [props.code, execute]);
 
@@ -63,7 +92,7 @@ export function ModalImages(props) {
     if (!current) return;
 
     const link = window.document.createElement('a');
-    link.href = current.url;
+    link.href = current.fileUrl;
     link.download = current.fileName;
 
     window.document.body.appendChild(link);
@@ -129,6 +158,7 @@ export function ModalImages(props) {
           {current ? (
             <p className="text-sm text-fg font-medium">
               {t(`onboarding.images.${current.kind}`)}
+              {current.isPdf ? ' · PDF' : null}
               <span className="text-fg-faint font-normal"> ({index + 1}/{images.length})</span>
             </p>
           ) : null}
@@ -147,13 +177,17 @@ export function ModalImages(props) {
           border
           border-divider/30
         ">
-          {current ? (
+          {current?.url ? (
             <img
               src={current.url}
               alt={t(`onboarding.images.${current.kind}`)}
               style={{ transform: `rotate(${rotation}deg)` }}
               className="w-full h-full object-contain transition-transform duration-500"
             />
+          ) : current ? (
+            <span className="px-6 text-center text-sm text-fg-subtle">
+              {t('onboarding.images.previewUnavailable')}
+            </span>
           ) : (
             <span className="text-sm text-fg-subtle">
               {t('notifications.loading')}

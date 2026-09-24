@@ -32,7 +32,10 @@ RUN dotnet build "./KYC.TrueFace.Core.API.csproj" -c $BUILD_CONFIGURATION -o /ap
 # Esta fase é usada para publicar o projeto de serviço a ser copiado para a fase final
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./KYC.TrueFace.Core.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+# Publicando para a arquitetura da imagem (preenchida pelo BuildKit) so entram as bibliotecas
+# nativas do PDFium/Skia do Linux; sem isso vinham as de todas as plataformas (~500 MB a mais).
+ARG TARGETARCH
+RUN dotnet publish "./KYC.TrueFace.Core.API.csproj" -c $BUILD_CONFIGURATION -a $TARGETARCH -o /app/publish /p:UseAppHost=false
 
 # Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
 FROM base AS final

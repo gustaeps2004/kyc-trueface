@@ -135,7 +135,7 @@
       "send": "Enviar",
       "document": "Foto do documento",
       "selfie": "Selfie",
-      "hint": "JPEG ou PNG, até 5 MB cada. As faces são comparadas automaticamente em alguns segundos.",
+      "hint": "JPEG ou PNG, até 5 MB cada. O documento também pode ser um PDF, como a CNH digital, que fica salvo na íntegra. As faces são comparadas automaticamente em alguns segundos.",
       "queued": "Imagens enviadas. O resultado da comparação aparece aqui em instantes."
     },
     "images": {
@@ -145,7 +145,8 @@
       "rotate": "Girar",
       "download": "Baixar",
       "next": "Próxima imagem",
-      "close": "Fechar imagens"
+      "close": "Fechar imagens",
+      "previewUnavailable": "Não foi possível exibir o PDF. Use o botão de download para abrir o arquivo original."
     },
     "validation": {
       "documentRequired": "Selecione a foto do documento.",
@@ -153,6 +154,8 @@
       "imageEmpty": "A imagem selecionada está vazia.",
       "imageTooLarge": "Cada imagem deve ter no máximo 5 MB.",
       "imageContentType": "São aceitas apenas imagens JPEG e PNG.",
+      "documentContentType": "O documento deve ser uma imagem JPEG ou PNG, ou um PDF.",
+      "pdfUnreadable": "Não foi possível ler o PDF. Envie um PDF válido, sem senha, ou uma foto do documento.",
       "imageNotFound": "Imagem não encontrada no servidor.",
       "imageKind": "Tipo de imagem inválido.",
       "situation": "Apenas registros aprovados ou reprovados podem ser listados aqui.",

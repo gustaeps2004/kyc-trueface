@@ -11,7 +11,10 @@ public class CreateOnboardingRequest
     /// <summary>Name of the person being onboarded.</summary>
     public string? Name { get; set; }
 
-    /// <summary>Picture of the identity document containing the reference face.</summary>
+    /// <summary>
+    /// Identity document containing the reference face: a JPEG/PNG picture or a PDF such as
+    /// the CNH-e. A PDF is stored as uploaded and its first page is used for the comparison.
+    /// </summary>
     public IFormFile? Document { get; set; }
 
     /// <summary>Selfie taken by the person being onboarded.</summary>

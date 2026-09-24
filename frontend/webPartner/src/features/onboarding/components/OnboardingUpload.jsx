@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { ImageUp, X } from 'lucide-react';
+import { FileText, ImageUp, X } from 'lucide-react';
 import { Modal } from "@/shared/modal/Modal";
 import { Input } from "@/shared/ui/Input";
 import { IconButton } from "@/shared/ui/IconButton";
@@ -8,16 +8,20 @@ import { useApi } from "@/shared/hooks/useApi";
 import { useNotification } from "@/shared/context/NotificationContext";
 import { CanWrite } from "@/shared/utils/permissions";
 import { onboardingService } from "../api/onboardingService";
+import { PDF_TYPE } from "../utils/pdfToImage";
 
 const ACCEPTED_TYPES = ["image/jpeg", "image/png"];
+// The document may also be a PDF (e.g. the CNH-e); the API stores it as uploaded.
+const DOCUMENT_ACCEPTED_TYPES = [...ACCEPTED_TYPES, PDF_TYPE];
 const MAX_SIZE_BYTES = 5 * 1024 * 1024;
 
-function ImagePicker({ label, file, onSelect, onClear }) {
+function ImagePicker({ label, accept = ACCEPTED_TYPES, file, onSelect, onClear }) {
   const inputRef = useRef(null);
   const [preview, setPreview] = useState(null);
+  const isPdf = file?.type === PDF_TYPE;
 
   useEffect(() => {
-    if (!file) {
+    if (!file || file.type === PDF_TYPE) {
       setPreview(null);
       return;
     }
@@ -37,7 +41,7 @@ function ImagePicker({ label, file, onSelect, onClear }) {
       <input
         ref={inputRef}
         type="file"
-        accept={ACCEPTED_TYPES.join(",")}
+        accept={accept.join(",")}
         className="hidden"
         onChange={(e) => {
           onSelect(e.target.files?.[0] ?? null);
@@ -56,11 +60,17 @@ function ImagePicker({ label, file, onSelect, onClear }) {
           bg-surface
           p-2
         ">
-          <img
-            src={preview}
-            alt={file.name}
-            className="h-14 w-14 shrink-0 rounded-md object-cover border border-divider/30"
-          />
+          {isPdf ? (
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md border border-divider/30 text-fg-subtle">
+              <FileText size={24} />
+            </div>
+          ) : (
+            <img
+              src={preview}
+              alt={file.name}
+              className="h-14 w-14 shrink-0 rounded-md object-cover border border-divider/30"
+            />
+          )}
           <span className="flex-1 min-w-0 truncate text-sm text-fg-muted">
             {file.name}
           </span>
@@ -121,9 +131,9 @@ export function OnboardingUpload(props) {
 
   if (!CanWrite()) return null;
 
-  const isImageInvalid = (file) => {
-    if (!ACCEPTED_TYPES.includes(file.type)) {
-      notify({ message: t('onboarding.validation.imageContentType'), type: 'warning' });
+  const isFileInvalid = (file, acceptedTypes, typeMessage) => {
+    if (!acceptedTypes.includes(file.type)) {
+      notify({ message: t(typeMessage), type: 'warning' });
       return true;
     }
 
@@ -135,8 +145,8 @@ export function OnboardingUpload(props) {
     return false;
   }
 
-  const handlerSelect = (setter) => (file) => {
-    if (file && isImageInvalid(file)) return;
+  const handlerSelect = (setter, acceptedTypes, typeMessage) => (file) => {
+    if (file && isFileInvalid(file, acceptedTypes, typeMessage)) return;
 
     setter(file);
   }
@@ -208,15 +218,16 @@ export function OnboardingUpload(props) {
 
       <ImagePicker
         label={t('onboarding.upload.document')}
+        accept={DOCUMENT_ACCEPTED_TYPES}
         file={document}
-        onSelect={handlerSelect(setDocument)}
+        onSelect={handlerSelect(setDocument, DOCUMENT_ACCEPTED_TYPES, 'onboarding.validation.documentContentType')}
         onClear={() => setDocument(null)}
       />
 
       <ImagePicker
         label={t('onboarding.upload.selfie')}
         file={selfie}
-        onSelect={handlerSelect(setSelfie)}
+        onSelect={handlerSelect(setSelfie, ACCEPTED_TYPES, 'onboarding.validation.imageContentType')}
         onClear={() => setSelfie(null)}
       />
 

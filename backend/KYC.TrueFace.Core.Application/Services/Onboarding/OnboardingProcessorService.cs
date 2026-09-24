@@ -1,5 +1,6 @@
 using KYC.TrueFace.Core.Application.Messaging.DTOs;
 using KYC.TrueFace.Core.Application.Services.FaceComparison;
+using KYC.TrueFace.Core.Domain.Constants;
 using KYC.TrueFace.Core.Domain.Enums;
 using KYC.TrueFace.Core.Domain.Exceptions;
 using KYC.TrueFace.Core.Domain.Options;
@@ -12,6 +13,7 @@ namespace KYC.TrueFace.Core.Application.Services.Onboarding;
 public class OnboardingProcessorService(
     IOnboardingRepository onboardingRepository,
     IOnboardingImageStorage imageStorage,
+    IPdfRenderer pdfRenderer,
     IFaceComparisonService faceComparisonService,
     IOptions<OnboardingOptions> onboardingOptions,
     ILogger<OnboardingProcessorService> logger) : IOnboardingProcessorService
@@ -66,6 +68,11 @@ public class OnboardingProcessorService(
         CancellationToken ct)
     {
         var document = await imageStorage.ReadAsync(pathDocument, ct);
+
+        // A PDF document stays on disk as uploaded (for auditing); only its render is compared.
+        if (OnboardingDefaults.IsPdf(pathDocument))
+            document = pdfRenderer.RenderFirstPageAsJpeg(document);
+
         var selfie = await imageStorage.ReadAsync(pathSelfie, ct);
 
         return await faceComparisonService.CompareAsync(document, selfie, ct);

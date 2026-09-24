@@ -15,7 +15,10 @@ public class OnboardingImageDto(
     public long Length { get; } = length;
     public Stream Content { get; } = content;
 
-    public void Validate(OnboardingOptions options)
+    public bool IsPdf => ContentType.Equals(OnboardingDefaults.PdfContentType, StringComparison.OrdinalIgnoreCase);
+
+    /// <param name="allowPdf">Only the document may be a PDF; the selfie must be an image.</param>
+    public void Validate(OnboardingOptions options, bool allowPdf = false)
     {
         if (Length <= 0)
             throw new KycException(ValidationErrors.OnboardingImageEmpty);
@@ -23,20 +26,15 @@ public class OnboardingImageDto(
         if (Length > options.MaxImageSizeBytes)
             throw new KycException(ValidationErrors.OnboardingImageTooLarge);
 
+        if (allowPdf && IsPdf)
+            return;
+
         if (!options.AllowedContentTypes.Contains(ContentType, StringComparer.OrdinalIgnoreCase))
-            throw new KycException(ValidationErrors.OnboardingImageContentTypeInvalid);
+            throw new KycException(allowPdf
+                ? ValidationErrors.OnboardingDocumentContentTypeInvalid
+                : ValidationErrors.OnboardingImageContentTypeInvalid);
     }
 
-    /// <summary>
-    /// Extension taken from the uploaded name, restricted to the known image ones so a
-    /// crafted file name can never drive the extension written to disk.
-    /// </summary>
     public string GetSafeExtension()
-    {
-        var extension = Path.GetExtension(FileName);
-
-        return OnboardingDefaults.AllowedImageExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase)
-            ? extension.ToLowerInvariant()
-            : OnboardingDefaults.FallbackImageExtension;
-    }
+        => OnboardingDefaults.ExtensionFor(ContentType);
 }

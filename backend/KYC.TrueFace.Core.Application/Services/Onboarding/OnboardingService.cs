@@ -12,6 +12,7 @@ namespace KYC.TrueFace.Core.Application.Services.Onboarding;
 public class OnboardingService(
     IOnboardingRepository onboardingRepository,
     IOnboardingImageStorage imageStorage,
+    IPdfRenderer pdfRenderer,
     IOptions<OnboardingOptions> onboardingOptions) : IOnboardingService
 {
     private static readonly OnboardingSituation[] ManualReviewSituations =
@@ -39,6 +40,11 @@ public class OnboardingService(
                                 OnboardingDefaults.DocumentKind,
                                 onboardingDto.Document,
                                 ct);
+
+            // The PDF is only rendered later by the worker, so reject an unreadable one now
+            // instead of leaving a record that can only end in manual review.
+            if (onboardingDto.Document.IsPdf)
+                pdfRenderer.EnsureReadable(await imageStorage.ReadAsync(pathDocument, ct));
 
             pathSelfie = await imageStorage.SaveAsync(
                                 codePartner,
