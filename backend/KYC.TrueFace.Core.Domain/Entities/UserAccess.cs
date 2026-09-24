@@ -37,6 +37,9 @@ public class UserAccess : EntityBase
     public bool IsLockedOut(DateTime utcNow)
         => LockoutEndsAt is not null && LockoutEndsAt > utcNow;
 
+    public bool IsInactive()
+        => Situation != Situation.Enabled;
+
     public void RegisterFailedLogin(int maxFailedAttempts, TimeSpan lockoutDuration)
     {
         AccessFailedCount++;
@@ -65,4 +68,7 @@ public class UserAccess : EntityBase
         ResetPasswordTokenHash = null;
         ResetPasswordTokenExpiresAt = null;
     }
+
+    public void UpdateSituation(Situation situation)
+        => Situation = situation;
 }

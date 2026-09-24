@@ -159,6 +159,9 @@ public class UserService(
             userDto.Permission);
 
         userRepository.Update(user);
+
+        await userAccessService.UpdateSituationAsync(PasswordHelper.GetSuffix(user.Email), userDto.Situation);
+
         await userRepository.SaveChangesAsync(ct);
     }
 }

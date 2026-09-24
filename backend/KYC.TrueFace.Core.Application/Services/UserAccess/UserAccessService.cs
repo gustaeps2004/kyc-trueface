@@ -1,5 +1,6 @@
 using KYC.TrueFace.Core.Application.Messaging.DTOs;
 using KYC.TrueFace.Core.Application.Security;
+using KYC.TrueFace.Core.Domain.Enums;
 using KYC.TrueFace.Core.Domain.Repositories;
 using System.Text.Json;
 
@@ -7,7 +8,8 @@ namespace KYC.TrueFace.Core.Application.Services.UserAccess;
 
 public class UserAccessService(
     IBaseRepository baseRepository,
-    IPasswordHasher passwordHasher) : IUserAccessService
+    IPasswordHasher passwordHasher,
+    IUserAccessRepository userAccessRepository) : IUserAccessService
 {
     public async Task CreateAsync(CreateUserAccessDto userAccessDto)
     {
@@ -21,5 +23,16 @@ public class UserAccessService(
                         );
 
         baseRepository.Insert(userAccess);
+    }
+
+    public async Task UpdateSituationAsync(string username, Situation situation)
+    {
+        var userAccess = await userAccessRepository.GetByUsernameAsync(username);
+
+        if (userAccess!.Situation == situation)
+            return;
+
+        userAccess.UpdateSituation(situation);
+        userAccessRepository.Update(userAccess);
     }
 }

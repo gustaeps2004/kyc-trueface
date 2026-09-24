@@ -35,7 +35,7 @@ public class AuthenticateService(
         var userAccess = await userAccessRepository.GetByUsernameAsync(PasswordHelper.GetSuffix(loginDto.Email), ct)
                             ?? throw new KycException(ValidationErrors.AuthIncorrectUserOrPassword);
 
-        if (userAccess.IsLockedOut(DateTime.UtcNow))
+        if (userAccess.IsLockedOut(DateTime.UtcNow) || userAccess.IsInactive())
         {
             await InsertLogAsync(userAccess.Code, FlowIdentity.Login, ip, ct);
             throw new KycException(ValidationErrors.AuthAccountLocked);
