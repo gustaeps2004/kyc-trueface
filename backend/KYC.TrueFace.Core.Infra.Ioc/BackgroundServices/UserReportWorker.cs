@@ -1,5 +1,8 @@
 using KYC.TrueFace.Core.Application.Services.Report;
 using KYC.TrueFace.Core.Domain.Options;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace KYC.TrueFace.Core.API.BackgroundServices;

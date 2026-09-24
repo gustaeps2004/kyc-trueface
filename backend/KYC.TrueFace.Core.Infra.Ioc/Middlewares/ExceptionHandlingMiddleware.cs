@@ -2,6 +2,8 @@ using System.Text.Json;
 using KYC.TrueFace.Core.Application.Messaging.Response;
 using KYC.TrueFace.Core.Application.Messaging.Response.Base;
 using KYC.TrueFace.Core.Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace KYC.TrueFace.Core.API.Middlewares;
 
