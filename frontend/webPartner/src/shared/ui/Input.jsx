@@ -1,6 +1,14 @@
+import { useState } from "react"
+import { Eye, EyeOff } from "lucide-react"
+import { useTranslation } from 'react-i18next';
 import { ApplyMask } from '@/shared/utils/mask'
 
 export function Input(props) {
+  const { t } = useTranslation();
+  const [showPassword, setShowPassword] = useState(false)
+
+  const isPassword = props.type === "password"
+  const inputType = isPassword && showPassword ? "text" : props.type
 
   function handleChange(e) {
     let newValue = e.target.value
@@ -15,13 +23,13 @@ export function Input(props) {
   return(
     <div className="relative w-full">
       <input
-        type={props.type}
+        type={inputType}
         id={props.name}
         disabled={props.disabled}
         value={props.value}
         onChange={handleChange}
         placeholder=" "
-        className="
+        className={`
           peer
           w-full
           rounded-lg
@@ -41,7 +49,8 @@ export function Input(props) {
           focus:ring-brand/30
           disabled:opacity-60
           disabled:cursor-not-allowed
-        "
+          ${isPassword ? "pr-11" : ""}
+        `}
       />
 
       <label
@@ -65,6 +74,41 @@ export function Input(props) {
       >
         {props.children}
       </label>
+
+      {isPassword && (
+        <button
+          type="button"
+          onClick={() => setShowPassword((prev) => !prev)}
+          disabled={props.disabled}
+          aria-label={showPassword ? t('input.hidePassword') : t('input.showPassword')}
+          aria-pressed={showPassword}
+          title={showPassword ? t('input.hidePassword') : t('input.showPassword')}
+          className="
+            absolute
+            right-2
+            top-1/2
+            -translate-y-1/2
+            inline-flex
+            items-center
+            justify-center
+            h-8
+            w-8
+            rounded-md
+            text-fg-faint
+            hover:text-fg
+            cursor-pointer
+            transition-colors
+            duration-150
+            focus:outline-none
+            focus:ring-2
+            focus:ring-brand/40
+            disabled:cursor-not-allowed
+            disabled:opacity-60
+          "
+        >
+          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+        </button>
+      )}
     </div>
   )
 }

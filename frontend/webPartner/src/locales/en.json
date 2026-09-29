@@ -188,6 +188,10 @@
     "automaticResult": "Automatic result",
     "noResults": "No onboardings found."
   },
+  "input": {
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
+  },
   "select": {
     "placeholder": "Select",
     "search": "Search...",
