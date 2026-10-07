@@ -1,4 +1,5 @@
-﻿using KYC.TrueFace.Core.Domain.Constants;
+﻿using System.ComponentModel.DataAnnotations;
+using KYC.TrueFace.Core.Domain.Constants;
 using KYC.TrueFace.Core.Domain.Enums;
 using KYC.TrueFace.Core.Domain.Exceptions;
 using KYC.TrueFace.Core.Domain.Extensions;
@@ -31,7 +32,7 @@ public class CreateUserDto(
         if (ValidationsExtension.IsIdNumberInvalid(IdNumber))
             throw new KycException(ValidationErrors.UserInvalidIdNumber);
 
-        if (string.IsNullOrWhiteSpace(Email))
+        if (string.IsNullOrWhiteSpace(Email) || !new EmailAddressAttribute().IsValid(Email))
             throw new KycException(ValidationErrors.UserEmailNullOrEmpty);
 
         if (Email.Length > 150)
