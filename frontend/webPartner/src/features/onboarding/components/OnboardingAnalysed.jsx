@@ -1,11 +1,13 @@
 import { Modal } from "@/shared/modal/Modal"
 import { Input } from '@/shared/ui/Input'
 import { useTranslation } from 'react-i18next';
+import { useTranslateMessage } from "@/shared/hooks/useTranslateMessage";
 import { DateFormat, IdNumberFormat } from "@/shared/utils/formats";
 import { OnboardingSituation } from "@/shared/utils/arrays";
 
 export function OnboardingAnalysed(props) {
   const { t } = useTranslation();
+  const translateMessage = useTranslateMessage();
   const onboarding = props.onboardingData;
 
   const situationKey = OnboardingSituation.find(x => x.value == onboarding.situation)?.labelKey;
@@ -41,7 +43,7 @@ export function OnboardingAnalysed(props) {
           id="txAreaObservation"
           rows="6"
           disabled
-          value={onboarding.observation ?? onboarding.situationMessage ?? ""}
+          value={onboarding.observation ?? translateMessage(onboarding.situationMessage, onboarding.situationMessageArgs) ?? ""}
           readOnly
           className="
             w-full

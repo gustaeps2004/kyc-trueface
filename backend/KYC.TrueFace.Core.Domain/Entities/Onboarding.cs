@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using KYC.TrueFace.Core.Domain.Entities.Base;
 using KYC.TrueFace.Core.Domain.Enums;
+using KYC.TrueFace.Core.Domain.ValueObjects;
 
 namespace KYC.TrueFace.Core.Domain.Entities;
 
@@ -16,7 +17,10 @@ public class Onboarding : EntityBase
     public OnboardingSituation Situation { get; set; }
     public required string PathDocument { get; set; }
     public required string PathSelfie { get; set; }
+    /// <summary>Translation key for the automatic result, or the reviewer's own words once a human decided.</summary>
     public string? SituationMessage { get; set; }
+    /// <summary>JSON with the values interpolated into <see cref="SituationMessage"/>, when it has any.</summary>
+    public string? SituationMessageArgs { get; set; }
     public double? Similarity { get; set; }
     public int AttemptCount { get; set; }
 
@@ -52,19 +56,19 @@ public class Onboarding : EntityBase
         AttemptCount++;
     }
 
-    public void MarkAsApproved(double? similarity, string message)
+    public void MarkAsApproved(double? similarity, LocalizedMessage message)
     {
         Situation = OnboardingSituation.Approved;
         Similarity = similarity;
-        SituationMessage = Truncate(message);
+        SetSituationMessage(message);
         SituationDt = DateTime.UtcNow;
     }
 
-    public void MarkAsDenied(double? similarity, string message)
+    public void MarkAsDenied(double? similarity, LocalizedMessage message)
     {
         Situation = OnboardingSituation.Denied;
         Similarity = similarity;
-        SituationMessage = Truncate(message);
+        SetSituationMessage(message);
         SituationDt = DateTime.UtcNow;
     }
 
@@ -72,19 +76,19 @@ public class Onboarding : EntityBase
     /// Automatic validation failed, was inconclusive or landed in the uncertainty band -
     /// a human has to decide. <paramref name="similarity"/> is null when no score was produced.
     /// </summary>
-    public void MarkForManualReview(string message, double? similarity = null)
+    public void MarkForManualReview(LocalizedMessage message, double? similarity = null)
     {
         Situation = OnboardingSituation.ManualReview;
         Similarity = similarity;
-        SituationMessage = Truncate(message);
+        SetSituationMessage(message);
         SituationDt = DateTime.UtcNow;
     }
 
     /// <summary>Transient failure: puts the record back in the queue for the next worker tick.</summary>
-    public void MarkForRetry(string message)
+    public void MarkForRetry(LocalizedMessage message)
     {
         Situation = OnboardingSituation.Pending;
-        SituationMessage = Truncate(message);
+        SetSituationMessage(message);
         SituationDt = DateTime.UtcNow;
     }
 
@@ -93,7 +97,14 @@ public class Onboarding : EntityBase
     {
         Situation = approved ? OnboardingSituation.Approved : OnboardingSituation.Denied;
         SituationMessage = Truncate(observation);
+        SituationMessageArgs = null;
         SituationDt = DateTime.UtcNow;
+    }
+
+    private void SetSituationMessage(LocalizedMessage message)
+    {
+        SituationMessage = message.Key;
+        SituationMessageArgs = message.SerializeArgs();
     }
 
     private static string Truncate(string message)

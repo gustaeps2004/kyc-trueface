@@ -5,6 +5,7 @@ using KYC.TrueFace.Core.Domain.Enums;
 using KYC.TrueFace.Core.Domain.Exceptions;
 using KYC.TrueFace.Core.Domain.Options;
 using KYC.TrueFace.Core.Domain.Repositories;
+using KYC.TrueFace.Core.Domain.ValueObjects;
 using Microsoft.Extensions.Options;
 
 namespace KYC.TrueFace.Core.Application.Services.Onboarding;
@@ -173,6 +174,7 @@ public class OnboardingService(
                     Situation = o.Situation,
                     SituationDt = o.SituationDt,
                     SituationMessage = o.SituationMessage,
+                    SituationMessageArgs = LocalizedMessage.DeserializeArgs(o.SituationMessageArgs),
                     Similarity = o.Similarity,
                     AttemptCount = o.AttemptCount,
                     Observation = o.Results?

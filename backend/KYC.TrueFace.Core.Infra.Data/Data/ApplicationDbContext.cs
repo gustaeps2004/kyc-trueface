@@ -93,6 +93,10 @@ public class ApplicationDbContext(
 
             options
                 .HasIndex(x => new { x.Situation, x.InclusionDt });
+
+            options
+                .Property(x => x.SituationMessageArgs)
+                .HasColumnType("jsonb");
         });
 
         modelBuilder.Entity<OnboardingResult>(options =>

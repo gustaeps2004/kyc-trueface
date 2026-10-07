@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { CanWrite } from "@/shared/utils/permissions";
 import { useApi } from "@/shared/hooks/useApi";
 import { useNotification } from "@/shared/context/NotificationContext";
+import { useTranslateMessage } from "@/shared/hooks/useTranslateMessage";
 import { IdNumberFormat } from "@/shared/utils/formats";
 import { onboardingService } from "../api/onboardingService";
 
@@ -14,6 +15,7 @@ export function OnboardingAnalyse(props) {
   const { execute, isLoading } = useApi();
   const { notify } = useNotification();
   const { t } = useTranslation();
+  const translateMessage = useTranslateMessage();
   const [observation, setObservation] = useState("");
 
   if (!CanWrite()) return null;
@@ -84,7 +86,7 @@ export function OnboardingAnalyse(props) {
           {IdNumberFormat(props.onboardingData.idNumber)}
         </p>
         <p className="text-xs text-warning-light pt-1">
-          {props.onboardingData.situationMessage}
+          {translateMessage(props.onboardingData.situationMessage, props.onboardingData.situationMessageArgs)}
         </p>
       </div>
 

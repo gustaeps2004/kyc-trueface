@@ -1,3 +1,4 @@
+using System.Globalization;
 using KYC.TrueFace.Core.Application.Messaging.DTOs;
 using KYC.TrueFace.Core.Application.Services.FaceComparison;
 using KYC.TrueFace.Core.Domain.Constants;
@@ -5,6 +6,7 @@ using KYC.TrueFace.Core.Domain.Enums;
 using KYC.TrueFace.Core.Domain.Exceptions;
 using KYC.TrueFace.Core.Domain.Options;
 using KYC.TrueFace.Core.Domain.Repositories;
+using KYC.TrueFace.Core.Domain.ValueObjects;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -41,19 +43,23 @@ public class OnboardingProcessorService(
             catch (KycException ex)
             {
                 // A missing or unreachable image will not fix itself on the next tick.
-                onboarding.MarkForManualReview(ex.Message);
+                // KycException messages are already translation keys.
+                onboarding.MarkForManualReview(new LocalizedMessage(ex.Message));
             }
             catch (Exception ex)
             {
+                // The failure details stay in this log; the record only keeps what the user reads.
                 logger.LogWarning(ex, "Face comparison failed for onboarding {Code}.", onboarding.Code);
 
-                var reason = $"{ex.GetType().Name}: {ex.Message}";
-
                 if (onboarding.AttemptCount >= options.MaxAttempts)
-                    onboarding.MarkForManualReview(
-                        $"Max attempts ({options.MaxAttempts}) exceeded. Last failure - {reason}");
+                    onboarding.MarkForManualReview(new LocalizedMessage(
+                        OnboardingMessages.MaxAttemptsExceeded,
+                        new Dictionary<string, string>
+                        {
+                            ["maxAttempts"] = options.MaxAttempts.ToString(CultureInfo.InvariantCulture)
+                        }));
                 else
-                    onboarding.MarkForRetry(reason);
+                    onboarding.MarkForRetry(new LocalizedMessage(OnboardingMessages.ProcessingFailed));
             }
 
             onboardingRepository.Update(onboarding);

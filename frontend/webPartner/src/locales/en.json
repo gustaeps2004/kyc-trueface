@@ -149,6 +149,17 @@
       "close": "Close images",
       "previewUnavailable": "The PDF could not be displayed. Use the download button to open the original file."
     },
+    "result": {
+      "facesMatched": "Faces matched with {{similarity}}% similarity (auto-approve from {{approveThreshold}}%).",
+      "manualReviewRequired": "Similarity of {{similarity}}% is between {{reviewThreshold}}% and {{approveThreshold}}% - manual review required.",
+      "facesNotMatched": "Faces did not match: {{similarity}}% similarity, below the {{reviewThreshold}}% minimum.",
+      "noFaceFound": "No comparable face was found in the selfie.",
+      "imagesUnreadable": "The images could not be read for face comparison.",
+      "imageFormatUnsupported": "Image format not supported by the face comparison.",
+      "imageTooLarge": "Image too large for the face comparison.",
+      "processingFailed": "Face comparison failed. A new attempt will be made shortly.",
+      "maxAttemptsExceeded": "Face comparison failed after {{maxAttempts}} attempts."
+    },
     "validation": {
       "documentRequired": "Select the document photo.",
       "selfieRequired": "Select the selfie.",

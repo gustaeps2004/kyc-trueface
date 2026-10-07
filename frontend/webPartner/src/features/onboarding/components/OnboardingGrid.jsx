@@ -6,6 +6,7 @@ import { DataTable } from '@/shared/ui/DataTable';
 import { IconButton } from '@/shared/ui/IconButton';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useTranslateMessage } from '@/shared/hooks/useTranslateMessage';
 import { OnboardingSituation } from '@/shared/utils/arrays';
 import { CanWrite } from '@/shared/utils/permissions';
 import { SituationBadge } from '@/shared/ui/SituationBadge';
@@ -21,6 +22,7 @@ export function OnboardingGrid(props) {
   const [openModalAnalyse, setOpenModalAnalyse] = useState(false)
   const [onboardingData, setOnboardingData] = useState(null)
   const { t } = useTranslation();
+  const translateMessage = useTranslateMessage();
 
   const canAnalyse = props.isHistory || CanWrite();
   const namespace = props.isHistory ? 'history' : 'onboarding';
@@ -67,8 +69,10 @@ export function OnboardingGrid(props) {
       : {
           accessorKey: 'situationMessage',
           header: t('onboarding.reason'),
-          cell: ({ getValue }) => (
-            <span className="text-warning-light">{getValue()}</span>
+          cell: ({ row }) => (
+            <span className="text-warning-light">
+              {translateMessage(row.original.situationMessage, row.original.situationMessageArgs)}
+            </span>
           ),
         },
     props.isHistory && {
@@ -104,7 +108,7 @@ export function OnboardingGrid(props) {
         </IconButton>
       ),
     },
-  ].filter(Boolean), [props.isHistory, canAnalyse, namespace, t])
+  ].filter(Boolean), [props.isHistory, canAnalyse, namespace, t, translateMessage])
 
   return(
     <div className="h-full">
